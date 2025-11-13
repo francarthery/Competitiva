@@ -1,0 +1,42 @@
+Pasos para configurar vs code
+
+--instalar vs code
+--installar y configurar mingw (acordarse variables de entorno)
+--instalar la extension de C++ y Code Runner
+--Para configurar un template por defecto buscar en la barra de arriba cpp.json y colocar lo siguiente: 
+
+{
+	"": {
+	"prefix": "competitiva",
+	"body": [
+		"#include <bits/stdc++.h>",
+		"#define forr(i, a, n) for(int i = a; i < n; i++)",
+		"#define forn(i, n) for(int i = 0; i < n; i++)",
+		"#define forall(it, v) for(auto it = v.begin(); it != v.end(); it++)",
+		"#define pb push_back",
+		"#define sz(a) ((int)a.size())",
+		"",
+		"using namespace std;",
+		"",
+		"int main(){",
+		"    ios::sync_with_stdio(0);",
+		"    cin.tie(0);",
+		"    #ifdef fran",
+		"        freopen(\"input.txt\", \"r\", stdin);",
+		"        freopen(\"output.txt\", \"w\", stdout);",
+		"    #endif",
+		"    ",
+		"",
+		"",
+		"    return 0;",
+		"}"
+	],
+	"description": ""
+	}
+}
+
+También se puede generar un template personalizado con: https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode
+Luego, al crear un nuevo archivo, si escrimos la parte de "prefix" (en este caso "competitiva") se coloca el codigo.
+
+--Para que ande el bloque "fran", en la carpeta base del proyecto que se abra en vs code hay que colocar la carpeta .vscode que esta en la carpeta de este archivo. Eso tiene un tasks.json configurado ya.
+--Para que ande el bloque con code runner, hay que ir al settings.json de la extensión y en la parte de "code-runner.executorMap", en cpp hay que colocar la siguiente bandera despues de g++: "-Dfran". Tendría que quedar así: "cd $dir && g++ -Dfran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",

@@ -1,0 +1,62 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}     % Soporte para tildes y eñes
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}     % Para usar títulos en español si querés
+\usepackage{amsmath, amssymb}   % Símbolos matemáticos
+\usepackage{xcolor}             % Colores para código
+\usepackage{listings}           % Código fuente
+\usepackage{geometry}           % Márgenes
+\usepackage{array}
+\usepackage{bm}
+
+
+\geometry{margin=2.5cm}
+
+% Configuración para mostrar C++ lindo
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b
+}
+
+\title{Flujo y Matching}
+\author{Francisco Carthery}
+
+\begin{document}
+
+\maketitle
+
+\section{Teorema de Hall}
+Se usa para determinar si un grafo bipartito tiene un matching que contiene todos los nodos derechos o izquierdos. Si el numero de nodos derechos e izquierdos es el mismo nos dice si podemos construir un \textit{matching perfecto} que contenga a todos los nodos del grafo.
+
+Si queremos encontrar un matching que contenga a todos los nodos de un lado, entoces para cualquier subconjunto $\bm{X}$ de nodos de ese lado y $\bm{f(x)}$, el conjunto de sus vecinos,
+\[
+|X| \leq |f(x)|
+\]
+Si la condicion no se cumple para algun conjunto, ese conjunto es justamente la explicacion de porque no existe un matching perfecto, ya que no hay pares para todos los nodos de $\bm{X}$
+
+\section{Teorema de König}
+El \textit{minimum node cover} de un grafo es el minimo conjunto de nodos tal que cada arista del grafo tiene a uno de sus extremos en el conjunto. En grafos bipartitos, este teorema nos dice que el tamaño del minimum node cover siempre es igual al tamaño del \textit{maximum matching}
+
+El complemento de los nodos del minimum node cover forman el \textit{maximum independent set}. Este es el conjunto mas grande de nodos tales que ningun par de nodos del conjunto tiene una arista en comun.
+
+\section{Path Covers}
+Es un conjunto de paths en un grafo tal que cada nodo del grafo pertenece a por lo menos un path. En DAGs, se puede reducir el problema de encontrar el minimum path cover a max-flow en otro grafo.
+
+\subsection{Node-Disjoint Path Covers}
+En este caso cada nodo pertenece a exactamente un path. Podemos resolver el problema pensandolo como un \textit{matching} donde cada nodo del grafo original es representado mediante dos nodos, uno derecho y otro izquierdo. Hay una arista entre un nodo izquierdo y uno derecho si la hay en el grafo original. El maximum matching se corresponde con el minimum path cover y el tamaño de este es $n - i$, donde $n$ es la cantidad de nodos en el grafo original y $c$ el tamaño del matching.
+
+\subsection{General Path Covers}
+En este caso un nodo puede pertenecer a mas de un path. Para encontrar el minimum general path cover tenemos que hacer un proceso similar al caso del Disjoint pero agregando aristas entre dos nodos $a \rightarrow b$ siempre que haya un camino entre ambos nodos (no necesariamente de distancia 1).
+
+\end{document}

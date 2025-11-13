@@ -1,0 +1,1 @@
+#define nl cout<<endl;

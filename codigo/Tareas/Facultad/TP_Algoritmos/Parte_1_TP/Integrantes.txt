@@ -1,0 +1,6 @@
+Carthery, Francisco - franciscocarthery@gmail.com
+González, Lautaro Enzo - lauty.gonzalez2112@gmail.com
+Hassan, Gerónimo - geronimo.hassan@gmail.com
+
+Aclaración: * Dado que no se puede (al menos no lo logramos) introducir la ñ mediante la entrada estandar cin, en juegos en donde una palabra aleatoria tenga este caracter, no se puede ganar por este motivo.
+	    * En nuestras computadoras el zinjai carga bien las tildes y caracteres especiales utilizados en los textos del programa, pero notamos que en las computadoras donde lo probamos en la facultad no se suelen cargar bien aunque utilicemos exactamente el mismo proyecto.

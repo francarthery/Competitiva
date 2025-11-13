@@ -1,0 +1,110 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}     % Soporte para tildes y eñes
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}     % Para usar títulos en español si querés
+\usepackage{amsmath, amssymb}   % Símbolos matemáticos
+\usepackage{xcolor}             % Colores para código
+\usepackage{listings}           % Código fuente
+\usepackage{geometry}           % Márgenes
+\usepackage{array}
+
+
+\geometry{margin=2.5cm}
+
+% Configuración para mostrar C++ lindo
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b
+}
+
+\title{Matemática}
+\author{Francisco Carthery}
+\date{July 30, 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Teoría de números}
+
+\subsection{Factorizacion en primos}
+\[
+n = p_2^{\alpha_1} p_2^{\alpha_1} \cdots p_i^{\alpha_i}
+\]
+
+
+\subsection{Numero de factores}
+\[
+\tau(n) = \prod_{i=1}^{k} (\alpha_i + 1)
+\]
+
+\subsection{Suma de los factores}
+\[
+\sigma(n) = \prod_{i=1}^{k} (1 + p_i + \dots + p_i^{\alpha_i}) = \prod_{i=1}^{k} \frac{p_i^{\alpha_i + 1} - 1}{p_i - 1}
+\]
+
+\subsection{Producto de los factores}
+\[
+\prod d = \prod_{i = 1}^{k} p_i^{\frac{\alpha_i (\alpha_i + 1)}{2} \frac{\tau (n)}{\alpha_i + 1}} = N^{\frac{\tau(n)}{2}}
+\]
+
+\subsection{Cantidad de primos hasta n}
+\[
+\pi(n) \approx \frac{n}{\ln(n)}
+\]
+
+\subsection{Funcion phi de Euler}
+Nos dice la cantidad de enteros entre 1 \dots n que son coprimos con n
+\[
+\phi(n) = \prod_{i=1}^{k} p_i^{\alpha_i - 1} (p_i - 1)
+\]
+
+\subsection{Teorema de Euler}
+Para todo par de \textbf{coprimos} positivos \textit{x} y \textit{m}:
+\[
+x^{\phi(m)} mod \: \textit{m} = 1
+\]
+
+
+\begin{center}
+\begin{tabular}{>{$}l<{$}|*{15}{c}}
+\multicolumn{1}{l}{$n$}                     \\\cline{1-1}
+0  & 1    &      &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+1  & 1    & 1    &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+2  & 1    & 2    & 1    &      &      &      &      &      &      &      &      &      &      &      &      \\
+3  & 1    & 3    & 3    & 1    &      &      &      &      &      &      &      &      &      &      &      \\
+4  & 1    & 4    & 6    & 4    & 1    &      &      &      &      &      &      &      &      &      &      \\
+5  & 1    & 5    & 10   & 10   & 5    & 1    &      &      &      &      &      &      &      &      &      \\
+6  & 1    & 6    & 15   & 20   & 15   & 6    & 1    &      &      &      &      &      &      &      &      \\
+7  & 1    & 7    & 21   & 35   & 35   & 21   & 7    & 1    &      &      &      &      &      &      &      \\
+8  & 1    & 8    & 28   & 56   & 70   & 56   & 28   & 8    & 1    &      &      &      &      &      &      \\
+9  & 1    & 9    & 36   & 84   & 126  & 126  & 84   & 36   & 9    & 1    &      &      &      &      &      \\
+10 & 1    & 10   & 45   & 120  & 210  & 252  & 210  & 120  & 45   & 10   & 1    &      &      &      &      \\
+11 & 1    & 11   & 55   & 165  & 330  & 462  & 462  & 330  & 165  & 55   & 11   & 1    &      &      &      \\
+12 & 1    & 12   & 66   & 220  & 495  & 792  & 924  & 792  & 495  & 220  & 66   & 12   & 1    &      &      \\
+13 & 1    & 13   & 78   & 286  & 715  & 1287 & 1716 & 1716 & 1287 & 715  & 286  & 78   & 13   & 1    &      \\
+14 & 1    & 14   & 91   & 364  & 1001 & 2002 & 3003 & 3432 & 3003 & 2002 & 1001 & 364  & 91   & 14   & 1    \\
+\hline
+\multicolumn{1}{l}{} 
+   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\\cline{2-16}
+\multicolumn{1}{l}{} &\multicolumn{15}{c}{$k$}
+\end{tabular}
+\end{center}
+
+
+
+
+
+
+\end{document}

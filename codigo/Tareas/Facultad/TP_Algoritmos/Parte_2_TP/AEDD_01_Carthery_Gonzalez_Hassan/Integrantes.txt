@@ -1,0 +1,6 @@
+Carthery, Francisco - franciscocarthery@gmail.com
+González, Lautaro Enzo - lauty.gonzalez2112@gmail.com
+Hassan, Gerónimo - geronimo.hassan@gmail.com
+
+Aclaración: * Dado que no se puede (al menos no lo logramos) introducir la ñ mediante la entrada estandar cin, en juegos en donde una palabra aleatoria tenga este caracter, no se puede ganar por este motivo.
+*Hay un archivo de texto con el nombre "credenciales_usuarios.txt" que contiene la informacion para ingresar al programa. Este incluye credenciales con los nombres de cada uno de los profesores.

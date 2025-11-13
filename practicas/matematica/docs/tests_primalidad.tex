@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}     % Soporte para tildes y eñes
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}     % Para usar títulos en español si querés
+\usepackage{amsmath, amssymb}   % Símbolos matemáticos
+\usepackage{xcolor}             % Colores para código
+\usepackage{listings}           % Código fuente
+\usepackage{geometry}           % Márgenes
+\usepackage{array}
+
+
+\geometry{margin=2.5cm}
+
+% Configuración para mostrar C++ lindo
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b
+}
+
+\title{Matemática}
+\author{Francisco Carthery}
+\date{July 30, 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Test de Fermat}
+Por el Fermat Little Theorem, para un primo \textbf{p} y un coprimo \textbf{a} se cumple lo siguiente:
+\[
+a^{p - 1} mod \: \textit{p} = 1
+\]
+\indent Aprovechando esto probamos bases random en el intervalo $2 \leq a \leq p - 2$ y hacemos el calculo. Si da distinto de 1 podemos confirmar que \textbf{p} no es primo. Sin embargo, si da 1 no podemos confirmar que lo sea. Haciendo varias iteraciones tenemos una probabilidad alta de estar en lo correcto. 
+\\ \indent El problemon es que existen numeros compuestos llamados \textit{Carmichael numbers} en los que para cualquier base \textbf{a} coprima con \textit{p} da 1 la ecuacion. Son poco frecuentes pero estan y te arruinan.
+
+
+
+\end{document}

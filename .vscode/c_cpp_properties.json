@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c23",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-msvc-x64",
+            "compilerPath": "C:\\Users\\welcome\\Dropbox\\PC\\Desktop\\C++\\Nueva carpeta\\gdb64"
+        }
+    ],
+    "version": 4
+}

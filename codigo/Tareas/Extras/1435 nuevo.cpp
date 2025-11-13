@@ -1,0 +1,4 @@
+#include <iostream> 
+#include <array>
+#include <cstdio>
+using namespace std;int main(){float MITAD_N, CTRL_MAX, CTRL_MAX_C, VAL_MTRZ=1; int N;cin >> N;while(N!=0){MITAD_N=N/2.0; CTRL_MAX=1; int MATRIZ[N][N];for(int f=0; f<N; f++){VAL_MTRZ=1; CTRL_MAX_C=1;for (int c = 0; c<N; c++){MATRIZ[f][c]=VAL_MTRZ;if(VAL_MTRZ<CTRL_MAX and c<(N/2))VAL_MTRZ++;else if(VAL_MTRZ+1>CTRL_MAX_C and c+1>MITAD_N)VAL_MTRZ--;if(c+1<MITAD_N) CTRL_MAX_C++;else if(c+1==MITAD_N) CTRL_MAX_C=CTRL_MAX_C;else CTRL_MAX_C--;  if(c == 0) printf("%3d",MATRIZ[f][c]);else printf(" %3d",MATRIZ[f][c]);}printf("\n");if(f+1<MITAD_N)CTRL_MAX++;else if(f+1==MITAD_N)CTRL_MAX=CTRL_MAX;else CTRL_MAX--;}printf("\n");cin >> N;}return 0;}

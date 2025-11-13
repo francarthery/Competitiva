@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "ostream": "cpp",
+        "iomanip": "cpp",
+        "cstdlib": "cpp",
+        "string": "cpp"
+    },
+    "c-cpp-compile-run.c-flags": "-Wall -Wextra -g3 -lwinmm",
+    "c-cpp-compile-run.cpp-flags": "-Wall -Wextra -g3 -lwinmm"
+}

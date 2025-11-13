@@ -1,0 +1,149 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}     % Soporte para tildes y eñes
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}     % Para usar títulos en español si querés
+\usepackage{amsmath, amssymb}   % Símbolos matemáticos
+\usepackage{xcolor}             % Colores para código
+\usepackage{listings}           % Código fuente
+\usepackage{geometry}           % Márgenes
+\usepackage{array}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\geometry{margin=2.5cm}
+
+% Configuración para mostrar C++ lindo
+\lstdefinestyle{codestyle}{
+	basicstyle=\scriptsize\ttfamily,
+    keywordstyle=\bfseries,
+    emph={int,char,double,float,unsigned,void,bool},
+    emphstyle=\bfseries,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=false,
+    numbers=left,
+    numberstyle=\tiny\ttfamily,
+    numbersep=5pt,
+    frame=single,
+    framesep=3pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    commentstyle=\color{commentgreen}, % comment color
+    keywordstyle=\color{blue}, % keyword color
+    stringstyle=\color{red} % string color
+}
+\lstset{style=codestyle}
+
+\title{Tips matematica}
+\author{Francisco Carthery}
+
+\begin{document}
+
+\maketitle
+
+\section{Counting Divisors}
+Si tenemos varias queries donde debemos calcular la cantidad de divisores de un numero podemos:
+\begin{itemize}
+    \item Usar la funcion $\tau$ factorizando cada numero. Complejidad $\bm{O(nlog(n))}$ precalculando la criba o $\bm{O(n \sqrt{n})}$
+    \item Creamos un vector del tamaño del maximo numero que podemos recibir (\textbf{n}) y similar a la Criba, para cada numero \textbf{i} desde 1 hasta n hacemos un bucle que vaya de \textbf{i} en \textbf{i} y sumamos 1 en ese valor del vector que creamos representando que ese numero es divisible por i. Al final en cada posicion del vector vamos a tener cuantos divisores tiene este numero. La complejidad de la estrategia es armonica: $\bm{O(nlog(n))}$
+\end{itemize}
+
+\section{Common Divisors}
+Nos dan un vector de numeros y tenemos que elegir dos numeros tales que su \textbf{gcd sea maximo}. Hay dos opciones:
+\begin{itemize}
+    \item Creamos un vector tipo frecuencia de divisores y a cada numero lo factorizamos en $\bm{O(\sqrt{n})}$ y sumamos sus divisores al vector frecuencia. El mayor divisor tal que su frecuencia sea > 1 va a ser la respuesta. La complejidad es $\bm{O(n \sqrt{n})}$ por lo que entra justo ($2 \cdot 10^8$ operaciones).
+    \item Otra opcion mas estetica es primero crear una frecuencia de los numeros que nos pasan en la entrada y despues, con una idea similar a la de la Criba, por cada posible divisor \textbf{k}, vamos de \textbf{k} en \textbf{k} y sumamos la frecuencia de esos multiplos de \textbf{k}. Como los unicos numeros que van a tener a \textbf{k} como divisor son sus multiplos, si en la suma total obtenemos un valor >1 ya sabemos que \textbf{k} es una posible respuesta. Si al bucle de los divisores lo hacemos de mayor a menor, la primera vez que encontremos un valor que tenga mas de un multiplo ya sabemos que va a ser el mayor y es la respuesta al problema. La complejidad es $\bm{O(nlog(n))}$
+\end{itemize}
+
+
+\begin{lstlisting}[caption=Solucion de la segunda forma]
+const int MAXN = 1e6 + 1;
+int n, x; cin >> n;
+vector<int> v(MAXN);
+
+forn(i, n){
+    cin >> x; 
+    v[x]++;
+}
+
+dfor(i, MAXN){
+    int val = 0;
+    for(int j = i; j < MAXN; j += i){
+        val += v[j];
+    }
+
+    if(val > 1){
+        cout << i << '\n';
+        return 0;
+    }
+}
+\end{lstlisting}
+
+\section{Divisor Analysis}
+Nos dan un numero en forma de su factorizacion en primos donde cada factor primo puede ser masivo ($x^k$ donde $2 \leq x \leq 10^6$ y $1 \leq k \leq 10^9$) y nos piden calcular la cantidad de divisores, su suma y su producto.
+\indent Para el producto usamos la funcion $\tau$ y para la suma usamos la funcion $\sigma$. El problema esta en el producto. Existe la siguiente formula para el producto de los factores:
+\[
+\prod d = \prod_{i = 1}^{k} p_i^{\frac{\alpha_i (\alpha_i + 1)}{2} \frac{\tau (n)}{\alpha_i + 1}} = N^{\frac{\tau(n)}{2}}
+\]
+El temario es que para calcular una potencia \textit{mod m} tenemos que usar el Fermat Little Theorem:
+\[
+x^n \: mod \: \textit{m} = x^{n \: mod \: (m - 1)} mod \: \textit{m}
+\]
+
+Es decir que tendriamos que calcular la funcion $\tau$ (\textit{mod m - 1}) pero \textit{m - 1} no es coprimo con 2 entonces no existe el inverso modular de 2 \textit{mod (m - 1)}. Para resolver este problema hay dos formas:
+\begin{itemize}
+    \item Usar las propiedades de la funcion $\tau$ y ya calcular directamente $\frac{\tau(n)}{2} \: mod \: \textit{m - 1}$.
+    \item Un truco que podemos usar es calcular $\tau \: mod \: 2 \cdot (\textit{m - 1})$ entonces cuando $\tau$ es par (solo en un caso especial es impar) la podemos dividir por 2 tranquilamente y nos queda en \textit{mod (m - 1)} como queriamos.
+\end{itemize}
+
+\section{Counting Coprime Pairs}
+Nos dan un vector de hasta $10^5$ elementos y tenemos que decir la cantidad de pares de numeros coprimos que existen.
+Debido a que los numeros de la lista pueden ser como maximo $10^6$, la mayor cantidad de factores primos distintos que podria tener un numero es es $2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 \cdot 13 \cdot 17 \le 10^6$.
+\\ \indent Sabiendo esto lo que podemos hacer es recorrer la lista y por cada numero lo factorizamos en primos y nos fijamos de los numeros que ya recorrimos (los de la izquierda), con cuantos no compartimos ningun primo y sumamos ese valor a la respuesta.
+Para ver con cuantos numeros no compartimos primos, a medida que recorremos la lista vamos generando con los valores ya recorridos una frecuencia de sus divisores, entonces luego, utilizando Inclusion-Exclusion podemos hacer el conteo.
+\\ \indent Debido a que no nos interesa la cantidad de veces que aparezca cada primo, sino si esta o no en la factorizacion, como mencionamos antes los numeros de la lista pueden tener como maximo 7 factores primos distintos por lo que la complejidad de la solucion es $\bm{O(n \cdot 2^7)}$ ya que por cada numero hacemos una Inclusion-Exclusion.
+
+\section{Binomial Coefficients}
+Hay $10^5$ queries donde nos pasan dos numeros $(0 \leq b \leq a \leq 10^6)$ y nos piden calcular el coeficiente binomial:
+\[
+\binom{a}{b} = \frac{a!}{b!(a - b)! } \:\: mod \: m
+\]
+
+Para hacer esto se precalculan todos los factoriales y e inversos factoriales hasta el maximo numero que nos puedan pasar y luego utilizando la formula anterior calculamos el resultado.
+\\ \indent El detalle interesante es que para precalcular de forma eficiente todos los inversos factoriales y no hacer \textbf{n} exponenciaciones binarias lo que se hace es solamente calcular el inverso del maximo factorial $maxn!^{-1} \: mod \: m$ y si sabemos el valor de $\frac{1}{(k + 1)!}$, multiplicando por $(k + 1)$ podemos obtener el valor de $\frac{1}{k!}$. Utilizando este truquito nos ahorramos un $\bm{O(log(n))}$ quedando la complejidad final en $\bm{O(n)}$
+    
+
+\section{Distributing Apples}
+Este problema es el famoso \href{https://cp-algorithms.com/combinatorics/stars_and_bars.html}{\textbf{Stars and Bars}} donde nos piden la cantidad de maneras en las que podemos ubicar $n$ pelotas en $k$ cajas. La formula es:
+\[
+\binom{n + k - 1}{n}
+\]
+La intuicion para llegar a esta formula es pensar en que tenemos un string con $n$ estrellas y $k - 1$ barras. Por ejemplo, para $k = 4$ y $n = 5$ una posibilidad es $\bigstar | \bigstar \bigstar || \bigstar \bigstar$. La cantidad de estrellas entre cada barra representa la cantidad de pelotas en esa caja. Podemos ver que la respuesta al problema es la cantidad de permutaciones con repeticion de este string, es decir, $\frac{(n + k - 1)!}{n!(k - 1)!}$, ya que como es indistinto el orden relativo de las pelotas y las barras, tenemos que descontar esto del total. Esta formula es exactamente el coeficiente binomial de arriba.
+
+
+\section{Christmas Party}
+Este problema se conoce como \href{https://en.wikipedia.org/wiki/Derangement}{\textbf{Counting Derangements}}, donde tenemos que decir cuantas permutaciones de tamaño \textbf{n} existen que no tengan \textit{puntos fijos}. Se puede resolver usando Inclusion-Exclusion pero una solucion mas corta es usando dp. 
+
+En cada posicion $P_i$ puede haber \textit{n - 1} posibles valores, es decir, todos menos \textit{i}. Digamos que \textit{j} es el elemento que vamos a poner en $P_i$. Aca se nos presentan dos casos:
+\begin{itemize}
+    \item Colocamos \textit{i} en una posicion distinta que $P_j$. En este caso nos quedan \textit{n - 1} elementos y \textit{n - 1} posiciones donde existe \textbf{exaxtamente una} posicion donde no puede ir cada elemento. Esto ya que para todas las posiciones $P_k \neq P_j$ el elemento es \textit{k} mientras que para $P_j$ justamente el elemento prohibido es \textit{i} porque pusimos eso como hipotesis. Este caso se nos reduce al \textbf{mismo problema} con un elemento menos.
+    \item Colocamos \textit{i} en $P_j$. En este caso como tenemos la posicion final tanto de \textit{i} como de \textit{j}, nos quedan \textit{n - 2} elementos y \textit{n - 2} posiciones por lo que tenemos el \textbf{mismo problema} con dos elementos menos. 
+\end{itemize}
+Debido a que por cada elemento tenemos las dos opciones, el resultado final es la suma de ambas.
+\[
+f(n) = (n - 1)(f(n - 1) + f(n - 2))
+\]
+
+\section{Permutation Rounds}
+Nos dan una lista con los numeros de 1 a $n$ y una permutacion de tamaño $n$ y nos dicen que en cada round movemos cada elemento de acuerdo a la permutacion. Lo que tenemos que decir es cuantos rounds van a pasar hasta que la lista original vuelva a estar ordenada. El problema es sacar el tamaño cada uno de los ciclos de la permutacion y hacer el \textit{minimo comun multiplo} entre los tamaños. 
+
+La unica curisidad del problema es que como podemos llegar a tener muchos tamaños distintos, tenemos que expresar el mcm $mod \: \: 10^9 + 7$. Al tener esta restriccion no podemos usar \textit{lcm()} de C++. En su lugar tenemos que factorizar cada uno de los numeros y quedarnos de cada primo que aparezca su mayor exponente y al final calculamos la respuesta haciendo el producto de esos primos.
+
+
+\end{document}
