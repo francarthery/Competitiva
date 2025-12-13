@@ -1,49 +1,211 @@
-\documentclass{article}
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\usepackage[utf8]{inputenc}     % Soporte para tildes y eñes
-\usepackage[T1]{fontenc}
-\usepackage[spanish]{babel}     % Para usar títulos en español si querés
-\usepackage{amsmath, amssymb}   % Símbolos matemáticos
-\usepackage{xcolor}             % Colores para código
-\usepackage{listings}           % Código fuente
-\usepackage{geometry}           % Márgenes
-\usepackage{array}
+% Configuración de márgenes
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
 
+% Configuración de código
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
-\geometry{margin=2.5cm}
-
-% Configuración para mostrar C++ lindo
-\lstset{
-  language=C++,
-  basicstyle=\ttfamily\small,
-  keywordstyle=\color{blue}\bfseries,
-  commentstyle=\color{gray},
-  stringstyle=\color{red},
-  numbers=left,
-  numberstyle=\tiny\color{gray},
-  stepnumber=1,
-  breaklines=true,
-  tabsize=2,
-  showstringspaces=false,
-  captionpos=b
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
 }
+\lstset{style=mystyle}
 
-\title{Matemática}
-\author{Francisco Carthery}
-\date{July 30, 2025}
+% Datos del Título
+\title{\textbf{Trabajo Práctico Nº 6: Análisis Numérico}\\
+\large Flujo en medios porosos: la ecuación de Richards}
+\author{Grupo de Análisis Numérico}
+\date{Segundo Cuatrimestre 2025}
 
 \begin{document}
 
 \maketitle
 
-\section{Test de Fermat}
-Por el Fermat Little Theorem, para un primo \textbf{p} y un coprimo \textbf{a} se cumple lo siguiente:
-\[
-a^{p - 1} mod \: \textit{p} = 1
-\]
-\indent Aprovechando esto probamos bases random en el intervalo $2 \leq a \leq p - 2$ y hacemos el calculo. Si da distinto de 1 podemos confirmar que \textbf{p} no es primo. Sin embargo, si da 1 no podemos confirmar que lo sea. Haciendo varias iteraciones tenemos una probabilidad alta de estar en lo correcto. 
-\\ \indent El problemon es que existen numeros compuestos llamados \textit{Carmichael numbers} en los que para cualquier base \textbf{a} coprima con \textit{p} da 1 la ecuacion. Son poco frecuentes pero estan y te arruinan.
+\section{Introducción}
+El presente informe detalla la resolución numérica de la ecuación de Richards para el transporte de líquidos en medios porosos. Se abordan problemas de difusión lineal y no lineal en 1D y 2D, utilizando métodos de diferencias finitas explícitos e implícitos. Se validan los resultados mediante soluciones analíticas y transformaciones de similitud (Boltzmann).
 
+\section{Desarrollo de Actividades}
 
+\subsection{a) Diferencias Finitas 1D (Difusividad Constante)}
+
+\subsubsection*{Planteo del Problema}
+Se resuelve la ecuación de difusión lineal en 1D:
+\begin{equation}
+    \frac{\partial\theta}{\partial t} = D_0 \frac{\partial^2\theta}{\partial x^2}
+\end{equation}
+con $D_0 = 0.01$, $L=1.0$, y condiciones de borde de Dirichlet $\theta(0,t)=\theta(L,t)=0$.
+
+\subsubsection*{Método Numérico}
+Se utilizó un esquema de **Diferencias Finitas Explícito (Forward Euler)**. La discretización es:
+\begin{equation}
+    \frac{\theta_i^{n+1} - \theta_i^n}{\Delta t} = D_0 \frac{\theta_{i+1}^n - 2\theta_i^n + \theta_{i-1}^n}{\Delta x^2}
+\end{equation}
+Despejando $\theta_i^{n+1}$:
+\begin{equation}
+    \theta_i^{n+1} = \theta_i^n + \alpha (\theta_{i+1}^n - 2\theta_i^n + \theta_{i-1}^n)
+\end{equation}
+donde $\alpha = \frac{D_0 \Delta t}{\Delta x^2}$ es el número de Courant.
+
+\subsubsection*{Análisis de Estabilidad}
+Para que el método explícito sea estable, se requiere la condición CFL:
+\begin{equation}
+    \alpha \le \frac{1}{2}
+\end{equation}
+En la simulación realizada (\texttt{a.py}), se utilizaron $N_x=51$ y $\Delta t=0.0005$, resultando en un $\alpha \approx 0.0125$, lo cual cumple holgadamente la condición de estabilidad.
+
+\subsubsection*{Resultados}
+La solución numérica se comparó con la solución analítica:
+\begin{equation}
+    \theta(x,t) = e^{-D_0 \pi^2 t} \sin(\pi x)
+\end{equation}
+El error en norma $L^2$ obtenido fue del orden de $10^{-6}$, validando la implementación.
+
+\subsection{b) Diferencias Finitas 1D (Modelo Constitutivo)}
+
+\subsubsection*{Modelo Físico}
+Se implementó el modelo de **Brooks-Corey** para la difusividad dependiente de la saturación:
+\begin{equation}
+    D(\theta) = D_{0,BC} \left( \frac{\theta - \theta_r}{\theta_s - \theta_r} \right)^n + \epsilon
+\end{equation}
+donde se añadió un $\epsilon=10^{-15}$ para evitar singularidades numéricas cuando $\theta \approx \theta_r$.
+
+\subsubsection*{Método Numérico}
+Dado que $D(\theta)$ es variable, se utilizó una formulación conservativa en diferencias finitas:
+\begin{equation}
+    \frac{\partial\theta}{\partial t} = \frac{\partial}{\partial x} \left( D(\theta) \frac{\partial\theta}{\partial x} \right)
+\end{equation}
+Discretización espacial:
+\begin{equation}
+    \theta_i^{n+1} = \theta_i^n + \frac{\Delta t}{\Delta x^2} \left[ D_{i+1/2} (\theta_{i+1}^n - \theta_i^n) - D_{i-1/2} (\theta_i^n - \theta_{i-1}^n) \right]
+\end{equation}
+donde $D_{i+1/2} \approx \frac{D(\theta_{i+1}) + D(\theta_i)}{2}$.
+
+\subsubsection*{Validación: Transformación de Boltzmann}
+El problema admite una solución de similitud mediante la variable $\phi(\theta) = x t^{-1/2}$. Esto transforma la EDP en una Ecuación Diferencial Ordinaria (EDO):
+\begin{equation}
+    -\frac{\phi}{2} \frac{d\theta}{d\phi} = \frac{d}{d\phi} \left( D(\theta) \frac{d\theta}{d\phi} \right)
+\end{equation}
+Esta EDO se resolvió utilizando el método de disparo (\textit{Shooting Method}) con el integrador \texttt{Radau} (apto para problemas rígidos) en \texttt{scipy.integrate.solve\_ivp}. Se buscó la pendiente inicial $d\theta/d\phi$ tal que $\theta \to \theta_r$ cuando $\phi \to \infty$.
+
+\subsubsection*{Resultados}
+La simulación FD (\texttt{b.py}) se ejecutó hasta $T=5000$s para permitir el desarrollo del frente. La comparación entre los perfiles colapsados de la simulación FD (puntos) y la solución de la EDO (línea sólida) mostró una coincidencia excelente, validando el manejo de la no-linealidad.
+
+\subsection{c) Diferencias Finitas 2D (Validación)}
+
+\subsubsection*{Planteo}
+Se resuelve la difusión en un dominio cuadrado $[0,1]\times[0,1]$:
+\begin{equation}
+    \frac{\partial\theta}{\partial t} = D_0 \left( \frac{\partial^2\theta}{\partial x^2} + \frac{\partial^2\theta}{\partial y^2} \right)
+\end{equation}
+
+\subsubsection*{Método Numérico: Implícito}
+Para evitar las severas restricciones de paso de tiempo de los métodos explícitos en 2D ($\Delta t \le \frac{\Delta x^2}{4D}$), se implementó un esquema **Totalmente Implícito (Backward Euler)**:
+\begin{equation}
+    \frac{\theta_{i,j}^{n+1} - \theta_{i,j}^n}{\Delta t} = D_0 \nabla^2 \theta_{i,j}^{n+1}
+\end{equation}
+Esto conduce a un sistema lineal de ecuaciones $A \mathbf{\theta}^{n+1} = \mathbf{\theta}^n$ en cada paso de tiempo. La matriz $A$ es dispersa (pentadiagonal por bloques). Se utilizó \texttt{scipy.sparse.linalg.spsolve} para resolver el sistema eficientemente.
+
+\subsubsection*{Resultados}
+Se comparó con la solución analítica 2D:
+\begin{equation}
+    \theta(x,y,t) = e^{-2 D_0 \pi^2 t} \sin(\pi x) \sin(\pi y)
+\end{equation}
+El código \texttt{c.py} muestra mapas de error espacial muy bajos, confirmando la convergencia del método implícito.
+
+\subsection{d) Gota Circular 2D vs 1D Radial}
+
+\subsubsection*{Formulación 1D Cilíndrica}
+Aprovechando la simetría radial de una gota circular, se resolvió la ecuación en coordenadas polares/cilíndricas:
+\begin{equation}
+    \frac{\partial\theta}{\partial t} = \frac{1}{r} \frac{\partial}{\partial r} \left( r D_0 \frac{\partial\theta}{\partial r} \right) = D_0 \left( \frac{\partial^2\theta}{\partial r^2} + \frac{1}{r}\frac{\partial\theta}{\partial r} \right)
+\end{equation}
+En $r=0$, el término $\frac{1}{r}\frac{\partial\theta}{\partial r}$ es singular. Aplicando la regla de L'Hôpital y la simetría ($\partial\theta/\partial r = 0$), el término se convierte en $\frac{\partial^2\theta}{\partial r^2}$, resultando en:
+\begin{equation}
+    \frac{\partial\theta}{\partial t}\bigg|_{r=0} = 2 D_0 \frac{\partial^2\theta}{\partial r^2}
+\end{equation}
+Esta condición especial se implementó en la matriz del solver 1D.
+
+\subsubsection*{Comparación}
+Se ejecutó una simulación 2D cartesiana completa de una gota inicial y se extrajo el perfil radial desde el centro hacia el borde. Este perfil se comparó con la solución del solver 1D cilíndrico.
+\begin{itemize}
+    \item \textbf{Error L2 Relativo:} Muy bajo, indicando que el solver 2D cartesiano reproduce correctamente la simetría radial sin introducir anisotropía espuria significativa.
+\end{itemize}
+
+\subsection{e) Gota Elíptica}
+
+\subsubsection*{Simulación}
+Se modificó la condición inicial en el solver 2D para representar una elipse:
+\begin{equation}
+    \left(\frac{x-x_c}{a}\right)^2 + \left(\frac{y-y_c}{b}\right)^2 \le 1
+\end{equation}
+con $a = L/4$ y $b = L/8$ (relación de aspecto 2:1).
+
+\subsubsection*{Fenomenología}
+Al evolucionar en el tiempo, la difusión actúa suavizando los gradientes. Dado que el gradiente es mayor en el eje menor de la elipse (cambio más abrupto de concentración), el flujo difusivo es mayor en esa dirección. Esto hace que la elipse tienda a volverse circular a medida que se expande y la concentración disminuye, un comportamiento físico esperado que la simulación captura correctamente.
+
+\subsection{f) Costo Computacional y Discretización}
+
+A continuación se resumen los parámetros utilizados en los scripts finales:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Caso} & \textbf{Malla Espacial} & \textbf{Paso Temporal ($\Delta t$)} & \textbf{Pasos ($N_t$)} & \textbf{Método} \\
+        \midrule
+        a) 1D Lineal & $N_x=51$ & $5 \times 10^{-4}$ s & 1000 & Explícito \\
+        b) 1D No-Lineal & $N_x=101$ & $0.1$ s & 50000 & Explícito \\
+        c) 2D Lineal & $41 \times 41$ & $0.01$ s & 50 & Implícito \\
+        d) 2D Gota & $41 \times 41$ & $0.005$ s & 100 & Implícito \\
+        e) 2D Elíptica & $51 \times 51$ & $0.005$ s & 100 & Implícito \\
+        \bottomrule
+    \end{tabular}
+    \caption{Parámetros de discretización y costo.}
+\end{table}
+
+\textbf{Análisis de Costo:}
+\begin{itemize}
+    \item Los métodos \textbf{explícitos} (casos a y b) son muy rápidos por paso (operaciones vectoriales simples $O(N)$), pero requieren $\Delta t$ pequeños por estabilidad, aumentando $N_t$.
+    \item Los métodos \textbf{implícitos} (casos c, d, e) permiten $\Delta t$ grandes, pero requieren resolver un sistema lineal en cada paso. Para $N=41\times41 \approx 1600$ incógnitas, el costo de \texttt{spsolve} es bajo (fracciones de segundo), haciendo que el método implícito sea muy eficiente para problemas 2D difusivos.
+\end{itemize}
+
+\section{Conclusiones}
+Se ha logrado implementar y validar exitosamente un conjunto de solvers para la ecuación de Richards y difusión general.
+\begin{enumerate}
+    \item La validación analítica en 1D y 2D confirma la corrección de los esquemas discretos.
+    \item El manejo de la no-linealidad (Brooks-Corey) mediante diferencias finitas conservativas demostró ser robusto, coincidiendo con la solución de similitud de Boltzmann.
+    \item La comparación entre simulaciones cartesianas 2D y radiales 1D validó la isotropía del solver 2D.
+    \item El uso de esquemas implícitos en 2D resultó crucial para mantener tiempos de cómputo razonables sin sacrificar estabilidad.
+\end{enumerate}
 
 \end{document}

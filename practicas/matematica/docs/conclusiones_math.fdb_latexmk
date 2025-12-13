@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1760891910.57635 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1760891911.85183 0
-  "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1760884236 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
+["pdflatex"] 1764628532.0512 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1764628533.23829 0
+  "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763730183 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi375/ectt0800.pk" 1754869819 9920 21709eb24245a5e7626bc6e0b97d0a68 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi525/ectt0800.pk" 1754869817 13416 d5e94c1b49139ce2ce175271652075a4 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1000.pk" 1753921173 25420 6adcb9c2e881761ab10409482c086eb9 ""
@@ -137,11 +137,10 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1749468414 13236 71253d8fde2c80ecebae7e3f7da0c2b0 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "adams_7.png" 1760888519 44241 330c679024c1e8ce820dda48aa336abe ""
-  "conclusiones_math.aux" 1760891911 2133 cb07f3ecd855c74f6cbc4e31e3c72e1a "pdflatex"
-  "conclusiones_math.out" 1760891911 1215 96eedabcb0d8f1c250b191a1eba8953a "pdflatex"
-  "conclusiones_math.tex" 1760891909 11878 58432d6086577b911573f834068b915b ""
-  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1760891909 11878 58432d6086577b911573f834068b915b ""
+  "conclusiones_math.aux" 1764628532 1412 abe90df95aecc04d6b83abb3c3c3384e "pdflatex"
+  "conclusiones_math.out" 1764628532 1086 d40781611d3a0a71739f9ef9d04d1504 "pdflatex"
+  "conclusiones_math.tex" 1762528466 10379 27adfd45bd93e15423a7f02542875f1b ""
+  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1762528466 10379 27adfd45bd93e15423a7f02542875f1b ""
   (generated)
   "conclusiones_math.aux"
   "conclusiones_math.log"

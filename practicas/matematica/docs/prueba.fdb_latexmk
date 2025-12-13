@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1755917653.31043 "d:/c++/practicas/matematica/docs/prueba.tex" "prueba.pdf" "prueba" 1755917654.26107 0
-  "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1755265781 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
+["pdflatex"] 1763927065.91077 "d:/c++/practicas/matematica/docs/prueba.tex" "prueba.pdf" "prueba" 1763927066.79931 0
+  "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763730183 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi375/ectt0800.pk" 1754869819 9920 21709eb24245a5e7626bc6e0b97d0a68 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi525/ectt0800.pk" 1754869817 13416 d5e94c1b49139ce2ce175271652075a4 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1440.pk" 1753921177 40136 a4f679a549e535a988a64987d0c2a82e ""
@@ -34,8 +34,13 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy10.tfm" 1136765053 1124 6c73e740cf17375f03eec0ee63599741 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1247596667 30251 6afa5cb1d0204815a708a080681d4674 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1247596667 36281 c355509802a035cadc5f15869451dcee ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1247596666 32716 08e384dc442464e7285e891af9f45947 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/generic/babel/babel.sty" 1752402964 146364 5ab54c751ac749ee673fa3bdd4fa8b19 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/generic/babel/locale/es/babel-es.ini" 1752402966 4345 33a8cc6f0a7c6afcb84895b2c963a4e5 ""
@@ -71,9 +76,9 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstpatch.sty" 1741168182 353 9024412f43e92cd5b21fe9ded82d0610 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1749468414 15698 f5f20b24886bb50156054c53e19b13fd ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "d:/c++/practicas/matematica/docs/prueba.tex" 1755917651 5229 9ad5199b9cce7d67a291159f415d951e ""
-  "prueba.aux" 1755917654 472 3d7d5e9847079f4dd4b6c5614621016c "pdflatex"
-  "prueba.tex" 1755917651 5229 9ad5199b9cce7d67a291159f415d951e ""
+  "d:/c++/practicas/matematica/docs/prueba.tex" 1763927061 5500 ddf750f0cfbff46306ff3973eeeda2fc ""
+  "prueba.aux" 1763927066 472 7c6674aa9eb89b808278b6e883c385c0 "pdflatex"
+  "prueba.tex" 1763927061 5500 ddf750f0cfbff46306ff3973eeeda2fc ""
   (generated)
   "prueba.aux"
   "prueba.log"

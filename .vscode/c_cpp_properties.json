@@ -3,7 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/Strawberry/c/include",
+                "C:/Strawberry/c/include/c++"
             ],
             "defines": [
                 "_DEBUG",
@@ -12,8 +14,8 @@
             ],
             "cStandard": "c23",
             "cppStandard": "c++20",
-            "intelliSenseMode": "windows-msvc-x64",
-            "compilerPath": "C:\\Users\\welcome\\Dropbox\\PC\\Desktop\\C++\\Nueva carpeta\\gdb64"
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "C:\\Strawberry\\c\\bin\\g++.exe"
         }
     ],
     "version": 4
