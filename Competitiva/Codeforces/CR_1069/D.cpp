@@ -42,17 +42,22 @@ int main(){
 
         n = sz(v);
         vector dp(n + 1, vector(k + 1, vector<int>(k + 1, -1e9)));
+        vector<int> best(k + 1);
         dp[0][0][0] = 0;
 
-        forn(i, n) { 
+        forr(i, 1, n + 1) { 
+            vector<int> nbest(k + 1);
             forn(j, k + 1) {
                 forn(l, k + 1) {
-                    dp[i + 1][j][l] = max(dp[i + 1][j][l], dp[i][j][l] + l * mate[i]); //Gasto 0
-                    forr(w, l + 1, min(v[i], k - j) + 1){ //Aumento maximo
-                        dp[i + 1][j + w][w] = max(dp[i + 1][j + w][w], dp[i][j][l] + w * mate[i]);
+                    dp[i][j][l] = dp[i - 1][j][l] + l * mate[i - 1];
+                    if(j >= l and l <= v[i - 1]) dp[i][j][l] = max(dp[i][j][l], dp[i - 1][j - l][best[j - l]] + l * mate[i - 1]);
+                    
+                    if(dp[i][j][l] > dp[i][j][nbest[j]]){
+                        nbest[j] = l;
                     }
                 }
             }
+            best = nbest;
         }
 
         int ma = 0;

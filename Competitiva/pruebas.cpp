@@ -25,72 +25,38 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    //perdon
-    int b, n; cin >> b >> n;
-    vector<int> c(n), w(n);
-    vector<array<string, 3>> v(n);
-    map<string, int> m2;
-    int dist = 0;
-    
-    forn(i, n){
-        auto &[x, y, z] = v[i];
-        cin >> x >> y >> z >> c[i] >> w[i];
-        w[i] = -w[i];
-        if(!m2.count(x)) m2[x] = dist++;
-    }
-
-    vector<ii> best(dist, ii(1e9, 1e9));
-    vector<int> frec(dist), gr(n);
-    vector<array<int, 3>> v2(n);
+    int n; cin >> n;
+    vector<int> v(n);
     vector<vector<int>> g(n);
-    queue<int> q;
-
-    forn(i, n) {
-        v2[i][0] = m2[v[i][0]];
-        if(m2.count(v[i][1])){
-            v2[i][1] = m2[v[i][1]];
-            g[v2[i][1]].pb(i), gr[i]++;
-        }
-        else v2[i][1] = -1;
-        if(m2.count(v[i][2])){
-            v2[i][2] = m2[v[i][2]];
-            g[v2[i][2]].pb(i), gr[i]++;
-        }
-        else v2[i][2] = -1;
-        
-        if(!gr[i]) q.push(i);
-
-        frec[v2[i][0]]++;
-    }
-
-    while(sz(q)){
-        int s = q.front();
-        q.pop();
-
-        ii y, z;
-        if(v2[s][1] != -1) y = best[v2[s][1]];
-        if(v2[s][2] != -1) z = best[v2[s][2]];
-        best[v2[s][0]] = min(best[v2[s][0]], {y.fr + z.fr + c[s], y.sc + z.sc + w[s]});
-        frec[v2[s][0]]--;
-        
-        if(!frec[v2[s][0]]) for(int u : g[v2[s][0]]){
-            gr[u]--;
-            if(!gr[u]) q.push(u);
-        }
-    }
-
-    vector<ll> dp(b + 1);
-    forn(i, sz(best)){
-        dfor(j, b + 1 - best[i].fr){
-            dp[j + best[i].fr] = max(dp[j + best[i].fr], dp[j] - best[i].sc);
-        }
-    }
+    forr(i, 1, n) cin >> v[i];
     
-    int tarasca = b;
-    dfor(i, b) if(dp[i] == dp[b]) tarasca = i;
+    int a, b;
+    forn(i, n - 1){
+        cin >> a >> b; a--; b--;
+        g[a].pb(b);
+        g[b].pb(a);
+    }
 
-    cout << dp[b] << '\n' << tarasca << '\n';
+    vector<deque<ll>> nodos(n);
+    ii ans = {-1e9, -1e9};
 
+    function<void(int, int)> dfs = [&](int s, int f){
+        for(int u : g[s]){
+            if(u == f) continue;
+            dfs(u, s);
+            if(sz(nodos[u]) > sz(nodos[s])) swap(nodos[u], nodos[s]);
+
+            forn(i, sz(nodos[u])) {
+                nodos[s][i] += nodos[u][i];
+                ans = max(ans, {nodos[s][i], -(i + 2)});
+            }
+        }
+        nodos[s].push_front(v[s]); //Inserto al principio para mantener lo mas cercano primero (mas facil)
+        ans = max(ans, {v[s], -1}); //AAAAAAAAAAAA
+    };
+
+    for(int u : g[0]) dfs(u, 0);
+    cout << ans.fr << ' ' << -ans.sc << '\n';
 
     return 0;
 }
