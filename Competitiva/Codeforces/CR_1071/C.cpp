@@ -35,7 +35,5 @@ int main(){
         cout << max(v[0], v[1] - v[0]) << '\n';
     }
 
-
-
     return 0;
 }

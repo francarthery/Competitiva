@@ -25,23 +25,31 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    const int MOD = 998244353;
-    ll n, k; cin >> n >> k;
+    int t; cin >> t;
+    while(t--){
+        ll n; cin >> n;
+        vector<int> a(n), b(n), c(n);
+        forn(i, n) cin >> a[i];
+        forn(i, n) cin >> b[i];
+        forn(i, n) cin >> c[i];
 
-    vector<ll> dp(k + 1), dp2(k + 1);
-    iota(all(dp), 0);
-
-    forr(i, 2, min(k + 1, n + 1)){
-        forn(j, k){
-            ll val = (j + 1) * i;
-            ll l = max(0ll, (val - k - 1) / (i - 1));
-            ll r = min(k, (val - 1) / (i - 1));
-            dp2[j + 1] = (dp2[j] + dp[r] - dp[l] + MOD) % MOD; 
+        ll x = 0, y = 0;
+        forn(i, n) {
+            bool flag = true;
+            forn(j, n) if(a[j] >= b[(i + j) % n]) flag = false;
+            if(flag) x++;
         }
-        dp.swap(dp2);
+
+        forn(i, n) {
+            bool flag = true;
+            forn(j, n) if(b[j] >= c[(i + j) % n]) flag = false;
+            if(flag) y++;
+        }
+
+        cout << x * y * n << '\n';
     }
 
-    cout << dp[k] << '\n';
+
 
     return 0;
 }

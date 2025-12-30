@@ -13,7 +13,7 @@ struct Dinic {
   void addEdge(int u, int v, ll cap) {
     if (u != v) {
       g[u].pb(sz(E));
-      E.pb({u, v, cap});
+      E.pb({u, v, cap}); //Las aristas originales van a posiciones pares.
       g[v].pb(sz(E));
       E.pb({v, u, 0});
     }

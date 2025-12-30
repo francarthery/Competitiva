@@ -25,23 +25,33 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    const int MOD = 998244353;
-    ll n, k; cin >> n >> k;
-
-    vector<ll> dp(k + 1), dp2(k + 1);
-    iota(all(dp), 0);
-
-    forr(i, 2, min(k + 1, n + 1)){
-        forn(j, k){
-            ll val = (j + 1) * i;
-            ll l = max(0ll, (val - k - 1) / (i - 1));
-            ll r = min(k, (val - 1) / (i - 1));
-            dp2[j + 1] = (dp2[j] + dp[r] - dp[l] + MOD) % MOD; 
-        }
-        dp.swap(dp2);
+    int n; cin >> n;
+    vector<int> dp(n + 2), v(n);
+    vector<ii> ord(n);
+    
+    forn(i, n) {
+        cin >> v[i];
+        ord[i] = {v[i], i};
     }
 
-    cout << dp[k] << '\n';
+    sort(rall(ord));
+    vector<ii> st{{1e9, 0}};
+    vector<int> izq(n), der(n);
+    forn(i, n) {
+        while(sz(st) and st.back().fr <= v[i]) st.pop_back(); 
+        izq[i] = st.back().sc;
+        st.push_back({v[i], i + 1});
+    }
+    st = vector<ii>{{1e9, n + 1}};
+    dfor(i, n) {
+        while(sz(st) and st.back().fr <= v[i]) st.pop_back(); 
+        der[i] = st.back().sc;
+        st.push_back({v[i], i + 1});
+    }
+
+    for(auto i : ord) dp[i.sc + 1] = max(dp[izq[i.sc]], dp[der[i.sc]]) + 1;
+
+    cout << *max_element(all(dp)) << '\n';
 
     return 0;
 }

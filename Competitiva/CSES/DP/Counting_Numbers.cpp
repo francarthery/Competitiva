@@ -25,23 +25,37 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    const int MOD = 998244353;
-    ll n, k; cin >> n >> k;
+    ll a, b; cin >> a >> b;
 
-    vector<ll> dp(k + 1), dp2(k + 1);
-    iota(all(dp), 0);
+    auto f = [&](int x) {
+        string a = to_string(x);
+        vector<vector<int>> dp(sz(a), vector<int>(10));
+        forn(i, a[0] - '0' + 1) dp[0][i] = 1;
 
-    forr(i, 2, min(k + 1, n + 1)){
-        forn(j, k){
-            ll val = (j + 1) * i;
-            ll l = max(0ll, (val - k - 1) / (i - 1));
-            ll r = min(k, (val - 1) / (i - 1));
-            dp2[j + 1] = (dp2[j] + dp[r] - dp[l] + MOD) % MOD; 
+        forn(i, sz(a) - 1){
+            forn(j, 10) {
+                int maxn = 10;
+                if(j == a[i] - '0') maxn = a[i + 1] - '0' + 1;
+
+                forn(k, maxn){
+                    if(j != k or j == 0) dp[i + 1][k] += dp[i][j];
+                }
+            }
         }
-        dp.swap(dp2);
-    }
 
-    cout << dp[k] << '\n';
+        forn(i, sz(dp)) vdbg(dp[i]);
+        dbg(accumulate(all(dp[sz(a) - 1]), 0ll));
+
+        return accumulate(all(dp[sz(a) - 1]), 0ll);
+    };
+
+    //ll a; cin >> a; f(a);
+    //dbg(f(b)); dbg(f(max(0ll, a - 1)));
+    if(b == 0) {
+        cout << 0 << '\n';
+        return 0;
+    }
+    cout << f(b - 1) - f(a) << '\n';
 
     return 0;
 }

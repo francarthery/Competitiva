@@ -25,23 +25,34 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    const int MOD = 998244353;
-    ll n, k; cin >> n >> k;
+    int t; cin >> t;
+    while(t--){
+        int a, b; cin >> a >> b;
+        
+        auto f = [&](bool flag) {
+            int capas = 0, pot = 1;
+            int a2 = a, b2 = b;
+            while(1) {
+                if(flag) {
+                    a2 -= pot;
+                    if(a2 >= 0) capas++;
+                    else break;
+                }
+                else {
+                    b2 -= pot;
+                    if(b2 >= 0) capas++;
+                    else break;
+                }
+                pot *= 2;
+                flag = !flag;
+            }
+            return capas;
+        };
 
-    vector<ll> dp(k + 1), dp2(k + 1);
-    iota(all(dp), 0);
-
-    forr(i, 2, min(k + 1, n + 1)){
-        forn(j, k){
-            ll val = (j + 1) * i;
-            ll l = max(0ll, (val - k - 1) / (i - 1));
-            ll r = min(k, (val - 1) / (i - 1));
-            dp2[j + 1] = (dp2[j] + dp[r] - dp[l] + MOD) % MOD; 
-        }
-        dp.swap(dp2);
+        cout << max(f(0), f(1)) << '\n';;
     }
 
-    cout << dp[k] << '\n';
+
 
     return 0;
 }
