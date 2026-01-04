@@ -17,6 +17,71 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+struct Edge {
+  int u, v;
+  ll cap, flow;
+  Edge() {}
+  Edge(int uu, int vv, ll c) : u(uu), v(vv), cap(c), flow(0) {}
+};
+struct Dinic {
+  int N;
+  vector<Edge> E;
+  vector<vector<int>> g;
+  vector<int> d, pt;
+  Dinic(int n) : N(n), g(n), d(n), pt(n) {}  // clear and init
+  void addEdge(int u, int v, ll cap) {
+    if (u != v) {
+      g[u].pb(sz(E));
+      E.pb({u, v, cap}); //Las aristas originales van a posiciones pares.
+      g[v].pb(sz(E));
+      E.pb({v, u, 0});
+    }
+  }
+  bool BFS(int S, int T) {
+    queue<int> q({S});
+    fill(d.begin(), d.end(), N + 1);
+    d[S] = 0;
+    while (!q.empty()) {
+      int u = q.front();
+      q.pop();
+      if (u == T) break;
+      for (int k : g[u]) {
+        Edge& e = E[k];
+        if (e.flow < e.cap && d[e.v] > d[e.u] + 1) {
+          d[e.v] = d[e.u] + 1;
+          q.push(e.v);
+        }
+      }
+    }
+    return d[T] != N + 1;
+  }
+  ll DFS(int u, int T, ll flow = -1) {
+    if (u == T || flow == 0) return flow;
+    for (int& i = pt[u]; i < sz(g[u]); ++i) {
+      Edge& e = E[g[u][i]];
+      Edge& oe = E[g[u][i] ^ 1];
+      if (d[e.v] == d[e.u] + 1) {
+        ll amt = e.cap - e.flow;
+        if (flow != -1 && amt > flow) amt = flow;
+        if (ll pushed = DFS(e.v, T, amt)) {
+          e.flow += pushed;
+          oe.flow -= pushed;
+          return pushed;
+        }
+      }
+    }
+    return 0;
+  }
+  ll maxFlow(int S, int T) {  // O(V^2*E), unit nets: O(sqrt(V)*E)
+    ll total = 0;
+    while (BFS(S, T)) {
+      fill(pt.begin(), pt.end(), 0);
+      while (ll flow = DFS(S, T)) total += flow;
+    }
+    return total;
+  }
+};
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,47 +90,70 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m, k, x; cin >> n >> m >> k;
-    vector<bool> v(n);
-    forn(i, k) cin >> x, v[--x] = true;
-
-    vector<vector<int>> g(n);
-    int a, b;
-    forn(i, m){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-
-    queue<array<int, 3>> q; //nodo donde estoy parado, distancia minima, origen
-    vector<vector<ii>> dist(n, vector<ii>(2, {-1, -1})); //Dos distancias minimas, de cada una (minimo, origen)
-
-    forn(i, n) if(v[i]) {
-        dist[i][0] = {0, i};
-        q.push({i, 0, i}); 
-    }
-    
-    while(sz(q)){
-        auto [nodo, dis, orig] = q.front();
-        q.pop();
-
-        for(int u : g[nodo]) {
-            if(dist[u][0].fr == -1) {
-                dist[u][0] = {dis + 1, orig};
-                q.push({u, dis + 1, orig});
+    int n, m; cin >> n >> m;
+    vector<vector<string>> v(n, vector<string>(m));
+    map<string, int> inds, frec;
+    vector<string> names(2 * m);
+    vector<set<int>> cands(2 * m);
+    int cont = 0;
+    forn(i, n) forn(j, m) {
+        cin >> v[i][j];
+        frec[v[i][j]]++;
+        if(!inds.count(v[i][j])) {
+            if(cont == 2 * m) {
+                cout << "N\n";
+                return 0;
             }
-            else if(dist[u][0].sc != orig and dist[u][1].fr == -1) {
-                dist[u][1] = {dis + 1, orig};
-                q.push({u, dis + 1, orig});
+            inds[v[i][j]] = cont;
+            names[cont++] = v[i][j];
+        }
+    }
+
+    forn(i, 2*m) forn(j, 2*m) if(i != j) cands[i].insert(j);
+
+    forn(i, 2 * m){
+        string name = names[i];
+        forn(j, n) {
+            bool ok = true;
+            forn(k, m) if(v[j][k] == name) ok = false;
+            if(!ok) forn(k, m) if(cands[i].count(inds[v[j][k]])) cands[i].erase(inds[v[j][k]]);
+        }
+    }
+
+    Dinic dn(2*m + 2);
+    vector<int> gr(2*m);
+    bool flag = true;
+    forn(i, 2 * m) {
+        for(int j : cands[i]) {
+            if(gr[i] > 0 and gr[j] > 0) flag = false;
+            else if(frec[names[i]] + frec[names[j]] != n) continue;
+            else if(!gr[i]) {
+                gr[j]++;
+                dn.addEdge(i, j, 1e9);
+            }
+            else{
+                gr[i]++;
+                dn.addEdge(j, i, 1e9);
             }
         }
     }
 
-    forn(i, n){
-        if(v[i]) cout << dist[i][1].fr << ' ';
-        else cout << dist[i][0].fr << ' ';
+    int valid = 0;
+    forn(i, 2*m){
+        if(gr[i] == 0) dn.addEdge(2*m, i, 1);
+        else {
+            dn.addEdge(i, 2*m + 1, 1);
+            valid++;
+        }
     }
-    cout << '\n';
+
+    int full = 0;
+    for(auto j : frec) if(j.sc == n) full++;
+    
+    if(valid != m) flag = false;
+    if(flag) flag &= dn.maxFlow(2*m, 2*m + 1) + full == m;
+
+    cout << (flag ? "S" : "N") << '\n';   
 
 
     return 0;

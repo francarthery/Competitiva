@@ -17,6 +17,39 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+//Esta dp es en general mas facil de hacer top down (recursiva) empezando desde el principio del numero y
+//siendo el caso base el final del numero. 
+//En las DPs de digitos se suele llevar un booleano tight que representa si en el prefijo que ya procesamos
+// estabamos en el "techo" del numero. En esta dp tambien llevamos un booleano que nos dice si en el 
+// prefijo ya procesado tenemos todos 0s para que la dp no los cuente como digitos iguales adyacentes (001 es valido)
+
+string s;
+ll dp[20][11][2][2];
+
+ll solve(int pos, int ult, bool tight, bool cero){ //https://www.youtube.com/watch?v=qLHLsbD9emc
+    if(pos == sz(s)) return 1;
+    if(dp[pos][ult][tight][cero] != -1) return dp[pos][ult][tight][cero];
+
+    dp[pos][ult][tight][cero] = 0;
+    
+    ll top = 10;
+    if(tight) top = s[pos] - '0' + 1;
+    forn(i, top) {
+        bool tuco = tight && i == top - 1;
+        if(i != ult or cero) dp[pos][ult][tight][cero] += solve(pos + 1, i, tuco, cero && i == 0);
+    }
+
+    return dp[pos][ult][tight][cero];
+}
+
+ll f(ll x){
+    if(x < 0) return 0;
+    s = to_string(x);
+    memset(dp, -1, sizeof(dp));
+    ll rta = solve(0, 10, 1, 1);
+    return rta;
+}
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -26,36 +59,7 @@ int main(){
     #endif
 
     ll a, b; cin >> a >> b;
-
-    auto f = [&](int x) {
-        string a = to_string(x);
-        vector<vector<int>> dp(sz(a), vector<int>(10));
-        forn(i, a[0] - '0' + 1) dp[0][i] = 1;
-
-        forn(i, sz(a) - 1){
-            forn(j, 10) {
-                int maxn = 10;
-                if(j == a[i] - '0') maxn = a[i + 1] - '0' + 1;
-
-                forn(k, maxn){
-                    if(j != k or j == 0) dp[i + 1][k] += dp[i][j];
-                }
-            }
-        }
-
-        forn(i, sz(dp)) vdbg(dp[i]);
-        dbg(accumulate(all(dp[sz(a) - 1]), 0ll));
-
-        return accumulate(all(dp[sz(a) - 1]), 0ll);
-    };
-
-    //ll a; cin >> a; f(a);
-    //dbg(f(b)); dbg(f(max(0ll, a - 1)));
-    if(b == 0) {
-        cout << 0 << '\n';
-        return 0;
-    }
-    cout << f(b - 1) - f(a) << '\n';
+    cout << f(b) - f(a - 1) << '\n';
 
     return 0;
 }

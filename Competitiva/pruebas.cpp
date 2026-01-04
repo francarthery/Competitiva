@@ -25,23 +25,9 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    const int MOD = 998244353;
-    ll n, k; cin >> n >> k;
+    
 
-    vector<ll> dp(k + 1), dp2(k + 1);
-    iota(all(dp), 0);
 
-    forr(i, 2, min(k + 1, n + 1)){
-        forn(j, k){
-            ll val = (j + 1) * i;
-            ll l = max(0ll, (val - k - 1) / (i - 1));
-            ll r = min(k, (val - 1) / (i - 1));
-            dp2[j + 1] = (dp2[j] + dp[r] - dp[l] + MOD) % MOD; 
-        }
-        dp.swap(dp2);
-    }
-
-    cout << dp[k] << '\n';
 
     return 0;
 }
