@@ -145,5 +145,10 @@ Nos dan una lista con los numeros de 1 a $n$ y una permutacion de tamaño $n$ y 
 
 La unica curisidad del problema es que como podemos llegar a tener muchos tamaños distintos, tenemos que expresar el mcm $mod \: \: 10^9 + 7$. Al tener esta restriccion no podemos usar \textit{lcm()} de C++. En su lugar tenemos que factorizar cada uno de los numeros y quedarnos de cada primo que aparezca su mayor exponente y al final calculamos la respuesta haciendo el producto de esos primos.
 
-
+\section{Bracket Sequences 2}
+Nos piden la cantidad de secuencias de paréntesis validas de tamaño \textit{n} que empiecen con un prefijo que se nos da de antemano. Incialmente tenemos que ver si la secuencia que nos dan no tiene un prefijo invalido y cual es la diferencia entre la cantidad de paréntesis de apertura y cierre, a la que llamaremos \textbf{s}. Para resolverlo tenemos que modificar la fórmula de los números Catalanes:
+\[C_n = \binom{2n}{n} - \binom{2n}{n + 1}\]
+Donde el primer coeficiente es la cantidad de secuencias posibles sin restricción y el segundo es la cantidad de secuencias invalidas.
+En el caso del problema, siendo \textbf{k} la longitud de la secuencia que buscamos construir, debemos encontrar la cantidad de secuencias que tengan $\frac{k - s}{2}$ paréntesis de apertura y $\frac{k + s}{2}$ de ciere. Si hacemos el mismo razonamiento que con los números Catalanes (leer Laaksonen), de tomar el primer prefijo invalido e invertirlo, notamos que el primer prefijo invalido tiene: $apertura - cierre = -s - 1$ ya que tenemos que cerrar s parentesis que nos quedaron del prefijo. Invirtiendo el prefijo $apertura - cierre = s + 1$, Luego, la formula final queda:
+\[C_k = \binom{k}{\frac{k - s}{2}} - \binom{k}{\frac{k - s}{2} + s + 1}\]
 \end{document}

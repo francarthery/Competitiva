@@ -25,15 +25,10 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n; cin >> n;
-    vector<ii> v(n*n);
-    forn(i, n*n) {
-        cin >> v[i].fr;
-        v[i].sc = i;
-    }
-
-    
-
+    vector<int> v(4);
+    forn(i, 4) cin >> v[i];
+    sort(all(v));
+    cout << v[0] * v[2] << '\n';
 
 
 

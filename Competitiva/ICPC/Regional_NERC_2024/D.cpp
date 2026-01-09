@@ -25,17 +25,10 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n; cin >> n;
-    vector<ii> v(n*n);
-    forn(i, n*n) {
-        cin >> v[i].fr;
-        v[i].sc = i;
-    }
-
-    
-
-
-
+    string d; cin >> d;
+    string ans = "";
+    forn(i, stoi(d)) ans += d;
+    cout << ans << '\n';
 
     return 0;
 }
