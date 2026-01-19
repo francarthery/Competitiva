@@ -25,34 +25,25 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int t; cin >> t;
-    while(t--){
-        int n, q; cin >> n >> q;
-        vector<int> v(1 << n);
-        forn(i, 1 << n) cin >> v[i];
-
-        vector<vector<int>> st(n + 1, vector<int>(1 << n));
-        st[0] = v;
-        forn(i, n){
-            for(int j = 0; j < 1 << (n - i); j += 2) st[i + 1][j >> 1] = st[i][j] ^ st[i][j ^ 1];
-        }
-
-        // forn(i, n + 1) vdbg(st[i]);
-        // cout << '\n';
-
-        forn(tt, q){
-            int a, b, cont = 0; cin >> a >> b; a--;
-            forn(i, n){ //n o n+1 ??
-                int nemesis = st[i][a ^ 1];
-                if(nemesis > b or nemesis == b and (a & 1)) cont += (1 << i);
-                b ^= nemesis;
-                a >>= 1;
-            }  
-            cout << cont << '\n';  
-        }
+    int n; cin >> n;
+    vector<ii> v(n*n + 1);
+    forn(i, n) forn(j, n) {
+        int x; cin >> x;
+        v[x] = {i, j};
     }
 
+    vector<int> dpv(n), dph(n);
+    int ans = 0;
+    forn(i, n * n) {
+        auto [r, c] = v[i + 1];
+        int bestv = max(dpv[c], dph[r] + 1);
+        int besth = max(dph[r], dpv[c] + 1);
+        dpv[c] = bestv;
+        dph[r] = besth;
+        ans = max({ans, bestv, besth});
+    }
 
+    cout << ans << '\n';
 
     return 0;
 }

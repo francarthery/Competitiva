@@ -27,29 +27,22 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        int n, q; cin >> n >> q;
-        vector<int> v(1 << n);
-        forn(i, 1 << n) cin >> v[i];
-
-        vector<vector<int>> st(n + 1, vector<int>(1 << n));
-        st[0] = v;
-        forn(i, n){
-            for(int j = 0; j < 1 << (n - i); j += 2) st[i + 1][j >> 1] = st[i][j] ^ st[i][j ^ 1];
+        int n; cin >> n;
+        vector<int> v(n);
+        map<int, int> m;
+        forn(i, n) {
+            cin >> v[i];
+            m[v[i]]++;
         }
+        bool flag = m[0];
+        if(m[0] > 1 and m[1] == 0) flag = false;
+        // int ant = -1;
+        // for(auto i : m){    
+        //     if(i.fr != ++ant) break;
+        //     if(i.sc > 1 and m[i.fr + 1] == 0) flag = false;
+        // }
+        cout << (flag ? "YES":"NO") << '\n';
 
-        // forn(i, n + 1) vdbg(st[i]);
-        // cout << '\n';
-
-        forn(tt, q){
-            int a, b, cont = 0; cin >> a >> b; a--;
-            forn(i, n){ //n o n+1 ??
-                int nemesis = st[i][a ^ 1];
-                if(nemesis > b or nemesis == b and (a & 1)) cont += (1 << i);
-                b ^= nemesis;
-                a >>= 1;
-            }  
-            cout << cont << '\n';  
-        }
     }
 
 

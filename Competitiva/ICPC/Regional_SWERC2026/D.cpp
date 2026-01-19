@@ -25,32 +25,19 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int t; cin >> t;
-    while(t--){
-        int n, q; cin >> n >> q;
-        vector<int> v(1 << n);
-        forn(i, 1 << n) cin >> v[i];
-
-        vector<vector<int>> st(n + 1, vector<int>(1 << n));
-        st[0] = v;
-        forn(i, n){
-            for(int j = 0; j < 1 << (n - i); j += 2) st[i + 1][j >> 1] = st[i][j] ^ st[i][j ^ 1];
-        }
-
-        // forn(i, n + 1) vdbg(st[i]);
-        // cout << '\n';
-
-        forn(tt, q){
-            int a, b, cont = 0; cin >> a >> b; a--;
-            forn(i, n){ //n o n+1 ??
-                int nemesis = st[i][a ^ 1];
-                if(nemesis > b or nemesis == b and (a & 1)) cont += (1 << i);
-                b ^= nemesis;
-                a >>= 1;
-            }  
-            cout << cont << '\n';  
-        }
+    int n; cin >> n;
+    int x; 
+    map<int, int> m;
+    forn(i, n) {
+        cin >> x;
+        m[x]++;
     }
+    ll sum = 0;
+    for(auto i : m) {
+        if(i.sc < i.fr) sum += i.sc;
+        else if(i.sc > i.fr) sum += i.sc - i.fr;
+    }
+    cout << sum << '\n';
 
 
 

@@ -27,29 +27,31 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        int n, q; cin >> n >> q;
-        vector<int> v(1 << n);
-        forn(i, 1 << n) cin >> v[i];
+        int n; string s;
+        cin >> n >> s;
 
-        vector<vector<int>> st(n + 1, vector<int>(1 << n));
-        st[0] = v;
-        forn(i, n){
-            for(int j = 0; j < 1 << (n - i); j += 2) st[i + 1][j >> 1] = st[i][j] ^ st[i][j ^ 1];
+        int ini = 0, fin = n - 1;
+        while(s[ini] == '0') ini++;
+        while(s[fin] == '1') fin--;
+        set<int> idx;
+
+        int l = ini, r = fin;
+        while(l < r) {
+            if(s[r] == '1') r--;
+            else if(s[l] == '0') l++;
+            else {
+                idx.insert(l);
+                idx.insert(r);
+                r--; l++;
+            }
         }
 
-        // forn(i, n + 1) vdbg(st[i]);
-        // cout << '\n';
-
-        forn(tt, q){
-            int a, b, cont = 0; cin >> a >> b; a--;
-            forn(i, n){ //n o n+1 ??
-                int nemesis = st[i][a ^ 1];
-                if(nemesis > b or nemesis == b and (a & 1)) cont += (1 << i);
-                b ^= nemesis;
-                a >>= 1;
-            }  
-            cout << cont << '\n';  
-        }
+        if(sz(idx)) {
+            cout << "Alice\n";
+            cout << sz(idx) << '\n';
+            for(int i : idx) cout << i + 1 << ' ';
+            cout << '\n';
+        } else cout << "Bob\n";
     }
 
 
