@@ -17,6 +17,33 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+const ll INF = 1e18;
+
+struct Dijkstra {        // WARNING: ii usually needs to be pair<ll, int>
+    vector<vector<ii>> G;  // ady. list with pairs (weight, dst)
+    vector<ll> dist;
+    // vector<int> vp; // for path reconstruction (parent of each node)
+    int N;
+    Dijkstra(int n) : G(n), N(n) {}
+    void addEdge(int a, int b, ll w) { G[a].pb({w, b}); }
+    void run(int src) {  // O(|E| log |V|)
+        dist = vector<ll>(N, INF);
+        // vp = vector<int>(N, -1);
+        priority_queue<ii, vector<ii>, greater<ii>> Q;
+        Q.push({0, src}), dist[src] = 0;
+        while (sz(Q)) {
+            auto [d, node] = Q.top();
+            Q.pop();
+            if (d > dist[node]) continue;
+            forall(it, G[node]) if(d + it->fr < dist[it->sc]) {
+                dist[it->sc] = d + it->fr;
+                // vp[it->snd] = node;
+                Q.push({dist[it->sc], it->sc});
+            }   
+        }
+    }
+};
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -27,29 +54,58 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        int n, q; cin >> n >> q;
-        vector<int> v(1 << n);
-        forn(i, 1 << n) cin >> v[i];
-
-        vector<vector<int>> st(n + 1, vector<int>(1 << n));
-        st[0] = v;
-        forn(i, n){
-            for(int j = 0; j < 1 << (n - i); j += 2) st[i + 1][j >> 1] = st[i][j] ^ st[i][j ^ 1];
+        int n, k; cin >> n >> k;
+        vector<vector<ll>> g(n), dp(n, vector<ll>(2)); //0 es barato
+        int x, y;
+        forn(i, n - 1){
+            cin >> x >> y; x--; y--;
+            g[x].pb(y);
+            g[y].pb(x);
         }
 
-        // forn(i, n + 1) vdbg(st[i]);
-        // cout << '\n';
-
-        forn(tt, q){
-            int a, b, cont = 0; cin >> a >> b; a--;
-            forn(i, n){ //n o n+1 ??
-                int nemesis = st[i][a ^ 1];
-                if(nemesis > b or nemesis == b and (a & 1)) cont += (1 << i);
-                b ^= nemesis;
-                a >>= 1;
-            }  
-            cout << cont << '\n';  
+        vector<int> cols(k);
+        int c0 = 2e9, c1 = 0, a = 0, b = 0;
+        forn(i, k) {
+            cin >> cols[i];
+            c0 = min(c0, cols[i]);
+            c1 = max(c1, cols[i]);
         }
+        forn(i, k) {
+            if(cols[i] == c0) a++;
+            else b++;
+        }
+
+        auto fn = [&](vector<tuple<ll, int, int>> &elems, int a2, int b2) {
+            ll sum = 0;
+            set<int> hijo;
+            for(auto &[val, b, c] : elems) {
+                if(hijo.count(b)) continue;
+                if((c == 0 and a2) or (c and b2)) {
+                    hijo.insert(b);
+                    sum += dp[b][c];
+                    if(c == 0) a2--;
+                    else b2--;
+                }
+            }
+            return sum;
+        };
+
+        function<void(int, int)> dfs = [&](int s, int f) {
+            vector<tuple<ll, int, int>> elems;
+            for(int u : g[s]) {
+                if(u == f) continue; 
+                dfs(u, s);
+                elems.pb({dp[u][0] - dp[u][1], u, 1});
+                elems.pb({dp[u][1] - dp[u][0], u, 0});
+            }
+            sort(rall(elems));
+
+            dp[s][0] = fn(elems, a - 1, b) + c0;
+            dp[s][1] = fn(elems, a, b - 1) + c1;
+        };
+        
+        dfs(0, -1);
+        cout << min(dp[0][0], dp[0][1]) << '\n';
     }
 
 
