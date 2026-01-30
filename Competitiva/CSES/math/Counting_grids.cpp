@@ -17,6 +17,17 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+ll expMod(ll b, ll e, ll m) {  // O(log e)
+    if (e < 0) return 0;
+    ll ret = 1;
+    while (e) {
+        if (e & 1) ret = ret * b % m;  // ret = mulMod(ret,b,m); //if needed
+        b = b * b % m;                 // b = mulMod(b,b,m);
+        e >>= 1;
+    }
+    return ret % m;
+}
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,21 +36,14 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    auto check = [&](ll n, int pos) -> ll{
-        if(pos == 0) return n % 4 == 1 or n % 4 == 2;
-        else return (n / (1ll << pos)) % 2 == 1 and ((n + 1) % (1ll << pos)) % 2 == 1;
-    };
+    const int MOD = 1e9 + 7;
+    ll n; cin >> n;
+    n *= n;
+    if(n & 1) n--;
+    ll res = (expMod(2, n / 4 + 1, MOD) + expMod(2, n / 2, MOD) + expMod(2, n, MOD)) % MOD;
 
-    int n; cin >> n;
-    ll res = 0;
-    forn(i, n) {
-        ll a, b; cin >> a >> b; 
-        a--; b += a;
-        dfor(j, 60) res ^= (check(a, j) << j);
-        dfor(j, 60) res ^= (check(b, j) << j);
-    }
-
-    cout << (!res ? "bolik" : "tolik") << '\n';
+    if(n & 1) res = res * 2 % MOD;
+    cout << res * expMod(4, MOD - 2, MOD) % MOD << '\n';
 
     return 0;
 }

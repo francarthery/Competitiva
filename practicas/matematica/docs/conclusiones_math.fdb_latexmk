@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1767904237.61229 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1767904238.67695 0
+["pdflatex"] 1769643542.15078 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1769643543.45276 0
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763730183 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi375/ectt0800.pk" 1754869819 9920 21709eb24245a5e7626bc6e0b97d0a68 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi525/ectt0800.pk" 1754869817 13416 d5e94c1b49139ce2ce175271652075a4 ""
@@ -9,6 +9,7 @@
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm1200.pk" 1753921179 28440 6705fdbc6ed83116bf5b29efde9ff3dd ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm1728.pk" 1753921180 42516 c1178edb69914ad98fc48515293e7a92 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecti1000.pk" 1753921172 31892 cfb477a61824d9d33e5a075356265b38 ""
+  "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1769232771 11548 2741fc6511d0f15b3f1b59cc39509d97 ""
   "C:/Users/franc/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1753921119 13254313 63263d9438e95bd304229ea73f0e6d62 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecbx1000.tfm" 993061956 3200 328792ff19833a39406f06fa0555a6dc ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecbx1440.tfm" 993061960 3196 0b37fa3083e15c57cfa8c4ff52f2807a ""
@@ -23,6 +24,7 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecti1000.tfm" 993062320 2840 5606e1a681c23005308de9d61c09a8ff ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt0800.tfm" 993062338 1348 ad6a25e9916b0e5ddfcc7ffcb8d43448 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ectt1000.tfm" 993062340 1348 d70ddf2d5d512b838e50a335e385e919 ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/tcrm1000.tfm" 993062508 1436 c7f957a372ef2fbe93c0982f96625e12 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1233951848 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1233951848 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm" 1233951848 1120 7f9f170e8aa57527ad6c49feafd45d54 ""
@@ -69,6 +71,7 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1247596667 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1247596666 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1247596666 32716 08e384dc442464e7285e891af9f45947 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1247596673 31764 459c573c03a4949a528c2cc7f557e217 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -137,10 +140,10 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1749468414 13236 71253d8fde2c80ecebae7e3f7da0c2b0 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "conclusiones_math.aux" 1767904238 1528 cf5648d5c0f1fef1f4f5cae17be88f96 "pdflatex"
-  "conclusiones_math.out" 1767904238 1230 42cf1471e370e8f5d56e1cf5832d5b04 "pdflatex"
-  "conclusiones_math.tex" 1767904236 11657 e03ef454c230b26260b1fd368c963730 ""
-  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1767904236 11657 e03ef454c230b26260b1fd368c963730 ""
+  "conclusiones_math.aux" 1769643543 2100 a3ff9954135cbea38f149d7ac08e5c93 "pdflatex"
+  "conclusiones_math.out" 1769643543 1864 01e3776166d5e2b205111665b8a4e36f "pdflatex"
+  "conclusiones_math.tex" 1769643540 18696 a6d1d76bcae518dc6813d78ef45dbf94 ""
+  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1769643540 18696 a6d1d76bcae518dc6813d78ef45dbf94 ""
   (generated)
   "conclusiones_math.aux"
   "conclusiones_math.log"

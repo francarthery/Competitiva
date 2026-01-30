@@ -1,7 +1,23 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#define forr(i, a, n) for(int i = a; i < n; i++)
+#define forn(i, n) for(int i = 0; i < n; i++)
+#define dfor(i, n) for(int i = n - 1; i >= 0; i--)
+#define forall(it, v) for(auto it = v.begin(); it != v.end(); it++)
+#define pb push_back
+#define sz(a) ((int)a.size())
+#define all(x) (x).begin(),(x).end()
+#define rall(x) (x).rbegin(),(x).rend()
+#define dbg(x) cout << #x << " = " << (x) << endl
+#define vdbg(x) {cout << '['; for(auto i : x) cout << i << ", "; cout << "]\n";}
+#define fr first
+#define sc second
+
 using namespace std;
 
-const int N = 105, mod = 1e9 + 7;
+typedef long long ll;
+typedef pair<int, int> ii;
+
+const int mod = 1e9 + 7;
 
 int power(long long n, long long k) {
   int ans = 1 % mod; n %= mod; if (n < 0) n += mod;
@@ -12,6 +28,7 @@ int power(long long n, long long k) {
   }
   return ans;
 }
+
 int Gauss(vector<vector<int>> a, vector<int> &ans){
   int n = a.size(), m = (int)a[0].size() - 1;
   vector <int> pos(m, -1);
@@ -50,15 +67,25 @@ int Gauss(vector<vector<int>> a, vector<int> &ans){
   return free_var; //has solution
 }
 
-int32_t main() {
-  int n, m; cin >> n >> m;
-  vector<vector<int>> a(n, vector<int>(m + 1));
-  for(int i = 0; i < n; i++) for(int j = 0; j <= m; j++) cin >> a[i][j];
-  vector<int> ans;
-  int k = Gauss(a, ans);
-  if(k == -1) cout << "no solution\n";
-  else {
-    for (auto x: ans) cout << x << '\n';
-  }
-  return 0;
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    #ifdef fran
+        freopen("input.in", "r", stdin);
+        freopen("output.out", "w", stdout);
+    #endif
+
+    int n, m; cin >> n >> m;
+    vector<vector<int>> a(n, vector<int>(m + 1));
+    vector<int> ans(n);
+    forn(i, n) forn(j, m + 1) cin >> a[i][j];
+    
+    int res = Gauss(a, ans);
+    if(res == -1) cout << -1 << '\n';
+    else for(int i : ans) cout << i << ' ';
+    cout << '\n';
+
+
+    return 0;
 }

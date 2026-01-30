@@ -17,6 +17,19 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+const int MOD = 1e9 + 7;
+
+ll expMod(ll b, ll e, ll m = MOD) {  // O(log e)
+    if (e < 0) return 0;
+    ll ret = 1;
+    while (e) {
+        if (e & 1) ret = ret * b % m;  // ret = mulMod(ret,b,m); //if needed
+        b = b * b % m;                 // b = mulMod(b,b,m);
+        e >>= 1;
+    }
+    return ret;
+}
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,21 +38,11 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    auto check = [&](ll n, int pos) -> ll{
-        if(pos == 0) return n % 4 == 1 or n % 4 == 2;
-        else return (n / (1ll << pos)) % 2 == 1 and ((n + 1) % (1ll << pos)) % 2 == 1;
-    };
+    int n, m; cin >> n >> m;
+    ll sum = 0;
+    forn(i, n) sum = (sum + expMod(m, gcd(i, n))) % MOD; //Burnside Lemma
 
-    int n; cin >> n;
-    ll res = 0;
-    forn(i, n) {
-        ll a, b; cin >> a >> b; 
-        a--; b += a;
-        dfor(j, 60) res ^= (check(a, j) << j);
-        dfor(j, 60) res ^= (check(b, j) << j);
-    }
-
-    cout << (!res ? "bolik" : "tolik") << '\n';
+    cout << sum * expMod(n, MOD - 2) % MOD << '\n';
 
     return 0;
 }

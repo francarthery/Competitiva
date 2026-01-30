@@ -151,4 +151,78 @@ Nos piden la cantidad de secuencias de paréntesis validas de tamaño \textit{n}
 Donde el primer coeficiente es la cantidad de secuencias posibles sin restricción y el segundo es la cantidad de secuencias invalidas.
 En el caso del problema, siendo \textbf{k} la longitud de la secuencia que buscamos construir, debemos encontrar la cantidad de secuencias que tengan $\frac{k - s}{2}$ paréntesis de apertura y $\frac{k + s}{2}$ de ciere. Si hacemos el mismo razonamiento que con los números Catalanes (leer Laaksonen), de tomar el primer prefijo invalido e invertirlo, notamos que el primer prefijo invalido tiene: $apertura - cierre = -s - 1$ ya que tenemos que cerrar s parentesis que nos quedaron del prefijo. Invirtiendo el prefijo $apertura - cierre = s + 1$, Luego, la formula final queda:
 \[C_k = \binom{k}{\frac{k - s}{2}} - \binom{k}{\frac{k - s}{2} + s + 1}\]
+
+\section{Counting Necklaces}
+Nos piden la cantidad de formas distintas de construir un collar con \textit{n} cuentas de \textit{m} colores. Esto se resuelve con el \textbf{Burnside's Lemma} cuya formula es:
+\[\frac{1}{n}\sum_{k=1}^{n}c(k)\]
+Donde $c(k)$ es la cantidad de collares que quedan fijos al rotar el collar \textit{k} veces. La cantidad de collares que quedan fijos al rotar \textit{k} veces es $m^{gcd(n, k)}$ ya que al rotar \textit{k} veces van a quedar iguales los collares que esten compuestos de bloques iguales de tamaño $gcd(n, k)$. Entonces la formula final queda:
+\[\frac{1}{n}\sum_{k=1}^{n}m^{gcd(n, k)}\]
+Basicamente la logica de la formula es que, si cada collar tendria \textit{n} rotaciones distintas, el resultado seria $\frac{m^n}{n}$ pero como hay collares que son periodicos y tienen menos rotaciones distintas, si lo dividimos por \textit{n} estariamos contando menos de lo que hay. Para compensar esto, en lugar de elegir un denominador para cada collar en funcion de la cantidad de rotaciones distintas (seria complicado), hacemos que esos collares que tienen menos rotaciones distintas sumen mas de una vez (agrandamos el numerador lo cual es equivalente a reducir el denominador), compensando el resultado final.
+
+\section{Counting Grids}
+Nos piden la cantidad de formas de llenar una grilla de tamaño $n \times n$ donde cada cuadrado puede ser blanco o negro y dos grillas son consideradas distintas si no hay una rotacion que las vuelve iguales. Este problema es otro ejemplo del Burnside's Lemma.
+
+Siempre tenemos 4 rotaciones distintas que podemos hacer a la matriz.
+Para el caso de \textit{n} \textbf{par}, si giramos 90° o 270° tenemos $2^{\frac{n^2}{4}}$ combinaciones distintas ya que se podrian separar todas las celdas en grupos de 4 que si o si ser iguales porque estan en un mismo ciclo en las rotaciones.
+Si giramos 180° tenemos $2^{\frac{n^2}{2}}$ ya que ahora a las celdas las separamos en grupos de 2 que tienen que ser iguales. Por ultimo, para 0°, tenemos $2^{n^2}$ ya que todas las posibles grillas son distintas si no rotamos.
+
+Aplicando esto a la formula:
+\[\frac{1}{n}\sum_{k=1}^{n}c(k) = \frac{2^{n^2} + 2^{\frac{n^2}{4}} + 2^{\frac{n^2}{2}} + 2^{\frac{n^2}{4}}}{4}\]
+
+Por ultimo, para el caso de \textit{n} \textbf{impar}, la celda del medio no es afectada por las rotaciones por lo que la forma mas simple de pensarlo (para mi xd) es restar 1 a $n^2$ olvidandonos del elemento central, hacemos exactamente lo mismo que si n fuera par, y al final, multiplicar por 2 todas las combinaciones anteriores ya que el elemento central puede ser blanco o negro siempre:
+\[\frac{1}{n}\sum_{k=1}^{n}c(k) = \frac{2^{n^2 - 1} + 2^{\frac{n^2 - 1}{4}} + 2^{\frac{n^2 - 1}{2}} + 2^{\frac{n^2 - 1}{4}}}{2}\]
+
+\section{Throwing Dice}
+Nos piden la cantidad de maneras de obtener un numero $n \leq 10^{18}$ tirando un dado. El problema se resuelve mediante \textit{exponenciacion de matrices}.
+
+La clave es que el problema se puede expresar como una \textbf{recurrencia lineal}
+\[f(n) = f(n - 1) + f(n - 2) + f(n - 3) + f(n - 4) + f(n - 5) + f(n - 6)\]
+
+Si tenemos una recurrencia lineal de la forma:
+\[f(n) = c_1f(n - 1) + c_2f(n - 2)+ \dots +c_kf(n - k)\]
+
+Siempre existe una matriz $X$ tal que 
+\[X \cdot \begin{bmatrix} f(i) \\ f(i+1) \\ \vdots \\ f(i+k-1) \end{bmatrix} = \begin{bmatrix} f(i+1) \\ f(i+2) \\ \vdots \\ f(i+k) \end{bmatrix}\]
+
+La forma general de esta matriz es:
+\[X = \begin{bmatrix} 
+0 & 1 & 0 & \cdots & 0 \\ 
+0 & 0 & 1 & \cdots & 0 \\ 
+\vdots & \vdots & \vdots & \ddots & \vdots \\ 
+0 & 0 & 0 & \cdots & 1 \\ 
+c_k & c_{k-1} & c_{k-2} & \cdots & c_1 
+\end{bmatrix}\]
+
+Es decir, al multiplicar el vector de los valores actuales por $X$, lo que hacemos es correr todos los valores una posicion hacia arriba y calcular el nuevo valor de la ultima posicion usando la recurrencia.
+
+La magia de esto es que si queremos avanzar \textit{m} posiciones, usando exponenciacion de matrices podemos calcular $X^m$ en $O(k^3 \log m)$ y luego multiplicar $X^m$ por el vector inicial para obtener el valor en la posicion deseada.
+Para nuestro problema especifico, la matriz queda:
+\[X = \begin{bmatrix}
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1
+\end{bmatrix}\]
+
+\section{Graph Paths 2}
+Nos piden, dado un grafo, el largo minimo de un camino que vaya desde el nodo 1 al $n$ con exactamente \textit{k} aristas. El problema se resuelve con exponenciacion de matrices similar al anterior.
+
+Lo interesante aca es que hay que modificar la operacion de multiplicacion de matrices. En lugar de hacer una suma de productos para calcular cantidad de formas de comunicar dos nodos (lo clasico), tenemos que hacer un minimo entre sumas. Es decir, si tenemos dos matrices $A$ y $B$, la multiplicacion modificada seria:
+\[C_{i,j} = \min_{k}(A_{i,k} + B_{k,j})\]
+
+De esta manera, en todo momento llevamos el camino minimo entre dos nodos. Al hacer la exponenciacion de matrices con esta nueva operacion, en la posicion (1, n) de la matriz resultante vamos a tener el camino minimo entre el nodo 1 y el nodo n con exactamente \textit{k} aristas.
+
+\section{Sum of Four Squares}
+Nos dan 1000 queries donde nos pasan un numero $n \leq 10^7$ y tenemos que dar cuatro enteros positivos $a, b, c, d$ tales que $n = a^2 + b^2 + c^2 + d^2$. Por el teorema de Lagrange, sabemos que siempre existe una solucion para cualquier numero natural. 
+
+Otro dato importante es que por otro teorema, sabemos que un numero se puede expresar como suma de tres cuadrados si y solo si no es de la forma $4^a(8b + 7)$, es decir, es muy poco comun.
+
+Una solucion es primero precalcular todas las posibles duplas $(a, b)$ tales que $a^2 + b^2 \leq 10^7$. Con esto, iterando con $i$ hasta $\sqrt{n}$ podemos saber si un numero $x$ se puede expresar como suma de tres cuadrados buscando si $x - i^2$ existe en las duplas precalculadas.
+
+La observacion clave esta en que como los numeros que si o si necesitan 4 cuadrados son poco comunes, podemos iterar ese 4to cuadrado $d$ y por cada intento probar si el numero restante $n - d^2$ se puede expresar como suma de tres cuadrados en $O(\sqrt{n})$. Es altisimamente probable que encontremos una solucion en pocos intentos, por lo que la solucion es eficiente en la practica.
+
+Especificamente, entre 0 y $10^7$ hay 100 numeros que necesitan mas mas de 65 iteraciones para encontrar la solucion y si agarran los peores 1000 numeros la cantidad de iteraciones promedio entre queries es 29. Una curiosidad es que si en las primeras $2^k + 1$ iteraciones no encontramos la solucion, hay que ir directo a la iteración $2^{k + 1} + 1$ ya que en base a la obervacion veo que en el medio nunca encuentra solucion (no se porque). Aunque da perfecto en tiempo la solucion original, en base a esta observacion se podria optimizar solo iterando potencias de 2, logrando un maximo de 10 iteraciones en el peor caso.
+
 \end{document}

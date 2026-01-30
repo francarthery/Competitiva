@@ -25,21 +25,28 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    auto check = [&](ll n, int pos) -> ll{
-        if(pos == 0) return n % 4 == 1 or n % 4 == 2;
-        else return (n / (1ll << pos)) % 2 == 1 and ((n + 1) % (1ll << pos)) % 2 == 1;
-    };
+    int t; cin >> t;
+    while(t--){
+        int n, h, l; cin >> n >> h >> l;
+        if(h < l) swap(h, l);
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
+        sort(rall(v));
+        int ini = 0, ans = 0;
 
-    int n; cin >> n;
-    ll res = 0;
-    forn(i, n) {
-        ll a, b; cin >> a >> b; 
-        a--; b += a;
-        dfor(j, 60) res ^= (check(a, j) << j);
-        dfor(j, 60) res ^= (check(b, j) << j);
+        while(ini < sz(v) - 1){
+            if(v[ini] > h) ini++;
+            else if(v.back() > l) v.pop_back();
+            else {
+                ans++;
+                ini++;
+                v.pop_back();
+            }
+        }
+        cout << ans << '\n';
     }
 
-    cout << (!res ? "bolik" : "tolik") << '\n';
+
 
     return 0;
 }

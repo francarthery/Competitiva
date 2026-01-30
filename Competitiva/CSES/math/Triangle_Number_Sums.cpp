@@ -25,21 +25,30 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    auto check = [&](ll n, int pos) -> ll{
-        if(pos == 0) return n % 4 == 1 or n % 4 == 2;
-        else return (n / (1ll << pos)) % 2 == 1 and ((n + 1) % (1ll << pos)) % 2 == 1;
-    };
-
-    int n; cin >> n;
-    ll res = 0;
-    forn(i, n) {
-        ll a, b; cin >> a >> b; 
-        a--; b += a;
-        dfor(j, 60) res ^= (check(a, j) << j);
-        dfor(j, 60) res ^= (check(b, j) << j);
+    vector<ll> nums{1}; //https://en.wikipedia.org/wiki/Fermat_polygonal_number_theorem
+    ll sum = 2;
+    while(nums.back() <= 1e12) {
+        nums.pb(nums.back() + sum++);
     }
 
-    cout << (!res ? "bolik" : "tolik") << '\n';
+    int t; cin >> t;
+    while(t--) {
+        ll n; cin >> n;
+        int ans = (binary_search(all(nums), n) ? 1 : 3); 
+        int r = upper_bound(all(nums), n) - nums.begin();
+
+        if(ans > 1) forn(i, sz(nums)) {
+            while(i <= r and nums[i] + nums[r] > n) r--;
+            if(nums[i] + nums[r] == n) {
+                ans = 2;
+                break;
+            } 
+            if(i > r) break;
+        }
+
+        cout << ans << '\n';
+    }
+
 
     return 0;
 }

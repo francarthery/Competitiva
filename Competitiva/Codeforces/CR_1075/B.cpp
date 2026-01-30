@@ -15,7 +15,7 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> ii;
+typedef pair<ll, ll> ii;
 
 int main(){
     ios::sync_with_stdio(0);
@@ -25,21 +25,30 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    auto check = [&](ll n, int pos) -> ll{
-        if(pos == 0) return n % 4 == 1 or n % 4 == 2;
-        else return (n / (1ll << pos)) % 2 == 1 and ((n + 1) % (1ll << pos)) % 2 == 1;
-    };
+    int t; cin >> t;
+    while(t--){
+        ll n, x; cin >> n >> x;
+        vector<ll> a(n), b(n), c(n);
+        forn(i, n) cin >> a[i] >> b[i] >> c[i];
 
-    int n; cin >> n;
-    ll res = 0;
-    forn(i, n) {
-        ll a, b; cin >> a >> b; 
-        a--; b += a;
-        dfor(j, 60) res ^= (check(a, j) << j);
-        dfor(j, 60) res ^= (check(b, j) << j);
+        ll neto = 0;
+        forn(i, n) {
+            x -= a[i] * (b[i] - 1);
+            neto = max(neto, a[i] * b[i] - c[i]);
+        }
+
+        if(x <= 0) {
+            cout << 0 << '\n';
+            continue;
+        }
+        
+        if(neto <= 0) {
+            cout << -1 << '\n';
+            continue;
+        }
+
+        cout << (x + neto - 1) / neto << '\n';
     }
-
-    cout << (!res ? "bolik" : "tolik") << '\n';
 
     return 0;
 }
