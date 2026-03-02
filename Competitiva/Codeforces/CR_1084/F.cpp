@@ -17,6 +17,24 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+struct SparseTable{ //nlog(n) tiempo y memoria. Sirve para operaciones idempotentes.
+    int N, K;
+    vector<vector<int>> st;
+    SparseTable(int n) : N(n), K(__lg(n) + 1) {
+        st.assign(K, vector<int>(N));
+    }
+    void build(vector<ii> &v){
+        forn(i, N) st[0][i] = v[i].sc;
+        forn(i, K - 1) for(int j = 0; j + (1 << (i + 1)) <= N; j++){
+            st[i + 1][j] = max(st[i][j], st[i][j + (1 << i)]); 
+        }
+    }    
+    int query(int l, int r) { // [l, r)
+        int i = __lg(r - l);
+        return max(st[i][l], st[i][r - (1 << i)]);
+    };
+};
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -27,32 +45,22 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        ll s, m; cin >> s >> m;
-        if(__builtin_ctz(s) < __builtin_ctz(m)){
-            cout << -1 << '\n';
-            continue;
-        }
-        ll ans = 0;
-        vector<int> sts, stm;
-        forn(i, 63) if(s & (1ll << i)) sts.pb(i);
-        forn(i, 63) if(m & (1ll << i)) stm.pb(i);
+        int n, m; cin >> n >> m;
+        vector<ii> v(n);
+        forn(i, n) cin >> v[i].sc >> v[i].fr;
+        sort(all(v));
+        SparseTable sp(n);
+        sp.build(v);
+        set<ii> sums;
 
-        while(sz(sts)){
-            while(sz(stm) and stm.back() > sts.back()) {
-                m &= ~(1ll << stm.back());
-                stm.pop_back();
-            }
-            ans = max(ans, (s + m - 1) / m);
-            m &= ~(1ll << stm.back());
-            
-            while(sz(sts) and sts.back() >= stm.back()){
-                s ^= (1ll << sts.back());
-                sts.pop_back();
-            }
-        }
+        ll best = 0;
+        
 
-        cout << ans << '\n';
+
+        vector<int> comp(n);
+
     }
+
 
 
     return 0;

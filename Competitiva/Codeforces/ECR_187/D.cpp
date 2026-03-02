@@ -27,32 +27,26 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        ll s, m; cin >> s >> m;
-        if(__builtin_ctz(s) < __builtin_ctz(m)){
-            cout << -1 << '\n';
-            continue;
+        int n, m; cin >> n >> m;
+        vector<int> b(m), frec(n + m + 1), c(n + m + 1);
+        forn(i, n){ 
+            int x; cin >> x;
+            frec[x]++;
         }
-        ll ans = 0;
-        vector<int> sts, stm;
-        forn(i, 63) if(s & (1ll << i)) sts.pb(i);
-        forn(i, 63) if(m & (1ll << i)) stm.pb(i);
+        forn(i, m) cin >> b[i];
 
-        while(sz(sts)){
-            while(sz(stm) and stm.back() > sts.back()) {
-                m &= ~(1ll << stm.back());
-                stm.pop_back();
-            }
-            ans = max(ans, (s + m - 1) / m);
-            m &= ~(1ll << stm.back());
-            
-            while(sz(sts) and sts.back() >= stm.back()){
-                s ^= (1ll << sts.back());
-                sts.pop_back();
-            }
+        ll ca = 0, cb = 0;
+        
+        forn(i, n + m + 1) if(frec[i]) for(int j = i; j <= n + m; j += i) c[j] += frec[i];
+        forn(i, m) {
+            if(!c[b[i]]) cb++;
+            else if(c[b[i]] == n) ca++;
         }
 
-        cout << ans << '\n';
+        if(ca > cb or (ca == cb and (m - ca - cb) % 2)) cout << "Alice\n";
+        else cout << "Bob\n";
     }
+
 
 
     return 0;

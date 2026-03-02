@@ -225,4 +225,16 @@ La observacion clave esta en que como los numeros que si o si necesitan 4 cuadra
 
 Especificamente, entre 0 y $10^7$ hay 100 numeros que necesitan mas mas de 65 iteraciones para encontrar la solucion y si agarran los peores 1000 numeros la cantidad de iteraciones promedio entre queries es 29. Una curiosidad es que si en las primeras $2^k + 1$ iteraciones no encontramos la solucion, hay que ir directo a la iteración $2^{k + 1} + 1$ ya que en base a la obervacion veo que en el medio nunca encuentra solucion (no se porque). Aunque da perfecto en tiempo la solucion original, en base a esta observacion se podria optimizar solo iterando potencias de 2, logrando un maximo de 10 iteraciones en el peor caso.
 
+\section{Triangle Number Sums}
+Nos dan 100 queries donde nos pasan un numero $n \leq 10^{12}$ y tenemos que decir la minima cantidad de numeros triangulares cuya suma de como resultado $n$. Un numero triangular es un numero de la forma $1 + 2+ \dots + k$.
+
+Lo curioso de este problema es que existe un teorema (Eureka de Gauss) que dice que cualquier numero natural se puede expresar como suma de \textbf{3} numeros triangulares. Entonces, la respuesta al problema siempre va a ser 1, 2 o 3 por lo que podemos calcular los numeros triangulares hasta $10^{12}$ (son $1.4 \cdot 10^6$ aproximadamente) y para cada query nos fijamos con una binaria si \textbf{n} es triangular (respuesta 1), luego hacemos un 2SUM para ver si se puede hacer con 2, y si no pudimos la respuesta es 3.
+
+Lo mas lechugero del problema, que se vincula con el problema anterior, es que hay un teorema llamado el \href{https://en.wikipedia.org/wiki/Fermat_polygonal_number_theorem}{\textbf{Fermat polygonal number theorem}} que generaliza el teorema de Lagrange (problema 14) y el Eureka de Gauss el cual establece que cualquier numero natural se puede expresar como suma de \textbf{k} numeros poligonales de \textbf{k} lados. Un numero poligonal de \textbf{k} lados es un numero de la forma:
+\[P(k, n) = \frac{(k - 2)n^2 - (k - 4)n}{2}\]
+
+Cuando $k = 3$ obtenemos los numeros triangulares (si reemplazamos $k = 3$ en la formula de arriba tenemos la suma de Gauss) y cuando $k = 4$ obtenemos los numeros cuadrados ($n^2$). 
+
+No solo existen los numeros triangulares y cuadrados, sino que tambien existen los pentagonales, hexagonales, etc. Por ejemplo, los primeros \href{https://en.wikipedia.org/wiki/Pentagonal_number}{\textbf{numeros pentagonale}s} son: 1, 5, 12, 22, 35, 51, 70, 92, ...
+
 \end{document}

@@ -27,31 +27,27 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        ll s, m; cin >> s >> m;
-        if(__builtin_ctz(s) < __builtin_ctz(m)){
-            cout << -1 << '\n';
-            continue;
+        string s; cin >> s;
+        map<int, int> frec;
+        int sum = 0;
+        for(char c : s) {
+            frec[-(c - '0')]++;
+            sum += c - '0';
         }
-        ll ans = 0;
-        vector<int> sts, stm;
-        forn(i, 63) if(s & (1ll << i)) sts.pb(i);
-        forn(i, 63) if(m & (1ll << i)) stm.pb(i);
 
-        while(sz(sts)){
-            while(sz(stm) and stm.back() > sts.back()) {
-                m &= ~(1ll << stm.back());
-                stm.pop_back();
-            }
-            ans = max(ans, (s + m - 1) / m);
-            m &= ~(1ll << stm.back());
-            
-            while(sz(sts) and sts.back() >= stm.back()){
-                s ^= (1ll << sts.back());
-                sts.pop_back();
+        int rta = 0;
+        for(auto i : frec) {
+            if(sum < 10) break;
+            forn(j, i.sc) {
+                if(j < i.sc - 1) sum += i.fr;
+                else if(j == i.sc - 1 and s[0] - '0' != -i.fr) sum += i.fr;
+                else sum += (i.fr + 1);
+                rta++;
+                if(sum < 10) break;
             }
         }
 
-        cout << ans << '\n';
+        cout << rta << '\n';
     }
 
 

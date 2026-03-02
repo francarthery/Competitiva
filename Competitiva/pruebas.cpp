@@ -25,22 +25,8 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    vector<int> v(1000);
-    forn(i, 1000) cin >> v[i];
-
-    double cant = 0, nums;
-    dfor(i, 999) {
-        cant += v[i] * (i + 1);
-        nums += v[i];
-        if(nums > 1000) {
-            cant -= (nums - 1000) * (i + 1);
-            break; 
-        }
-    }
-
-    cout << cant / 1000 << '\n';
-    // forn(i, 1000) cout << v[i] << '\n';
-
+    int v[3];
+    cout << 3[v] << '\n';
 
     return 0;
 }
