@@ -26,9 +26,16 @@ int main(){
     #endif
 
     int n; cin >> n;
-    vector<int> v(n);
+    vector<int> v(n), a;
+    map<int, vector<int>> m;
     forn(i, n) cin >> v[i];
-    forn(i, n) cout << v[i] << '\n';
 
+    forn(i, n) m[v[i]].pb(i);
+    for(auto i : m){
+        cout << i.fr << " -- ";
+        for(int j : i.sc) cout << j << ' ';
+        cout << '\n';
+    }
+    
     return 0;
 }
