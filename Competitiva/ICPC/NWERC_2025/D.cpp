@@ -17,6 +17,8 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+const long double pi = acos(-1);
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,10 +27,19 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n; cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    forn(i, n) cout << v[i] << '\n';
+    ll n; cin >> n;
+
+    priority_queue<pair<long double, int>> ans;
+
+    int mid = n / 2;
+    while(gcd(mid, n) != 1) mid--;
+    ans.push({n * sinl(pi / 2), mid});
+
+    mid = n / 2;
+    while(gcd(mid, n) != 1) mid++;
+    ans.push({n * sinl(pi / 2), mid});
+
+    cout << ans.top().sc << '\n';
 
     return 0;
 }

@@ -14,8 +14,16 @@
 
 using namespace std;
 
+typedef long double ld;
 typedef long long ll;
 typedef pair<int, int> ii;
+
+vector<ld> fact(34);
+
+ld comb(ll n, ll k) {
+  if (k < 0 || n < k) return 0;
+  return fact[n] / (fact[k] * fact[n - k]);
+}
 
 int main(){
     ios::sync_with_stdio(0);
@@ -26,9 +34,30 @@ int main(){
     #endif
 
     int n; cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    forn(i, n) cout << v[i] << '\n';
+    string s; cin >> s;
+    int a = 0, b = 0, c = 0;
+    for(char x : s) {
+        if(x == 'r') a++;
+        else if(x == 'g') b++;
+        else c++;
+    }
+    if(b <= c and b <= a) swap(a, b);
+    else if(c <= b and c <= a) swap(a, c);
+    if(c <= b) swap(b, c);
+
+    cout << fixed << setprecision(8);
+    if(a == 0) {
+        cout << 3.0 * b << '\n';
+        return 0;
+    }
+
+    fact[0] = 1;
+    forr(i, 1, 34) fact[i] = fact[i - 1] * i;
+
+    ld ans = (3/2.0) * a;
+    forn(i, a + 1) ans += (comb(a, i) * 3 * min(b + i, c + (a - i))) / (ld)(1ll << a);
+    
+    cout << ans << '\n';
 
     return 0;
 }

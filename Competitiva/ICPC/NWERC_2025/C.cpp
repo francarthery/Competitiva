@@ -26,9 +26,35 @@ int main(){
     #endif
 
     int n; cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    forn(i, n) cout << v[i] << '\n';
+    vector<vector<ii>> g(n);
+    int a, b, c;
+    forn(i, n - 1) {
+        cin >> a >> b >> c; a--; b--;
+        g[a].pb({b, c});
+        g[b].pb({a, c});
+    }
+
+    int m; cin >> m;
+    vector<int> dg(n);
+    forn(i, m) {
+        cin >> a >> b; a--; b--;
+        dg[a]++; dg[b]++;
+    }
+
+    ll ans = 0;
+    function<bool(int, int)> dfs = [&](int s, int f) -> bool {
+        int par = dg[s];
+        for(auto [u, c] : g[s]){
+            if(u == f) continue;
+            int uso = dfs(u, s);
+            if(uso) ans += c;
+            par += uso; 
+        }
+        return par & 1;
+    };
+
+    dfs(0, -1);
+    cout << ans << '\n';
 
     return 0;
 }
