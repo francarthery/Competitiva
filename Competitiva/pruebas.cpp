@@ -25,8 +25,17 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int v[3];
-    cout << 3[v] << '\n';
+    int n; cin >> n;
+    vector<int> v(n), a;
+    map<int, vector<int>> m;
+    forn(i, n) cin >> v[i];
 
+    forn(i, n) m[v[i]].pb(i);
+    for(auto i : m){
+        cout << i.fr << " -- ";
+        for(int j : i.sc) cout << j << ' ';
+        cout << '\n';
+    }
+    
     return 0;
 }
