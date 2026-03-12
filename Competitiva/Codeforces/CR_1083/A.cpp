@@ -23,25 +23,25 @@ int main(){
     #ifdef fran
         freopen("input.in", "r", stdin);
         freopen("output.out", "w", stdout);
-    #endif  
+    #endif
 
-    int n; string s;
-    cin >> n >> s;
-    vector<vector<int>> dp(n + 1, vector<int>(n, 1e9));
-
-    forn(i, n) dp[1][i] = 1;
-
-    forr(i, 2, n + 1) {
-        forn(j, n - i + 1) {
-            forr(k, 1, i) {
-                int tam = dp[k][j];
-                if(i % k or s.substr(j, i-k) != s.substr(j+k,i-k)) tam += dp[i - k][j + k];
-                dp[i][j] = min(dp[i][j], tam);
+    int t; cin >> t;
+    while(t--) {
+        int n; cin >> n;
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
+        forn(i, n) {
+            if(v[i] == n) {
+                swap(v[i], v[0]);
+                break;
             }
         }
+
+        for(int i : v) cout << i << ' ';
+        cout << '\n';
     }
 
-    cout << dp[n][0] << '\n';
+
 
     return 0;
 }

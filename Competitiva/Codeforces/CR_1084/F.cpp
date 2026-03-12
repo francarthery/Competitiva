@@ -16,24 +16,7 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> ii;
-
-struct SparseTable{ //nlog(n) tiempo y memoria. Sirve para operaciones idempotentes.
-    int N, K;
-    vector<vector<int>> st;
-    SparseTable(int n) : N(n), K(__lg(n) + 1) {
-        st.assign(K, vector<int>(N));
-    }
-    void build(vector<ii> &v){
-        forn(i, N) st[0][i] = v[i].sc;
-        forn(i, K - 1) for(int j = 0; j + (1 << (i + 1)) <= N; j++){
-            st[i + 1][j] = max(st[i][j], st[i][j + (1 << i)]); 
-        }
-    }    
-    int query(int l, int r) { // [l, r)
-        int i = __lg(r - l);
-        return max(st[i][l], st[i][r - (1 << i)]);
-    };
-};
+typedef tuple<int, int, int> iii;
 
 int main(){
     ios::sync_with_stdio(0);
@@ -45,20 +28,63 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        int n, m; cin >> n >> m;
+        int n, m, ind = 0; cin >> n >> m;
         vector<ii> v(n);
-        forn(i, n) cin >> v[i].sc >> v[i].fr;
-        sort(all(v));
-        SparseTable sp(n);
-        sp.build(v);
-        set<ii> sums;
+        forn(i, n) cin >> v[i].fr >> v[i].sc;
+        sort(rall(v));
+        map<int, vector<int>> pos; //numero, indices.
 
-        ll best = 0;
+        ll bestSolo = 0; 
+        vector<ll> best(n + 1);
         
+        forn(i, n) {
+            pos[v[i].sc].pb(i);
+            if(v[i].sc == 0) {
+                bestSolo = max(bestSolo, (ll)v[i].fr);
+                v[i].fr = -1;
+            }
+        }
 
+        ll borre1 = 0, borre2 = 0, sum1 = 0, sum2 = 0, it1 = -1, it2 = -1;
 
-        vector<int> comp(n);
+        auto jump = [&](ll &it, ll &sum) {
+            if(it < n) it++;
+            while(it < n and v[it].fr == -1) it++; 
+            if(it < n) sum += v[it].fr;
+        };
 
+        bool prim = true;
+        forr(i, 1, n + 1) {
+            forn(j, borre1) jump(it1, sum1);
+            forn(j, borre2) jump(it2, sum2);
+
+            jump(it1, sum1);
+            jump(it2, sum2);
+
+            if(prim) {
+                jump(it1, sum1); //El solo.
+                prim = false;
+            }
+
+            bestSolo = max(bestSolo, sum1);
+            best[i] = max(best[i - 1], sum2);
+
+            borre1 = borre2 = 0;
+            for(auto j : pos[i]) {
+                if(j <= it1) sum1 -= v[j].fr, borre1++;
+                if(j <= it2) sum2 -= v[j].fr, borre2++;
+                v[j].fr = -1;
+            }
+        }
+
+        forn(i, m) {
+            ll a, b, ma = bestSolo;
+            cin >> a >> b;
+            if(!b) ma = max(ma, a);
+            else ma = max(ma, best[b] + a);
+            cout << ma << ' ';
+        }
+        cout << '\n';
     }
 
 
