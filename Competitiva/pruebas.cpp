@@ -1,35 +1,57 @@
 #include <bits/stdc++.h>
-#define forr(i, a, n) for(int i = a; i < n; i++)
-#define forn(i, n) for(int i = 0; i < n; i++)
-#define dfor(i, n) for(int i = n - 1; i >= 0; i--)
-#define forall(it, v) for(auto it = v.begin(); it != v.end(); it++)
-#define pb push_back
-#define sz(a) ((int)a.size())
-#define all(x) (x).begin(),(x).end()
-#define rall(x) (x).rbegin(),(x).rend()
-#define dbg(x) cout << #x << " = " << (x) << endl
-#define vdbg(x) {cout << '['; for(auto i : x) cout << i << ", "; cout << "]\n";}
-#define fr first
-#define sc second
-
+#define forr(i,a,b) for(int i=a;i<b;i++)
+#define forn(i,n) forr(i,0,n)
+#define sz(stru) (int(stru.size()))
+#define all(stru) stru.begin(), stru.end()
+#define dbg(x) cout<<#x<<" "<<x<<" ";
+#define ws <<" "<<
+#define nl cout<<"\n";
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> ii;
+typedef pair<int,int> ii;
+
+int N=2e5+10;
+int SQR=round(sqrt(N));
+vector<deque<int>> vec;
+
+void insert(int i, int x}{
+    int num_dq = i/SQR;
+    int num_ar = i%SQR;
+    vec[num_dq].insert(vec[num_dq].begin()+num_ar, x);
+    while(sz(vec[num_dq])>SQR){
+        if(num_dq+1>=sz(vec)){
+            vec.push_back(deque<int>());
+        }
+        while(sz(vec[num_dq])>SQR){
+            vec[num_dq+1].push_front(vec[num_dq].back());
+            vec[num_dq].pop_back();
+        }
+        num_dq++;
+    }
+}
+
+void del(int i){
+    int num_dq = i/SQR;
+    int num_ar = i%SQR;
+    vec[num_dq].erase(vec[num_dq].begin()+num_ar);
+    while(sz(vec)==SQR-1){
+        if(num_dq+1>=sz(vec)){
+            break;
+        }
+        while(sz(vec[num_dq])<SQR){
+            vec[num_dq].push_back(vec[num_dq+1].front());
+            vec[num_]
+        }
+    }
+}
+
+
 
 int main(){
-    ios::sync_with_stdio(0);
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
-    #ifdef fran
-        freopen("input.in", "r", stdin);
-        freopen("output.out", "w", stdout);
-    #endif
 
-    int n; cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    forn(i, n) cout << v[i] << ' ';
-    cout << '\n';
 
 
     return 0;

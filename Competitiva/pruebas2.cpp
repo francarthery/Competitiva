@@ -28,7 +28,7 @@ int main(){
     int n; cin >> n;
     vector<int> v;
     cout << v.back() << '\n';
-
+    
 
     return 0;
 }
