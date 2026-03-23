@@ -62,11 +62,13 @@ int main(){
             forn(i, sz(jug[u])) jug[s].pb(jug[u][i]);
         }
 
-        if(pos[s]) jug[s].pb({pos[s], dist[s]});
+        if(pos[s] != -1) jug[s].pb({pos[s], dist[s]});
         
         if(chk[s]) {
             sort(all(jug[s]), [&](ii &a, ii &b) {
-                return (a.sc - dist[s]) * spd[a.fr] < (b.sc - dist[s] * spd[b.fr]);
+                if((a.sc - dist[s]) * spd[a.fr] != (b.sc - dist[s]) * spd[b.fr])
+                    return (a.sc - dist[s]) * spd[a.fr] < (b.sc - dist[s]) * spd[b.fr];
+                else return spd[a.fr] < spd[b.fr];
             });
             
             while(sz(jug[s]) > k) {
