@@ -17,22 +17,6 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-const int MAXN = 6001;
-int n; 
-vector<int> vals;
-int dp[MAXN][MAXN];
-
-int solve(int l, int r) {
-    if(l + r == n) return dp[l][r] = vals[l];
-
-    if(dp[l][r] != -1) return dp[l][r];
-
-    int izq = vals[l] + solve(l+1, r);
-    int der = solve(l, r-1) + vals[r];
-
-
-}
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -41,16 +25,33 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int t; cin >> t;
-    while(t--){
-        string s; cin >> n >> s;
-        vals.resize(n);
-        forn(i, n) vals[i] = (s[i] == ')' ? -1 : 1);
-        memset(dp, -1, sizeof(dp));
+    int n, e; cin >> n >> e;
+    vector<string> v(n);
+    forn(i, n) cin >> v[i];
 
-        solve(0, 0);
+    string ans;
+    forn(c, e) {
+        vector<int> ind(n);
+        int fallo = -1;
+        forn(i, 1005) {
+            bool anduvo = false;
+            forn(j, n) {
+                if(v[j][ind[j] % sz(v[j])] == c + 'a') {
+                    ind[j]++;
+                    anduvo = true;
+                    break;
+                }
+            }
+            if(!anduvo) {
+                fallo = i+1;
+                break;
+            }
+        }
+        if(fallo != -1 and (fallo < sz(ans) or sz(ans) == 0)) ans = string(fallo, c + 'a'); 
     }
 
+    if(sz(ans)) cout << ans << '\n';
+    else cout << "NO\n";
 
 
     return 0;

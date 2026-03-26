@@ -17,22 +17,6 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-const int MAXN = 6001;
-int n; 
-vector<int> vals;
-int dp[MAXN][MAXN];
-
-int solve(int l, int r) {
-    if(l + r == n) return dp[l][r] = vals[l];
-
-    if(dp[l][r] != -1) return dp[l][r];
-
-    int izq = vals[l] + solve(l+1, r);
-    int der = solve(l, r-1) + vals[r];
-
-
-}
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -43,12 +27,15 @@ int main(){
 
     int t; cin >> t;
     while(t--){
-        string s; cin >> n >> s;
-        vals.resize(n);
-        forn(i, n) vals[i] = (s[i] == ')' ? -1 : 1);
-        memset(dp, -1, sizeof(dp));
+        int n; string s; cin >> n >> s;
+        int prim = 
 
-        solve(0, 0);
+        vector<int> vals(n);
+        forn(i, n) vals[i] = (s[i] == ')' ? -1 : 1);
+
+        vector<vector<int>> dp(n+1, vector<int>(n+1));
+        
+
     }
 
 

@@ -17,22 +17,6 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-const int MAXN = 6001;
-int n; 
-vector<int> vals;
-int dp[MAXN][MAXN];
-
-int solve(int l, int r) {
-    if(l + r == n) return dp[l][r] = vals[l];
-
-    if(dp[l][r] != -1) return dp[l][r];
-
-    int izq = vals[l] + solve(l+1, r);
-    int der = solve(l, r-1) + vals[r];
-
-
-}
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -41,16 +25,34 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int t; cin >> t;
-    while(t--){
-        string s; cin >> n >> s;
-        vals.resize(n);
-        forn(i, n) vals[i] = (s[i] == ')' ? -1 : 1);
-        memset(dp, -1, sizeof(dp));
 
-        solve(0, 0);
+    int n; cin >> n;
+
+    vector<int> v(n);
+    forn(i, n){
+        string s; cin >> s;
+        string aux;
+        for (char e : s){
+            if(e == ':'){
+                v[i]+= stoi(aux) * 60;
+                aux = "";
+                continue;
+            }
+            aux+= e;
+        }
+        v[i]+= stoi(aux);
     }
 
+    sort(all(v));
+
+    int ans = 0;
+    forn(i, n){
+        if(i + 2 < n and v[i + 2] - v[i] <= 10) ans = 3;
+        else if(i + 1 < n and v[i + 1] - v[i] <= 10) ans = max(ans, 2);
+        else ans = max(ans, 1);
+    }
+
+    cout << 3 - ans << '\n';
 
 
     return 0;
