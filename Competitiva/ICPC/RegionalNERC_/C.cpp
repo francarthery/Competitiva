@@ -17,6 +17,25 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+<<<<<<< HEAD
+const int MAXN = 6001;
+int n; 
+vector<int> vals;
+int dp[MAXN][MAXN];
+
+int solve(int l, int r) {
+    if(l + r == n) return dp[l][r] = vals[l];
+
+    if(dp[l][r] != -1) return dp[l][r];
+
+    int izq = vals[l] + solve(l+1, r);
+    int der = solve(l, r-1) + vals[r];
+
+
+}
+
+=======
+>>>>>>> e3308e078544d12f97ac7217ecf9f9eceb982eba
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
