@@ -40,21 +40,21 @@
 }
 \lstset{style=codestyle}
 
-\title{Tips matematica}
+\title{Conclusiones sección math CSES}
 \author{Francisco Carthery}
 
 \begin{document}
 
 \maketitle
 
-\section{Counting Divisors}
+\section{\href{https://cses.fi/problemset/task/1713}{Counting Divisors}}
 Si tenemos varias queries donde debemos calcular la cantidad de divisores de un numero podemos:
 \begin{itemize}
     \item Usar la funcion $\tau$ factorizando cada numero. Complejidad $\bm{O(nlog(n))}$ precalculando la criba o $\bm{O(n \sqrt{n})}$
     \item Creamos un vector del tamaño del maximo numero que podemos recibir (\textbf{n}) y similar a la Criba, para cada numero \textbf{i} desde 1 hasta n hacemos un bucle que vaya de \textbf{i} en \textbf{i} y sumamos 1 en ese valor del vector que creamos representando que ese numero es divisible por i. Al final en cada posicion del vector vamos a tener cuantos divisores tiene este numero. La complejidad de la estrategia es armonica: $\bm{O(nlog(n))}$
 \end{itemize}
 
-\section{Common Divisors}
+\section{\href{https://cses.fi/problemset/task/1081}{Common Divisors}}
 Nos dan un vector de numeros y tenemos que elegir dos numeros tales que su \textbf{gcd sea maximo}. Hay dos opciones:
 \begin{itemize}
     \item Creamos un vector tipo frecuencia de divisores y a cada numero lo factorizamos en $\bm{O(\sqrt{n})}$ y sumamos sus divisores al vector frecuencia. El mayor divisor tal que su frecuencia sea > 1 va a ser la respuesta. La complejidad es $\bm{O(n \sqrt{n})}$ por lo que entra justo ($2 \cdot 10^8$ operaciones).
@@ -85,7 +85,7 @@ dfor(i, MAXN){
 }
 \end{lstlisting}
 
-\section{Divisor Analysis}
+\section{\href{https://cses.fi/problemset/task/2182}{Divisor Analysis}}
 Nos dan un numero en forma de su factorizacion en primos donde cada factor primo puede ser masivo ($x^k$ donde $2 \leq x \leq 10^6$ y $1 \leq k \leq 10^9$) y nos piden calcular la cantidad de divisores, su suma y su producto.
 \indent Para el producto usamos la funcion $\tau$ y para la suma usamos la funcion $\sigma$. El problema esta en el producto. Existe la siguiente formula para el producto de los factores:
 \[
@@ -99,17 +99,17 @@ x^n \: mod \: \textit{m} = x^{n \: mod \: (m - 1)} mod \: \textit{m}
 Es decir que tendriamos que calcular la funcion $\tau$ (\textit{mod m - 1}) pero \textit{m - 1} no es coprimo con 2 entonces no existe el inverso modular de 2 \textit{mod (m - 1)}. Para resolver este problema hay dos formas:
 \begin{itemize}
     \item Usar las propiedades de la funcion $\tau$ y ya calcular directamente $\frac{\tau(n)}{2} \: mod \: \textit{m - 1}$.
-    \item Un truco que podemos usar es calcular $\tau \: mod \: 2 \cdot (\textit{m - 1})$ entonces cuando $\tau$ es par (solo en un caso especial es impar) la podemos dividir por 2 tranquilamente y nos queda en \textit{mod (m - 1)} como queriamos.
+    \item Un truco que podemos usar es calcular $\tau \: mod \: 2 \cdot (\textit{m - 1})$ entonces cuando $\tau$ es par la podemos dividir por 2 tranquilamente y nos queda en \textit{mod (m - 1)} como queriamos. Lo bueno es que la unica forma de que $\tau$ sea impar es que todos los exponentes de la factorizacion sean pares(ver definicion de funcion $\tau$), es decir que el numero es un cuadrado perfecto por lo que podemos hacer $\sqrt{n}^{\tau(n)}$ que es exactamente lo mismo que $N^{\frac{\tau(n)}{2}}$.
 \end{itemize}
 
-\section{Counting Coprime Pairs}
+\section{\href{https://cses.fi/problemset/task/2417}{Counting Coprime Pairs}}
 Nos dan un vector de hasta $10^5$ elementos y tenemos que decir la cantidad de pares de numeros coprimos que existen.
 Debido a que los numeros de la lista pueden ser como maximo $10^6$, la mayor cantidad de factores primos distintos que podria tener un numero es es $2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 \cdot 13 \cdot 17 \le 10^6$.
 \\ \indent Sabiendo esto lo que podemos hacer es recorrer la lista y por cada numero lo factorizamos en primos y nos fijamos de los numeros que ya recorrimos (los de la izquierda), con cuantos no compartimos ningun primo y sumamos ese valor a la respuesta.
 Para ver con cuantos numeros no compartimos primos, a medida que recorremos la lista vamos generando con los valores ya recorridos una frecuencia de sus divisores, entonces luego, utilizando Inclusion-Exclusion podemos hacer el conteo.
 \\ \indent Debido a que no nos interesa la cantidad de veces que aparezca cada primo, sino si esta o no en la factorizacion, como mencionamos antes los numeros de la lista pueden tener como maximo 7 factores primos distintos por lo que la complejidad de la solucion es $\bm{O(n \cdot 2^7)}$ ya que por cada numero hacemos una Inclusion-Exclusion.
 
-\section{Binomial Coefficients}
+\section{\href{https://cses.fi/problemset/task/1079}{Binomial Coefficients}}
 Hay $10^5$ queries donde nos pasan dos numeros $(0 \leq b \leq a \leq 10^6)$ y nos piden calcular el coeficiente binomial:
 \[
 \binom{a}{b} = \frac{a!}{b!(a - b)! } \:\: mod \: m
@@ -119,7 +119,7 @@ Para hacer esto se precalculan todos los factoriales y e inversos factoriales ha
 \\ \indent El detalle interesante es que para precalcular de forma eficiente todos los inversos factoriales y no hacer \textbf{n} exponenciaciones binarias lo que se hace es solamente calcular el inverso del maximo factorial $maxn!^{-1} \: mod \: m$ y si sabemos el valor de $\frac{1}{(k + 1)!}$, multiplicando por $(k + 1)$ podemos obtener el valor de $\frac{1}{k!}$. Utilizando este truquito nos ahorramos un $\bm{O(log(n))}$ quedando la complejidad final en $\bm{O(n)}$
     
 
-\section{Distributing Apples}
+\section{\href{https://cses.fi/problemset/task/1716}{Distributing Apples}}
 Este problema es el famoso \href{https://cp-algorithms.com/combinatorics/stars_and_bars.html}{\textbf{Stars and Bars}} donde nos piden la cantidad de maneras en las que podemos ubicar $n$ pelotas en $k$ cajas. La formula es:
 \[
 \binom{n + k - 1}{n}
@@ -127,7 +127,7 @@ Este problema es el famoso \href{https://cp-algorithms.com/combinatorics/stars_a
 La intuicion para llegar a esta formula es pensar en que tenemos un string con $n$ estrellas y $k - 1$ barras. Por ejemplo, para $k = 4$ y $n = 5$ una posibilidad es $\bigstar | \bigstar \bigstar || \bigstar \bigstar$. La cantidad de estrellas entre cada barra representa la cantidad de pelotas en esa caja. Podemos ver que la respuesta al problema es la cantidad de permutaciones con repeticion de este string, es decir, $\frac{(n + k - 1)!}{n!(k - 1)!}$, ya que como es indistinto el orden relativo de las pelotas y las barras, tenemos que descontar esto del total. Esta formula es exactamente el coeficiente binomial de arriba.
 
 
-\section{Christmas Party}
+\section{\href{https://cses.fi/problemset/task/1717}{Christmas Party}}
 Este problema se conoce como \href{https://en.wikipedia.org/wiki/Derangement}{\textbf{Counting Derangements}}, donde tenemos que decir cuantas permutaciones de tamaño \textbf{n} existen que no tengan \textit{puntos fijos}. Se puede resolver usando Inclusion-Exclusion pero una solucion mas corta es usando dp. 
 
 En cada posicion $P_i$ puede haber \textit{n - 1} posibles valores, es decir, todos menos \textit{i}. Digamos que \textit{j} es el elemento que vamos a poner en $P_i$. Aca se nos presentan dos casos:
@@ -140,26 +140,26 @@ Debido a que por cada elemento tenemos las dos opciones, el resultado final es l
 f(n) = (n - 1)(f(n - 1) + f(n - 2))
 \]
 
-\section{Permutation Rounds}
+\section{\href{https://cses.fi/problemset/task/3398}{Permutation Rounds}}
 Nos dan una lista con los numeros de 1 a $n$ y una permutacion de tamaño $n$ y nos dicen que en cada round movemos cada elemento de acuerdo a la permutacion. Lo que tenemos que decir es cuantos rounds van a pasar hasta que la lista original vuelva a estar ordenada. El problema es sacar el tamaño cada uno de los ciclos de la permutacion y hacer el \textit{minimo comun multiplo} entre los tamaños. 
 
 La unica curisidad del problema es que como podemos llegar a tener muchos tamaños distintos, tenemos que expresar el mcm $mod \: \: 10^9 + 7$. Al tener esta restriccion no podemos usar \textit{lcm()} de C++. En su lugar tenemos que factorizar cada uno de los numeros y quedarnos de cada primo que aparezca su mayor exponente y al final calculamos la respuesta haciendo el producto de esos primos.
 
-\section{Bracket Sequences 2}
+\section{\href{https://cses.fi/problemset/task/2187}{Bracket Sequences 2}}
 Nos piden la cantidad de secuencias de paréntesis validas de tamaño \textit{n} que empiecen con un prefijo que se nos da de antemano. Incialmente tenemos que ver si la secuencia que nos dan no tiene un prefijo invalido y cual es la diferencia entre la cantidad de paréntesis de apertura y cierre, a la que llamaremos \textbf{s}. Para resolverlo tenemos que modificar la fórmula de los números Catalanes:
 \[C_n = \binom{2n}{n} - \binom{2n}{n + 1}\]
 Donde el primer coeficiente es la cantidad de secuencias posibles sin restricción y el segundo es la cantidad de secuencias invalidas.
 En el caso del problema, siendo \textbf{k} la longitud de la secuencia que buscamos construir, debemos encontrar la cantidad de secuencias que tengan $\frac{k - s}{2}$ paréntesis de apertura y $\frac{k + s}{2}$ de ciere. Si hacemos el mismo razonamiento que con los números Catalanes (leer Laaksonen), de tomar el primer prefijo invalido e invertirlo, notamos que el primer prefijo invalido tiene: $apertura - cierre = -s - 1$ ya que tenemos que cerrar s parentesis que nos quedaron del prefijo. Invirtiendo el prefijo $apertura - cierre = s + 1$, Luego, la formula final queda:
 \[C_k = \binom{k}{\frac{k - s}{2}} - \binom{k}{\frac{k - s}{2} + s + 1}\]
 
-\section{Counting Necklaces}
+\section{\href{https://cses.fi/problemset/task/2209}{Counting Necklaces}}
 Nos piden la cantidad de formas distintas de construir un collar con \textit{n} cuentas de \textit{m} colores. Esto se resuelve con el \textbf{Burnside's Lemma} cuya formula es:
 \[\frac{1}{n}\sum_{k=1}^{n}c(k)\]
 Donde $c(k)$ es la cantidad de collares que quedan fijos al rotar el collar \textit{k} veces. La cantidad de collares que quedan fijos al rotar \textit{k} veces es $m^{gcd(n, k)}$ ya que al rotar \textit{k} veces van a quedar iguales los collares que esten compuestos de bloques iguales de tamaño $gcd(n, k)$. Entonces la formula final queda:
 \[\frac{1}{n}\sum_{k=1}^{n}m^{gcd(n, k)}\]
 Basicamente la logica de la formula es que, si cada collar tendria \textit{n} rotaciones distintas, el resultado seria $\frac{m^n}{n}$ pero como hay collares que son periodicos y tienen menos rotaciones distintas, si lo dividimos por \textit{n} estariamos contando menos de lo que hay. Para compensar esto, en lugar de elegir un denominador para cada collar en funcion de la cantidad de rotaciones distintas (seria complicado), hacemos que esos collares que tienen menos rotaciones distintas sumen mas de una vez (agrandamos el numerador lo cual es equivalente a reducir el denominador), compensando el resultado final.
 
-\section{Counting Grids}
+\section{\href{https://cses.fi/problemset/task/2210}{Counting Grids}}
 Nos piden la cantidad de formas de llenar una grilla de tamaño $n \times n$ donde cada cuadrado puede ser blanco o negro y dos grillas son consideradas distintas si no hay una rotacion que las vuelve iguales. Este problema es otro ejemplo del Burnside's Lemma.
 
 Siempre tenemos 4 rotaciones distintas que podemos hacer a la matriz.
@@ -172,7 +172,7 @@ Aplicando esto a la formula:
 Por ultimo, para el caso de \textit{n} \textbf{impar}, la celda del medio no es afectada por las rotaciones por lo que la forma mas simple de pensarlo (para mi xd) es restar 1 a $n^2$ olvidandonos del elemento central, hacemos exactamente lo mismo que si n fuera par, y al final, multiplicar por 2 todas las combinaciones anteriores ya que el elemento central puede ser blanco o negro siempre:
 \[\frac{1}{n}\sum_{k=1}^{n}c(k) = \frac{2^{n^2 - 1} + 2^{\frac{n^2 - 1}{4}} + 2^{\frac{n^2 - 1}{2}} + 2^{\frac{n^2 - 1}{4}}}{2}\]
 
-\section{Throwing Dice}
+\section{\href{https://cses.fi/problemset/task/1096}{Throwing Dice}}
 Nos piden la cantidad de maneras de obtener un numero $n \leq 10^{18}$ tirando un dado. El problema se resuelve mediante \textit{exponenciacion de matrices}.
 
 La clave es que el problema se puede expresar como una \textbf{recurrencia lineal}
@@ -206,7 +206,7 @@ Para nuestro problema especifico, la matriz queda:
 1 & 1 & 1 & 1 & 1 & 1
 \end{bmatrix}\]
 
-\section{Graph Paths 2}
+\section{\href{https://cses.fi/problemset/task/1724}{Graph Paths 2}}
 Nos piden, dado un grafo, el largo minimo de un camino que vaya desde el nodo 1 al $n$ con exactamente \textit{k} aristas. El problema se resuelve con exponenciacion de matrices similar al anterior.
 
 Lo interesante aca es que hay que modificar la operacion de multiplicacion de matrices. En lugar de hacer una suma de productos para calcular cantidad de formas de comunicar dos nodos (lo clasico), tenemos que hacer un minimo entre sumas. Es decir, si tenemos dos matrices $A$ y $B$, la multiplicacion modificada seria:
@@ -214,10 +214,10 @@ Lo interesante aca es que hay que modificar la operacion de multiplicacion de ma
 
 De esta manera, en todo momento llevamos el camino minimo entre dos nodos. Al hacer la exponenciacion de matrices con esta nueva operacion, en la posicion (1, n) de la matriz resultante vamos a tener el camino minimo entre el nodo 1 y el nodo n con exactamente \textit{k} aristas.
 
-\section{Sum of Four Squares}
+\section{\href{https://cses.fi/problemset/task/3355}{Sum of Four Squares}}
 Nos dan 1000 queries donde nos pasan un numero $n \leq 10^7$ y tenemos que dar cuatro enteros positivos $a, b, c, d$ tales que $n = a^2 + b^2 + c^2 + d^2$. Por el teorema de Lagrange, sabemos que siempre existe una solucion para cualquier numero natural. 
 
-Otro dato importante es que por otro teorema, sabemos que un numero se puede expresar como suma de tres cuadrados si y solo si no es de la forma $4^a(8b + 7)$, es decir, es muy poco comun.
+Otro dato importante es que por otro teorema, sabemos que un numero se puede expresar como suma de tres cuadrados si y solo si no es de la forma $4^a(8b + 7)$, es decir, casi siempre se puede.
 
 Una solucion es primero precalcular todas las posibles duplas $(a, b)$ tales que $a^2 + b^2 \leq 10^7$. Con esto, iterando con $i$ hasta $\sqrt{n}$ podemos saber si un numero $x$ se puede expresar como suma de tres cuadrados buscando si $x - i^2$ existe en las duplas precalculadas.
 
@@ -225,7 +225,7 @@ La observacion clave esta en que como los numeros que si o si necesitan 4 cuadra
 
 Especificamente, entre 0 y $10^7$ hay 100 numeros que necesitan mas mas de 65 iteraciones para encontrar la solucion y si agarran los peores 1000 numeros la cantidad de iteraciones promedio entre queries es 29. Una curiosidad es que si en las primeras $2^k + 1$ iteraciones no encontramos la solucion, hay que ir directo a la iteración $2^{k + 1} + 1$ ya que en base a la obervacion veo que en el medio nunca encuentra solucion (no se porque). Aunque da perfecto en tiempo la solucion original, en base a esta observacion se podria optimizar solo iterando potencias de 2, logrando un maximo de 10 iteraciones en el peor caso.
 
-\section{Triangle Number Sums}
+\section{\href{https://cses.fi/problemset/task/3406}{Triangle Number Sums}}
 Nos dan 100 queries donde nos pasan un numero $n \leq 10^{12}$ y tenemos que decir la minima cantidad de numeros triangulares cuya suma de como resultado $n$. Un numero triangular es un numero de la forma $1 + 2+ \dots + k$.
 
 Lo curioso de este problema es que existe un teorema (Eureka de Gauss) que dice que cualquier numero natural se puede expresar como suma de \textbf{3} numeros triangulares. Entonces, la respuesta al problema siempre va a ser 1, 2 o 3 por lo que podemos calcular los numeros triangulares hasta $10^{12}$ (son $1.4 \cdot 10^6$ aproximadamente) y para cada query nos fijamos con una binaria si \textbf{n} es triangular (respuesta 1), luego hacemos un 2SUM para ver si se puede hacer con 2, y si no pudimos la respuesta es 3.
