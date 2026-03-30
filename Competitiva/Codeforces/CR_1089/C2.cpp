@@ -98,7 +98,7 @@ int main(){
                 forn(k, MAXN) if(j != k) dp[i+1][j] = max(dp[i+1][j], dp[i][k]+1);
             } 
         }
-
+        forn(i, n+1) vdbg(dp[i]); 
         cout << *max_element(all(dp[n])) << '\n';
     }
 
