@@ -19,7 +19,7 @@ typedef pair<int, int> ii;
 
 typedef ll tipo;
 const tipo neutro = 0;
-tipo oper(const tipo& a, const tipo& b) { return max(a, b); }
+tipo oper(const tipo& a, const tipo& b) { return a+b; }
 struct ST {
     int sz;
     vector<tipo> t;
@@ -66,46 +66,44 @@ int main(){
         g[b].pb(a);
     }
 
-    vector<int> dist(n), sig(n);
-    function<int(int, int)> dfs1 = [&](int s, int f) -> int {
+    vector<int> dist(n);
+    vector<int> vis(n), inv(n), padre(n), preorden;
+    function<void(int, int, int)> dfs = [&](int s, int f, int pad) {
+        inv[s] = sz(preorden);
+        preorden.pb(s);
+        padre[s] = pad;
+        bool prim = true;
         for(int u : g[s]) {
             if(u == f) continue;
+            if(prim) prim = false;
+            else pad = s;
             dist[u] = dist[s]+1;
-            sig[u] = s;
-            dfs1(u, s);
+            dfs(u, s, pad);
         }
     };
 
-    vector<int> vis(n), inv(n);
-    vector<ii> preorden;
-
-    function<int(int)> dfs2 = [&](int s) -> int {
-        if(!s or vis[s]) return s; 
-        int padre = dfs2(sig[s]);
-        inv[s] = sz(preorden);
-        preorden.pb({s, padre});
-    };
-
-    dfs1(0, -1);
-    vector<ii> hojas;
-    forn(i, n) if(i != 0 and sz(g[i]) == 1) hojas.pb({dist[i], i}); //me salvara?
-    sort(rall(hojas));
-    forn(i, sz(hojas)) dfs2(hojas[i].sc);
+    dfs(0, -1, 0);
     ST st(n);
-    forn(i, n) st[i] = vals[preorden[i].fr];
+    forn(i, n) st[i] = vals[preorden[i]];
     st.updall();
+
+    //vdbg(dist); vdbg(preorden); vdbg(padre); vdbg(inv);
 
     forn(tt, q) {
         char c; cin >> c;
         if(c == '1'){
             cin >> a >> x; a--;
             st.set(inv[a], x);
-        } 
+        }
         else {
-            ll prev = -1, sum = 0;
-            while(prev != 0) {
-                
+            cin >> a; a--;
+            ll sum = st.get(inv[0], inv[0]+1);
+            while(a) {
+                sum += st.get(inv[a] - (dist[a] - dist[padre[a]]) + 1, inv[a]+1);
+                a = padre[a];
             }
+
+            cout << sum << '\n';
         }
     }
 
