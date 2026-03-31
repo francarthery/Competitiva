@@ -1,0 +1,6 @@
+# Ignorar ejecutables
+*.exe
+
+# Ignorar archivos de prueba específicos
+pruebas.cpp
+pruebas2.cpp

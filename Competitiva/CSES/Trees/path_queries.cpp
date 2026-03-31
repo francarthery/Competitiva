@@ -11,12 +11,12 @@
 #define vdbg(x) {cout << '['; for(auto i : x) cout << i << ", "; cout << "]\n";}
 #define fr first
 #define sc second
-
+ 
 using namespace std;
-
+ 
 typedef long long ll;
 typedef pair<int, int> ii;
-
+ 
 typedef ll tipo;
 const tipo neutro = 0;
 tipo oper(const tipo& a, const tipo& b) { return a+b; }
@@ -46,7 +46,7 @@ struct ST {
     }
 };  // Use: definir oper tipo neutro,
 // cin >> n; ST st(n); forn(i, n) cin >> st[i]; st.updall();
-
+ 
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -55,6 +55,12 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
+    // Recorro el grafo desde las hojas empezando por las mas lejanas y voy construyendo segmentos
+    // Contiguos. empiezo por las mas lejanas para tratar de maximizar el largo de los segmentos
+    // de esta manera minimizando la cantidad de consultas al ST por query.
+    // Es similar a HLD
+    // Con una dfs normal tambien anda porque los casos son bastante pauperrimos. 
+ 
     int n, q; cin >> n >> q;
     vector<int> vals(n);
     vector<vector<int>> g(n);
@@ -65,30 +71,40 @@ int main(){
         g[a].pb(b);
         g[b].pb(a);
     }
-
-    vector<int> dist(n);
-    vector<int> vis(n), inv(n), padre(n), preorden;
-    function<void(int, int, int)> dfs = [&](int s, int f, int pad) {
-        inv[s] = sz(preorden);
-        preorden.pb(s);
-        padre[s] = pad;
-        bool prim = true;
+ 
+    vector<int> dist(n), sig(n);
+    function<void(int, int)> dfs1 = [&](int s, int f) {
         for(int u : g[s]) {
             if(u == f) continue;
-            if(prim) prim = false;
-            else pad = s;
             dist[u] = dist[s]+1;
-            dfs(u, s, pad);
+            sig[u] = s;
+            dfs1(u, s);
         }
     };
-
-    dfs(0, -1, 0);
+ 
+    vector<int> vis(n), inv(n), padre(n), preorden;
+ 
+    function<int(int)> dfs2 = [&](int s) -> int {
+        if(vis[s]) return s;
+        vis[s] = true;
+        inv[s] = sz(preorden);
+        preorden.pb(s);
+        if(!s) return s;
+ 
+        return padre[s] = dfs2(sig[s]);
+    };
+ 
+    dfs1(0, -1);
+    vector<ii> hojas;
+    forn(i, n) if(i != 0 and sz(g[i]) == 1) hojas.pb({dist[i], i}); //me salvara?
+    sort(rall(hojas));
+    forn(i, sz(hojas)) dfs2(hojas[i].sc);
     ST st(n);
     forn(i, n) st[i] = vals[preorden[i]];
     st.updall();
-
+ 
     //vdbg(dist); vdbg(preorden); vdbg(padre); vdbg(inv);
-
+ 
     forn(tt, q) {
         char c; cin >> c;
         if(c == '1'){
@@ -99,15 +115,15 @@ int main(){
             cin >> a; a--;
             ll sum = st.get(inv[0], inv[0]+1);
             while(a) {
-                sum += st.get(inv[a] - (dist[a] - dist[padre[a]]) + 1, inv[a]+1);
+                sum += st.get(inv[a], inv[a] + (dist[a] - dist[padre[a]]));
                 a = padre[a];
             }
-
+ 
             cout << sum << '\n';
         }
     }
-
-
-
+ 
+ 
+ 
     return 0;
 }
