@@ -24,30 +24,34 @@ int main(){
         freopen("input.in", "r", stdin);
         freopen("output.out", "w", stdout);
     #endif
-    
-    int t; cin >> t;
-    while(t--){
-        int n; string s; 
-        cin >> n >> s;
-        vector<int> vals(n);
-        forn(i, n) vals[i] = (s[i] == '(' ? -1 : 1);
 
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-
-        dfor(i, n) { //saque i = l+r
-            forn(l, i+1) {
-                int r = i-l;
-                if(i%2) dp[l][r] = min(dp[l+1][r], dp[l][r+1]);
-                else dp[l][r] = max({dp[l+1][r]+vals[l], dp[l][r+1]+vals[n-1-r],0});
-            }
-        }
-
-        int der = -1e9, izq = -1e9;
-        if(s[0] == '(') der = dp[1][0];
-        if(s.back() == '(') izq = dp[0][1];
-        cout << (der >= 1 or izq >= 1 ? "Monocarp" : "Polycarp") << '\n';
+    int n; cin >> n;
+    vector<int> c(n);
+    vector<vector<int>> g(n);
+    forn(i, n) cin >> c[i];
+    int a, b; 
+    forn(i, n-1){
+        cin >> a >> b; a--; b--;
+        g[a].pb(b);
+        g[b].pb(a);
     }
 
+    vector<set<int>> nodes(n);
+    vector<int> ans(n);
+    function<void(int, int)> dfs = [&](int s, int f) {
+        for(int u : g[s]){
+            if(u == f) continue;
+            dfs(u, s);
+            if(sz(nodes[u]) > sz(nodes[s])) nodes[u].swap(nodes[s]);
+            for(int i : nodes[u]) nodes[s].insert(i);
+        }
+        nodes[s].insert(c[s]);
+        ans[s] = sz(nodes[s]);
+    };
+
+    dfs(0, -1);
+    for(int i : ans) cout << i << ' ';
+    cout << '\n';
 
 
     return 0;

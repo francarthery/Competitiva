@@ -24,28 +24,16 @@ int main(){
         freopen("input.in", "r", stdin);
         freopen("output.out", "w", stdout);
     #endif
-    
+
     int t; cin >> t;
     while(t--){
-        int n; string s; 
-        cin >> n >> s;
-        vector<int> vals(n);
-        forn(i, n) vals[i] = (s[i] == '(' ? -1 : 1);
+        int n, k; cin >> n >> k;
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
+        ll sum = accumulate(all(v), 0ll);
 
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-
-        dfor(i, n) { //saque i = l+r
-            forn(l, i+1) {
-                int r = i-l;
-                if(i%2) dp[l][r] = min(dp[l+1][r], dp[l][r+1]);
-                else dp[l][r] = max({dp[l+1][r]+vals[l], dp[l][r+1]+vals[n-1-r],0});
-            }
-        }
-
-        int der = -1e9, izq = -1e9;
-        if(s[0] == '(') der = dp[1][0];
-        if(s.back() == '(') izq = dp[0][1];
-        cout << (der >= 1 or izq >= 1 ? "Monocarp" : "Polycarp") << '\n';
+        if(sum % 2 or n * k % 2 == 0) cout << "YES\n";
+        else cout << "NO\n";
     }
 
 

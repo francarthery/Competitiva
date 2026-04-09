@@ -24,28 +24,24 @@ int main(){
         freopen("input.in", "r", stdin);
         freopen("output.out", "w", stdout);
     #endif
-    
+
     int t; cin >> t;
     while(t--){
-        int n; string s; 
-        cin >> n >> s;
-        vector<int> vals(n);
-        forn(i, n) vals[i] = (s[i] == '(' ? -1 : 1);
-
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-
-        dfor(i, n) { //saque i = l+r
-            forn(l, i+1) {
-                int r = i-l;
-                if(i%2) dp[l][r] = min(dp[l+1][r], dp[l][r+1]);
-                else dp[l][r] = max({dp[l+1][r]+vals[l], dp[l][r+1]+vals[n-1-r],0});
-            }
+        int n, k; cin >> n >> k;
+        vector<int> v(n);
+        vector<int> p(k);
+        forn(i, n) cin >> v[i];
+        forn(i, k) cin >> p[i], p[i]--;
+        
+        int ini = 0, fin = sz(v) - 1, flip = 0, ans = 0, orig = v[p[0]];
+        while(fin > ini) {
+            while(v[ini] ^ flip == orig and ini < p[0]) ini++;
+            while(v[fin] ^ flip == orig and fin > p[0]) fin--;
+            if(ini != fin) flip ^= 1, ans++;
         }
+        if(v[p[0]] ^ flip != orig) ans++;
 
-        int der = -1e9, izq = -1e9;
-        if(s[0] == '(') der = dp[1][0];
-        if(s.back() == '(') izq = dp[0][1];
-        cout << (der >= 1 or izq >= 1 ? "Monocarp" : "Polycarp") << '\n';
+        cout << ans << '\n';
     }
 
 
