@@ -16,7 +16,6 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
 
 int main(){
     ios::sync_with_stdio(0);
@@ -26,16 +25,27 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m; cin >> n >> m;
-    vector<iii> v;
-    forr(i, 1, n+1) forr(j, 1, m+1) {
-        v.pb({i*(j+1) + j*(i+1), i, j});
+    ll n; cin >> n;
+    const int MOD = 1e9 + 7;
+    vector<ll> cols(3);
+    forn(i, n) cin >> cols[i];
+
+    vector<vector<ll>> dp(n+1, vector<ll>(3));
+    dp[1][0] = dp[1][1] = dp[1][2] = 1;
+
+    forr(i, 2, n+1) {
+        ll sum = (dp[i-1][0] + dp[i-1][1] + dp[i-1][2]) % MOD;
+        forn(j, 3) {
+            ll resto = 0;
+            if(i - cols[j] - 1 > 0) forn(k, 3) {
+                if(k != j) resto = (resto + dp[i - cols[j] - 1][k]) % MOD;
+            }
+            else if(i - cols[j] - 1 == 0) resto = 1;
+            dp[i][j] = (sum - resto + MOD) % MOD;
+        }
     }
 
-    sort(all(v));
-    for(auto [a, b, c] : v) cout << a << ' ' << b << ' ' << c << '\n';
-
-
+    cout << (dp[n][0] + dp[n][1] + dp[n][2]) % MOD << '\n'; 
 
     return 0;
 }

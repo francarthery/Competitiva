@@ -145,5 +145,12 @@ while(q--){
 
 $$\frac{\theta_{i,j}^{n+1} - \theta_{i,j}^{n}}{\Delta t} = D_{0} \left[ \frac{\theta_{i+1,j}^{n+1} - 2\theta_{i,j}^{n+1} + \theta_{i-1,j}^{n+1}}{\Delta x^2} + \frac{\theta_{i,j+1}^{n+1} - 2\theta_{i,j}^{n+1} + \theta_{i,j-1}^{n+1}}{\Delta y^2} \right]$$
 
+\newpage
+\[
+b_{i, j} = -\frac{\begin{vmatrix}
+b_{i-2, 1} & b_{i-2, j+1} \\
+b_{i-1, 1} & b_{i-1, j+1}
+\end{vmatrix}}{b_{i-1, 1}}
+\]
 
 \end{document}

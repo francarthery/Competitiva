@@ -16,7 +16,6 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
 
 int main(){
     ios::sync_with_stdio(0);
@@ -26,14 +25,24 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m; cin >> n >> m;
-    vector<iii> v;
-    forr(i, 1, n+1) forr(j, 1, m+1) {
-        v.pb({i*(j+1) + j*(i+1), i, j});
-    }
+    int t; cin >> t;
+    while(t--) {
+        int p, q; cin >> p >> q;
+        ll k = p + 2*q;
 
-    sort(all(v));
-    for(auto [a, b, c] : v) cout << a << ' ' << b << ' ' << c << '\n';
+        int n = -1, m = -1;
+        forr(i, 1, (k-1)/3+1) {
+            int posn = i, posm = (k-i) / (2*i+1);
+            if(posm < posn) break;
+            if((k-i) % (2*i+1)) continue;
+            if(posm - posn > p) continue;    
+            n = posn, m = posm;
+            break;
+        }
+
+        if(n == -1) cout << -1 << '\n';
+        else cout << n << ' ' << m << '\n';
+    }
 
 
 

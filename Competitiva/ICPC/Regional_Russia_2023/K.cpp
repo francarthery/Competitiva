@@ -16,7 +16,9 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
+
+typedef long double ld;
+ld pi = acos(-1);
 
 int main(){
     ios::sync_with_stdio(0);
@@ -26,15 +28,32 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m; cin >> n >> m;
-    vector<iii> v;
-    forr(i, 1, n+1) forr(j, 1, m+1) {
-        v.pb({i*(j+1) + j*(i+1), i, j});
+    ld a, b, c, d; cin >> a >> b >> c >> d;
+
+    if(a < b) swap(a, b);
+    if(c < d) swap(c, d);
+
+    if(b < d) {
+        cout << "NO\n";
+        return 0;
     }
 
-    sort(all(v));
-    for(auto [a, b, c] : v) cout << a << ' ' << b << ' ' << c << '\n';
+    auto f = [&](ld theta) {
+        ld w = sinl(theta) * d;
+        ld h = cosl(theta) * d;
+        ld up = (b - h) / sinl(theta);
+        ld down = (a - w) / cosl(theta);
+        return min(up, down);
+    };
 
+    ld l = 0, r = pi/3;
+
+    ld ma = 0;
+    forn(i, 5000000) { //Terrible que ande
+        ma = max(ma, f(((ld)(i)/100) * r));
+    }
+
+    cout << (ma >= c ? "YES" : "NO") << '\n';
 
 
     return 0;
