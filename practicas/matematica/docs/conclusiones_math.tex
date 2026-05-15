@@ -237,4 +237,54 @@ Cuando $k = 3$ obtenemos los numeros triangulares (si reemplazamos $k = 3$ en la
 
 No solo existen los numeros triangulares y cuadrados, sino que tambien existen los pentagonales, hexagonales, etc. Por ejemplo, los primeros \href{https://en.wikipedia.org/wiki/Pentagonal_number}{\textbf{numeros pentagonale}s} son: 1, 5, 12, 22, 35, 51, 70, 92, ...
 
+\newpage
+\begin{center}
+    {\huge \textbf{Problemas extra matematica}}
+\end{center}
+\section{\href{https://www.spoj.com/problems/GCDEX/}{GCD Extreme}}
+Nos dan un numero $n \leq 10^6$ y tenemos que calcular el valor de G definido de la siguiente manera:
+\begin{lstlisting}[caption=Definicion de G]
+G = 0;
+for (i = 1; i < N; i++)
+  for (j = i+1; j <= N; j++) 
+    G += gcd(i, j);
+\end{lstlisting}
+
+El problema tiene varios trucos interesantes por lo que los voy a explicar por partes:
+\subsection{Funcion $\phi$ de Euler}
+La funcion \textbf{phi} de Euler, denotada como $\phi(n)$, nos dice la cantidad de numeros entre 1 y n que son coprimos ($\gcd(i, n) = 1$) con n. Lo interesante es que si quisieramos saber la cantidad de numeros entre 1 y n que tienen $\gcd(i, n) = k$, lo que tenemos que hacer es calcular $\phi(\frac{n}{k})$.
+\subsection{Como usamos esto en el problema}
+Ahora que podemos saber en $O(1)$ la cantidad de numeros entre 1 y n que tienen $\gcd(i, n) = k$, tambien sabemos que los unicos valores que podria adoptar el gcd entre un numero $a$ y cualquier numero son los divisores de $a$. Entonces, podemos saber la suma de los gcd entre un numero $a$ y todos los numeros menores que $a$ de la siguiente manera:
+\[\sum_{d | a} d \cdot \phi(\frac{a}{d})\]
+\subsection{Como optimizamos la solucion}
+Podriamos hacer este proceso para cada numero entre 1 y n. El problema es que si calculamos los divisores de cada numero de forma directa, la complejidad seria $O(n \sqrt{n}) \approx 10^9$ operaciones, lo cual no entra. 
+
+Para optimizarlo, podemos usar una estrategia similar a la de la criba. Para cada numero \textbf{i} desde 1 hasta n, vamos de \textbf{i} en \textbf{i} y sumamos $i \cdot \phi(\frac{j}{i})$ a la respuesta de $j$ (precalculamos en un vector todas las respuestas). De esta manera, cuando terminamos, en cada posicion del vector de respuestas vamos a tener la suma de los gcd entre ese numero y todos los numeros menores que el. La complejidad de esto es: $O(nlog(n))$.
+
+\subsection{El ultimo problemilla}
+El problemilla es que las cotas estan tan \href{https://www.youtube.com/watch?v=qLHLsbD9emc}{justas} si calculamos la funcion $\phi$ en $O(\log(n))$ usando factorizacion en cada paso, la complejidad final seria $O(nlog^2(n))$ lo cual no entra. Para resolver esto, lo que hacemos es precalcular la funcion $\phi$ para cada numero entre 1 y n usando una estrategia similar a la de la criba. 
+
+\begin{lstlisting}[caption=Precalculo de todos los valores de la funcion $\phi$]
+forn(i, MAXN) euler[i] = i;
+forr(i, 2, MAXN) if(euler[i] == i) {
+    for(int j = i; j < MAXN; j+=i) {
+        euler[j] -= euler[j] / i;
+    }
+}
+\end{lstlisting}
+
+Inicialmente asumimos que cada numero es coprimo con todos los numeros menores a el ($\phi(i) = i$). Cada vez que encontramos un nuevo primo $i$, vamos de $i$ en $i$ y restamos a $\phi(j)$ por cada multiplo $j$ de $i$ el valor $\phi(j) / i$. La justificacion de esto se relaciona con la \href{https://en.wikipedia.org/wiki/Euler%27s_totient_function}{definicion} de la funcion $\phi$ y el hecho de que cada numero que es multiplo de $i$ deja de ser coprimo con $j$ por lo que tenemos que restar esa cantidad a $\phi(j)$.
+
+
+
+\newpage
+
+\[
+y_i(b_i-\sum_{j=1}^{n}a_{ij}x_j) = y_is_i = 0 \:\: \forall i = 1, 2, \dots, m
+\]
+
+\[
+x_j(\sum_{i=1}^{m}a_{ij}y_i - c_j) = x_jv_j = 0 \:\: \forall j = 1, 2, \dots, n
+\]
+
 \end{document}

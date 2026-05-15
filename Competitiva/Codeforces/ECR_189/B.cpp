@@ -17,19 +17,6 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-const int MOD = 1e9 + 7;
-
-ll expMod(ll b, ll e, ll m = MOD) {  // O(log e)
-    if (e < 0) return 0;
-    ll ret = 1;
-    while (e) {
-        if (e & 1) ret = ret * b % m;  // ret = mulMod(ret,b,m); //if needed
-        b = b * b % m;                 // b = mulMod(b,b,m);
-        e >>= 1;
-    }
-    return ret;
-}
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -40,23 +27,12 @@ int main(){
 
     int t; cin >> t;
     while(t--) {
-        ll n, x; cin >> n >> x;
-        ll dif = n - x;
-        if(dif >= 365) {
-            cout << 0 << '\n';
-            continue;
-        }
+        string s; cin >> s;
 
-        ll valid = 1, div = 1;
-        forn(i, dif) {
-            valid = ((valid * (x%MOD + 1 + i)) % MOD) * (364 - i) % MOD;
-            div = div * (i + 1) % MOD;
-        }
-        valid = valid * expMod(div, MOD - 2) % MOD;
-        valid = valid * 365 % MOD;
-        valid = valid * expMod(expMod(365, n), MOD - 2) % MOD;
+        int fail = 0;
+        forn(i, sz(s) - 1) if(s[i] == s[i+1]) fail++;     
 
-        cout << valid << '\n';
+        cout << (fail <= 2 ? "YES" : "NO") << '\n';
     }
 
     return 0;

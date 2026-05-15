@@ -17,19 +17,6 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-const int MOD = 1e9 + 7;
-
-ll expMod(ll b, ll e, ll m = MOD) {  // O(log e)
-    if (e < 0) return 0;
-    ll ret = 1;
-    while (e) {
-        if (e & 1) ret = ret * b % m;  // ret = mulMod(ret,b,m); //if needed
-        b = b * b % m;                 // b = mulMod(b,b,m);
-        e >>= 1;
-    }
-    return ret;
-}
-
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -41,23 +28,32 @@ int main(){
     int t; cin >> t;
     while(t--) {
         ll n, x; cin >> n >> x;
-        ll dif = n - x;
-        if(dif >= 365) {
-            cout << 0 << '\n';
-            continue;
+        const int MOD = 998244353;
+
+        ll c0 = x / 4;
+        ll c2 = (x + 2) / 4;
+        ll c1 = (n - x + 1) / 4;
+        ll c3 = (n - x + 1) / 4;
+        ll sobra1 = (n - x + 1) % 4;
+        ll sobra3 = (n - x + 1) % 4;
+        int num1 = x % 4, num3 = x % 4;
+
+        c1%=MOD; c2%=MOD; c3%=MOD; c0%=MOD;
+
+        forn(i, sobra1) {
+            if(num1 == 1) c1++;
+            num1 = (num1 + 1) % 4;
+        }
+        forn(i, sobra3) {
+            if(num3 == 3) c3++;
+            num3 = (num3 + 1) % 4;
         }
 
-        ll valid = 1, div = 1;
-        forn(i, dif) {
-            valid = ((valid * (x%MOD + 1 + i)) % MOD) * (364 - i) % MOD;
-            div = div * (i + 1) % MOD;
-        }
-        valid = valid * expMod(div, MOD - 2) % MOD;
-        valid = valid * 365 % MOD;
-        valid = valid * expMod(expMod(365, n), MOD - 2) % MOD;
-
-        cout << valid << '\n';
+        //dbg(c0); dbg(c1); dbg(c2); dbg(c3);
+        cout << (c2 * c1 % MOD + (c0+1) * c3 % MOD) % MOD << '\n';
     }
+
+
 
     return 0;
 }

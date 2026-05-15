@@ -32,41 +32,24 @@ int main(){
         g[a].pb(b);
         g[b].pb(a);
     }
-
-    vector<vector<int>> subt(n);
-    vector<int> tam(n);
-    function<int(int, int)> dfs1 = [&](int s, int f) -> int{
-        tam[s] = 1;
+    vector<int> tam(n), ma(n, -1);
+    function<void(int, int)> dfs = [&](int s, int f){
+        tam[s] = 1; 
         for(int u : g[s]){
             if(u == f) continue;
-            subt[s].pb(dfs1(u, s));
-            tam[s] += subt[s].back();
+            dfs(u, s);
+            ma[s] = max(ma[s], tam[u]);
+            tam[s] += tam[u];
         }
         return tam[s];
     };
-
-    int centroide = -1;
-    function<void(int, int, int)> dfs2 = [&](int s, int f, int pad) {
-        if(centroide != -1) return;
-        int npad = 0;
-        pad -= tam[s];
-        subt[s].pb(pad);
-        bool ok = true;
-        for(int u : subt[s]) {
-            npad += u;
-            if(u > n/2) ok = false;
-        }
-        if(ok) {
-            centroide = s;
-            return;
-        }    
-
-        for(int u : g[s]) if(u != f) dfs2(u, s, npad);
-    };
-
-    dfs1(0, -1);
-    dfs2(0, -1, 0);
-
+    
+    dfs(0, -1);
+    
+    int centroide;
+    forn(i, n) {
+        if(ma[i] <= n/2 and n-tam[i] <= n/2) centroide = i;
+    }
     cout << centroide + 1 << '\n';
 
     return 0;
