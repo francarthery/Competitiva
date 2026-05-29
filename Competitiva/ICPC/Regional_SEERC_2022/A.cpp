@@ -25,9 +25,24 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    
+    string s, t; cin >> s >> t;
+    map<char, vector<int>> m;
+    forn(i, sz(s)) {
+        m[s[i]].pb(i);
+    }
 
+    int pos = -1, ans = 1;
+    forn(i, sz(t)) {
+        auto ind = upper_bound(all(m[t[i]]), pos) - m[t[i]].begin();
+        if(ind == sz(m[t[i]])) {
+            ans++;
+            pos = -1;
+            i--;
+        }
+        else pos = m[t[i]][ind];
+    }
 
+    cout << ans << '\n';
 
     return 0;
 }

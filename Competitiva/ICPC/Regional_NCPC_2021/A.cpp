@@ -25,8 +25,35 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    
+    ll n; cin >> n;
+    vector<ll> v(n);
+    forn(i, n) cin >> v[i];
 
+    bool ok = false;
+    forn(i, n-1) {
+        string prim = to_string(v[i]);
+        string sec = to_string(v[i+1]);
+        prim[0] = '9';
+        if(stoll(prim) > stoll(sec)) {
+            v[i] = stoll(prim);
+            ok = true;
+            break;
+        }
+        prim = to_string(v[i]);
+        
+        sec[0] = '1';
+        if(sz(sec) == 1) sec[0] = '0';
+        if(stoll(prim) > stoll(sec)){
+            v[i+1] = stoll(sec);
+            ok = true;
+            break;
+        }
+        sec = to_string(v[i+1]);
+    }
+
+    if(ok) for(auto i : v) cout << i << ' ';
+    else cout << "impossible";
+    cout << '\n';
 
 
     return 0;

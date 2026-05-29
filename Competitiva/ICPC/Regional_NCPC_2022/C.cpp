@@ -25,9 +25,23 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    
+    int n; cin >> n;
+    string s; cin >> s;
+    int var = 0, ans = 0;
+    for(char c : s) {
+        if(c == '1') {
+            var = 2;
+            ans++;
+        }
+        else{
+            if(var) {
+                var--;
+                ans++;
+            }
+        }
+    }
 
-
+    cout << ans << '\n';
 
     return 0;
 }
