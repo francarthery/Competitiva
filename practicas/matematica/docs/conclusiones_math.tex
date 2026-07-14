@@ -287,4 +287,30 @@ y_i(b_i-\sum_{j=1}^{n}a_{ij}x_j) = y_is_i = 0 \:\: \forall i = 1, 2, \dots, m
 x_j(\sum_{i=1}^{m}a_{ij}y_i - c_j) = x_jv_j = 0 \:\: \forall j = 1, 2, \dots, n
 \]
 
+\newpage
+
+\textbf{Actualización del modelo}
+
+$I_{\text{nuevo}} = I \cup \{\text{QAH}, \text{QMAH}\}$
+
+\begin{itemize}
+    \item QAH = Queso de alta humedad
+    \item QMAH = Queso de muy alta humedad
+    \item $CapQ_j$ = Capacidad de producción de queso de la planta $j$
+\end{itemize}
+
+\textbf{Ecuación de balance de leche Plantas de Buenos Aires y Córdoba.} Productos 1: LFE, 2: LFD, 3: LPE, 4: LPD, 7: QAH, 8: QMAH y envío a Santa Fe.
+
+$$\sum_{k \in K} (1{,}063 X_{1jk} + 12{,}25 X_{4jk} + 8{,}755 X_{3jk} + 1{,}063 X_{2jk} + 7{,}245 X_{7jk} + 2{,}395 X_{8jk}) + 1{,}063 LD_j = Y_j \quad \forall j \in J_d$$
+
+\textbf{Ecuación de balance entera Santa Fe}
+
+$$\sum_{k \in K} (1{,}063 X_{13k} + 8{,}755 X_{33k} + 7{,}245 X_{73k} + 2{,}395 X_{83k}) = Y_3$$
+
+\textbf{Ecuación de capacidad de Quesos}
+
+$$\sum_{k \in K} (X_{7jk} + X_{8jk}) \le CapQ_j \quad \forall j \in J$$
+
+
+
 \end{document}

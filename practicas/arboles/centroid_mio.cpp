@@ -24,7 +24,6 @@ struct LCA{
     vector<int> lv;
     vector<vector<int>> vp, g;
 
-    LCA() {};
     LCA(int n, int rt) : N(n), root(rt), g(n), lv(n) {
         lgn = __lg(n) + 1;
         vp.assign(lgn, vector<int>(n));
@@ -67,23 +66,17 @@ struct LCA{
 struct Centroid {
     int n;
     vector<vector<int>> g;
-    vector<int> tam, fat, best;
+    vector<int> tam, fat;
     vector<bool> vis;
-    LCA lca;
 
     Centroid(int N) : n(N) {
         g.resize(N);
         tam.resize(n);
         vis.resize(n);
         fat.resize(n);
-        best.assign(n, 1e9); //Distancia del centroide i al rojo mas cercano
-        lca = LCA(n, 0);
     }
 
-    void addEdge(int a, int b) {
-        g[a].pb(b), g[b].pb(a);
-        lca.addEdge(a, b);
-    }
+    void addEdge(int a, int b) {g[a].pb(b), g[b].pb(a);}
     
     void dfs(int s, int f) {
         tam[s] = 1;
@@ -104,24 +97,14 @@ struct Centroid {
             return;
         }
         vis[s] = true; fat[s] = p; //Marco el centroide y el padre
+        
+        //Parte tuneable
+       
 
         for(int u : g[s]) if(!vis[u]) { centroide(u, s, -1); }
     }
 
-    void upd(int s, int orig) {
-        best[s] = min(best[s], lca.dist(s, orig));
-        if(fat[s] != -1) upd(fat[s], orig);
-    }
-
-    int query(int s, int orig) {
-        if(fat[s] == -1) return lca.dist(orig, s) + best[s];
-        else return min(lca.dist(s, orig) + best[s], query(fat[s], orig));
-    }
-
-    void run(int root) { 
-        lca.build();
-        centroide(root, -1, -1);
-    }
+    void run(int root) { centroide(root, -1, -1); }
 };
 
 int main(){
@@ -132,7 +115,7 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n, m; cin >> n >> m;
+    int a, b, n; cin >> n >> k;
     Centroid cn(n);
     forn(i, n-1){
         cin >> a >> b; a--; b--;
@@ -140,12 +123,7 @@ int main(){
     }
 
     cn.run(0);
-    cn.upd(0, 0);
-    forn(i, m) {
-        int t, v; cin >> t >> v; v--;
-        if(t == 1) cn.upd(v, v);
-        else cout << cn.query(v, v) << '\n';
-    }
+    cout << ans << '\n';
 
     return 0;
 }

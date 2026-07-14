@@ -32,20 +32,26 @@ int main(){
         g[a].pb(b);
         g[b].pb(a);
     }
-    vector<int> tam(n, 1), ma(n);
+    vector<int> tam(n);
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
+    function<void(int, int)> dfs = [&](int s, int f) {
+        tam[s] = 1;
         for(int u : g[s]) if(u != f) {
             dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
             tam[s] += tam[u];
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
+    };
+
+    function<int(int, int)> centroide = [&](int s, int szcomp) -> int{
+        tam[s] = 0; //Con esto me evito llevar el padre
+        for(int u : g[s]) if(tam[u] > szcomp / 2) { //Si el nodo no tiene hijos con mas de piso(n/2) nodos, es el centroide
+            return centroide(u, szcomp);
+        }
+        return s; 
     };
     
     dfs(0, -1);
-    cout << centroide + 1 << '\n';
+    cout << centroide(0, tam[0]) + 1 << '\n';
 
     return 0;
 }

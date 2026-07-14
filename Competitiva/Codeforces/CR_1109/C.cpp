@@ -25,27 +25,30 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
+    int t; cin >> t;
+    while(t--) {
+        int n, a, b; cin >> n >> a >> b;
+        bool ok = true;
+        int g = gcd(a, b);
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+        vector<vector<int>> ord1(g), ord2(g);
+        forn(i, g) {
+            for(int j = i; j < n; j+=g) {
+                ord1[i].pb(v[j]);
+                ord2[i].pb(j+1);
+            }
+            sort(all(ord1[i]));
+            sort(all(ord2[i]));
+
+            if(ord1[i] != ord2[i]) ok = false;
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+      
+        cout << (ok ? "YES" : "NO") << '\n';
+    }
+
+
 
     return 0;
 }

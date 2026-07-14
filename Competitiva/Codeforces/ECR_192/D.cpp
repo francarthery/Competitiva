@@ -25,27 +25,31 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
+    int t; cin >> t;
+    while(t--) {
+        string a, b; cin >> a >> b;
+        int n = sz(a), m = sz(b);
+        vector<vector<int>> dp(n+1, vector<int>(m+1));
+        vector<int> pfa(n + 1), pfb(m + 1);
+        forn(i, n) pfa[i+1] = (pfa[i+1] + pfa[i] + a[i] - '0') % 10;
+        forn(i, m) pfb[i+1] = (pfb[i+1] + pfb[i] + b[i] - '0') % 10;
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+        if(pfa[n] != pfb[m]) {
+            cout << -1 << '\n';
+            continue;
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
+        forr(i, 1, n+1) {
+            forr(j, 1, m+1) {
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                if(pfa[i] == pfb[j]) dp[i][j] = max(dp[i-1][j-1] + 1, dp[i][j]);
+            }
+        }
+
+        cout << dp[n][m] << '\n';
+    }
+
+
 
     return 0;
 }

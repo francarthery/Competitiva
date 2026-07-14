@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1777645298.25707 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1777645299.83699 0
+["pdflatex"] 1779800375.85355 "d:/c++/practicas/matematica/docs/conclusiones_math.tex" "conclusiones_math.pdf" "conclusiones_math" 1779800377.06054 0
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763730183 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi375/ectt0800.pk" 1754869819 9920 21709eb24245a5e7626bc6e0b97d0a68 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi525/ectt0800.pk" 1754869817 13416 d5e94c1b49139ce2ce175271652075a4 ""
@@ -7,6 +7,7 @@
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1200.pk" 1753929945 31952 610401b7dac7094b436c01782f647ba0 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx1440.pk" 1753921177 40136 a4f679a549e535a988a64987d0c2a82e ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx2074.pk" 1776478511 59008 0fe79c0d6a16c438fdafe3c106f0038a ""
+  "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm0700.pk" 1753921175 17000 23cc883b2de2c65f7591e5ee9ae8c33b ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm1000.pk" 1753921176 23808 6a873d7ea5b3765889d9b899c1fd6e87 ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm1200.pk" 1753921179 28440 6705fdbc6ed83116bf5b29efde9ff3dd ""
   "C:/Users/franc/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecrm1728.pk" 1753921180 42516 c1178edb69914ad98fc48515293e7a92 ""
@@ -146,10 +147,10 @@
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1749468414 13236 71253d8fde2c80ecebae7e3f7da0c2b0 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/franc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "conclusiones_math.aux" 1777645299 3895 d3bae633316c7979d83bafa0c779a102 "pdflatex"
-  "conclusiones_math.out" 1777645299 2882 1ff0c26872079d1ef37c71c9e44fa103 "pdflatex"
-  "conclusiones_math.tex" 1777645297 24857 ce67b33d65eb91f673f38133b8cf82e2 ""
-  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1777645297 24857 ce67b33d65eb91f673f38133b8cf82e2 ""
+  "conclusiones_math.aux" 1779800376 3895 1f65b3b4789e614934e224ceb3dc0f1c "pdflatex"
+  "conclusiones_math.out" 1779800376 2882 1ff0c26872079d1ef37c71c9e44fa103 "pdflatex"
+  "conclusiones_math.tex" 1779800370 25761 987ab4d49025c71535117e9f5bdd23f8 ""
+  "d:/c++/practicas/matematica/docs/conclusiones_math.tex" 1779800370 25761 987ab4d49025c71535117e9f5bdd23f8 ""
   (generated)
   "conclusiones_math.aux"
   "conclusiones_math.log"
