@@ -25,27 +25,16 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
+    int t; cin >> t;
+    while(t--) {
+        int n, x, y, z; cin >> n >> x >> y >> z;
+        int n1 = (n + x + y - 1) / (x + y);
+        int n2 = (n + 10*y*z + x + 10*y - 1) / (x + 10 * y);
+        if(z * x >= n) n2 = 1e9;
+        cout << min(n1, n2) << '\n';
     }
-    vector<int> tam(n, 1), ma(n);
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
-        }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
 
     return 0;
 }

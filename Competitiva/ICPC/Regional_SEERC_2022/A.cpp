@@ -25,27 +25,24 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
+    string s, t; cin >> s >> t;
+    map<char, vector<int>> m;
+    forn(i, sz(s)) {
+        m[s[i]].pb(i);
     }
-    vector<int> tam(n, 1), ma(n);
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+    int pos = -1, ans = 1;
+    forn(i, sz(t)) {
+        auto ind = upper_bound(all(m[t[i]]), pos) - m[t[i]].begin();
+        if(ind == sz(m[t[i]])) {
+            ans++;
+            pos = -1;
+            i--;
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+        else pos = m[t[i]][ind];
+    }
+
+    cout << ans << '\n';
 
     return 0;
 }

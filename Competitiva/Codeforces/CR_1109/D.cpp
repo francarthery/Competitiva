@@ -25,27 +25,31 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
-
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+    int t; cin >> t;
+    while(t--) {
+        int n, m; cin >> n >> m;
+        vector<ll> v(n), vals(n);
+        forn(i, n) cin >> v[i];
+        forn(i, m) {
+            int x; cin >> x; x--;
+            vals[x] = 1;
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
+        vector<ll> ma(n+1), mi(n+1);
+        forn(i, n) {
+            ma[i+1] = ma[i] + v[i];
+            mi[i+1] = mi[i] + v[i];
+
+            if(vals[i]) {
+                ma[i+1] = max({ma[i+1], -ma[i] - v[i], -mi[i] - v[i]});
+                mi[i+1] = min({mi[i+1], -ma[i] - v[i], -mi[i] - v[i]});
+            }
+        }
+
+        cout << ma[n] << '\n';
+    }
+
+
 
     return 0;
 }

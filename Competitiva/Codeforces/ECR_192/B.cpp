@@ -25,27 +25,33 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
+    int t; cin >> t;
+    while(t--) {
+        int n; cin >> n;
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+        vector<int> frec(4);
+        int seg = 0;
+        forn(i, n) {
+            frec[v[i]]++;
+            if(seg == 0 and frec[1] >= frec[2] + frec[3]) {
+                seg++;
+                if(frec[1] > frec[3] + frec[2] and i < n-1 and v[i+1] == 3) i++;
+                frec = vector<int>(4);
+            }
+            else if(seg == 1 and frec[1] + frec[2] >= frec[3]) {
+                seg++;
+                frec = vector<int>(4);
+            }
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
+        if(seg == 2 and frec != vector<int>(4)) cout << "YES\n";
+        else cout << "NO\n";
+
+    }
+
+
 
     return 0;
 }

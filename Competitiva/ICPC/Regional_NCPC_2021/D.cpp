@@ -25,27 +25,31 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
+    ll n, w; cin >> n >> w;
+    vector<vector<int>> g(n+1);
+    vector<ll> c(n+1), wat(n+1);
+    forr(i, 1, n+1) {
+        int d; cin >> d >> c[i] >> wat[i];
+        g[i].pb(d);
+        g[d].pb(i);
     }
-    vector<int> tam(n, 1), ma(n);
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
+    vector<ll> need(n), sum(n);
+    ll ans = w;
+    function<void(int, int)> dfs = [&](int s, int f) {
+        for(int u : g[s]) {
+            if(u == f) continue;
+            sum[u] = sum[s] + wat[u];
+            need[u] = max(c[u] - wat[u], need[s] - wat[u]);
             dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
+        if(sum[s] + need[s] >= w) ans = min(ans, need[s]);
+        else ans = min(ans, w - sum[s]);
     };
-    
+
     dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
+    cout << ans << '\n';
 
     return 0;
 }

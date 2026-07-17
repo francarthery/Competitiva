@@ -17,6 +17,18 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+const int MOD = 1e9+7;
+ll expMod(ll b, ll e, ll m = MOD){
+    if(e < 0) return 0;
+    ll ret = 1;
+    while(e){
+        if(e & 1) ret = ret * b % m;
+        b = b * b % m;
+        e >>= 1;
+    }
+    return ret;
+}
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,27 +37,27 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
+    int t; cin >> t;
+    const int MAXN = 2e5+1;
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
-        }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+    vector<ll> fact(MAXN), ifact(MAXN);
+    fact[0] = 1;
+    forr(i, 1, MAXN) fact[i] = fact[i-1] * i % MOD;
+    ifact[MAXN - 1] = expMod(fact[MAXN-1], MOD - 2);
+    dfor(i, MAXN - 1) ifact[i] = ifact[i+1] * (i+1) % MOD;
+
+
+    while(t--) {
+        int n; cin >> n;
+
+        auto comb = [&](ll n, ll k) {
+            return (fact[n] * ifact[k] % MOD) * ifact[n-k] % MOD;
+        };
+
+        cout << comb(2*n-1, n) << '\n'; 
+    }
+
+
 
     return 0;
 }

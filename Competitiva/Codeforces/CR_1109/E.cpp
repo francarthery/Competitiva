@@ -25,27 +25,32 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int a, b, n; cin >> n;
-    vector<vector<int>> g(n);
-    forn(i, n-1){
-        cin >> a >> b; a--; b--;
-        g[a].pb(b);
-        g[b].pb(a);
-    }
-    vector<int> tam(n, 1), ma(n);
+    int t; cin >> t;
+    while(t--) {
+        int n, q; cin >> n >> q;
+        vector<bool> v(n), test(n), res1(n);
+        string s; cin >> s;
+        forn(i, n) v[i] = s[i] - '0';
+        forn(i, n) if(i % 2 == 0) test[i] = 1;
 
-    int centroide = 0;
-    function<void(int, int)> dfs = [&](int s, int f){
-        for(int u : g[s]) if(u != f) {
-            dfs(u, s);
-            ma[s] = max(ma[s], tam[u]);
-            tam[s] += tam[u];
+        forn(i, n) res1[i] = test[i] ^ v[i];
+  
+        vector<int> aux(n);
+        int ant = res1[0];
+        forr(i, 1, n) {
+            aux[i] = aux[i-1];
+            if(res1[i] != ant) aux[i]++;
+            ant = res1[i]; 
         }
-        if(ma[s] <= n/2 and n-tam[s] <= n/2) centroide = s;
-    };
-    
-    dfs(0, -1);
-    cout << centroide + 1 << '\n';
+
+        forn(i, q) {
+            int l, r, k; cin >> l >> r >> k; l--; r--;
+            if((aux[r] - aux[l] + 1) / 2 <= k) cout << "YES\n";
+            else cout << "NO\n";
+        }
+    }
+
+
 
     return 0;
 }
