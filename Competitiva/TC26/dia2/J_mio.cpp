@@ -13,6 +13,25 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> ii;
 
+int n, m;
+vector<int> v;
+int dp[1000010][3][3]; //posicion, cantidad sobrante del primero, cantidad sobrante del segundo
+int solve(int i, int c0, int c1) {
+    if(i <= 0) return 0;
+    if(dp[i][c0][c1] != -1) return dp[i][c0][c1];
+    dp[i][c0][c1] = -1e9;
+
+    forn(j, 3) {
+        int need = j + c0 + c1;
+        if(need <= v[i]) {
+            int win = (v[i] - need) / 3;
+            dp[i][c0][c1] = max(dp[i][c0][c1], solve(i-1, j, c0) + c1 + win);
+        }
+    }
+
+    return dp[i][c0][c1];
+}
+
 int main(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -21,23 +40,23 @@ int main(){
     freopen("out","w",stdout);
     #endif
 
-    int n, m; cin >> n >> m;
-    vector<int> v(m+1);
-    int x;
+    cin >> n >> m;
+    v.resize(m+3);
     forn(i, n) {
-        cin >> x;
+        int x; cin >> x;
         v[x]++;
     }
 
-    vector dp1(3, vector<int>(3));
-    forr(i, 1, m+1) {
-        vector dp2(3, vector<int>(3));
-        int sumo = v[i] / 3, sobra = v[i] % 3;
-        forn(j, sobra)
-    }    
+    memset(dp, -1, sizeof(dp));
+    cout << solve(m+2, 0, 0) << '\n'; //correcto?
 
-
-
+    // forn(i, m+3) {
+    //     forn(j, 3) {
+    //         forn(k, 3) cout << dp[i][j][k] << ' ';
+    //         cout << "  ";
+    //     }
+    //     cout << '\n';
+    // }
 
     return 0;
 }

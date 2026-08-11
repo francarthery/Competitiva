@@ -1,7 +1,7 @@
 // https://cp-algorithms.com/linear_algebra/linear-system-gauss.html
-// special case of gauss_jordan_mod with mod=2, bitset for efficiency
 // finds lexicograhically minimal solution (0 < 1, False < True)
 // for lexicographically maximal change your solution model accordingly
+// m es la cantidad de variables (sin +1). en el indice m (indexado en 0) ponemos los resultados.
 int gauss(vector<bitset<N> > a, int n, int m, bitset<N>& ans) {
   vector<int> where(m, -1);
   for (int col = m - 1, row = 0; col >= 0 && row < n; --col) {

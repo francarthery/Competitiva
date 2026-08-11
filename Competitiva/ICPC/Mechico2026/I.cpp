@@ -26,74 +26,48 @@ int main(){
     cin.ignore();
 
     bool ok = true;
-    set<char> pepe{'!','?','.',',',';','$','#','^','{','}','_','=','+','*', ' '};
+    set<char> validos{'!','?','.',',',';','$','#','^','{','}','_','=','+','*', ' '};
     set<char> pepo{'!','?','.',',',';','$','#','=','+','*'};
 
-    bool numant = false, noalpha = false, ceros = false, llaves = false, esnumero = false;
+    auto check2 = [&](string &s) {
+        int etapa = 0; // 0 alphanum, 1 _ o ^, 2 llave abre, 3 numero, 4, llavecierra;
+        forn(i, s.size()){
+            if(etapa == 0 and s[i] == '_' or s[i] == '^') etapa++;
+            else if(etapa == 0 and alpha(s[i])) continue; //perdon
+            else if(etapa == 1 and s[i] == '{') etapa++;
+            else if(etapa == 2 and isdigit(s[i])) etapa++;
+            else if(etapa == 3 and s[i] == '}') etapa++;
+            else if(etapa == 3 and isdigit(s[i])) continue;
+            else return false;
+        }
+        return etapa == 4;
+    };
+
+    auto check = [&](string &s) {
+        bool alldig = true;
+        for(char c : s) {
+            if(c < '0' or c > '9') alldig = false;
+            if(!alpha(c) and !validos.count(c)) return false;
+            if(c == '^' or c == '_' or c == '{' or c == '}') return check2(s);
+        }
+        forn(i, s.size() - 1) {
+            if(isdigit(s[i]) and pepo.count(s[i+1]) or isdigit(s[i+1]) and pepo.count(s[i])) return false;
+        }
+        if(alldig and s[0] == '0' and s.size() > 1) return false;
+        else return true;
+    };
 
     while(t--) {
-        string s; getline(cin, s);
+        string s, pal; getline(cin, s);
         int n = s.size();
-        // cout << s << '\n';
-
-        forn(i, n) {
-            if(!alpha(s[i]) and !pepe.count(s[i])) ok = false; // digito no valido
-            if(s[0] == ' ' or s.back() == ' ') ok = false; //espacios iniciales o finales
-            if(i and s[i-1] == ' ' and s[i] == ' ') ok = false; //dos espacios
-            if(i == 0 and numant and !isdigit(s[i])) ok = false; //si termina en dig, empieza en dig siguiente
-            if(i == 0) numant = false;
-
-            // dbg(ceros); dbg(esnumero);
-            
-            if(s[i] == '}') {
-                if(!llaves or !esnumero or esnumero and ceros) ok = false; //no numero en parentesis o llaves no balanceada
-                llaves = false;
-                esnumero = false;
-                ceros = false;
-            }
-            
-            if(isdigit(s[i])) {
-                if((i and pepo.count(s[i-1])) or (i<n-1 and pepo.count(s[i+1]))) ok = false; //digito no seguido de 0s
-                if(s[i] == '0' and !numant) ceros = true; //empieza en 0
-                if(i == 0 or s[i-1] == ' ' or s[i-1] == '{') esnumero = true; //tengo un numero
-            }
-            else {
-                esnumero = false;
-                if(llaves) ok = false; //no hay numero entre llaves
-            }
-            
-            
-            // dbg(noalpha);
-            if((s[i] == '^' or s[i] == '_') and (noalpha or (i and s[i-1] == ' '))) ok = false; //no alphanum antes de _ o ^
-            
-            if(s[i] == '{') {
-                if(i == 0 or (s[i-1] != '^' and s[i-1] != '_')) ok = false; //sub o superindice invalido
-                llaves = true;
-                esnumero = false;
-                ceros = false;
-            }
-            
-            if(!alpha(s[i]) and s[i] != ' ') noalpha = true; //el string no es alphanumerico
-            
-            if(i == n-1 or s[i] == ' ') {
-                if(esnumero and ceros) ok = false; //numero con ini/fin ceros                 
-                if(llaves) ok = false;
-
-                noalpha = false;
-                ceros = false;
-                esnumero = false;
-            }
-
-            numant = isdigit(s[i]);
-            // cout << ok; dbg(ceros); dbg(numant);
-        }
-        // cout << '\n';
-        if(llaves) ok = false;
+        stringstream sstream(s);
+        
+        if(s[0] == ' ' or s.back() == ' ') ok = false;
+        forn(i, n-1) if(s[i] == ' ' and s[i+1] == ' ') ok = false;
+        while(sstream >> pal) ok &= check(pal);
     }
-    // cout << ok;
 
     cout << (ok ? "Ok": "Validation failed") << '\n';
-
 
     return 0;
 }
