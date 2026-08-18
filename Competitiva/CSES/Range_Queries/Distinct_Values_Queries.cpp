@@ -25,7 +25,7 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, q; cin >> n >> q;
+    int n, q, a, b; cin >> n >> q;
     vector<int> v(n);
     map<int, int> compress;
     int cont = 0;
@@ -35,40 +35,43 @@ int main(){
         else v[i] = compress[v[i]] = cont++;
     }
     int k = sqrt(n);
+    vector<array<int, 3>> qu(q);
 
-    vector<vector<array<int, 3>>> queries(k+5);
-    int a, b;
     forn(i, q) {
         cin >> a >> b; a--; b--;
-        queries[a / k].push_back({b, a, i});
+        qu[i] = {a, b, i};
     }
 
-    forn(i, sz(queries)) sort(all(queries[i]));
-    vector<int> resp(q);
-    forn(i, sz(queries)) {
-        int ant = (i+1) * k;
-        int ans = 0;
-        vector<int> count(n);
-        for(auto r : queries[i]) {
-            forr(j, ant, r[0]+1) {
-                count[v[j]]++;
-                if(count[v[j]] == 1) ans++;
-                ant++;
-            }
-            forr(j, r[1], min(r[0]+1, (i+1)*k)) {
-                count[v[j]]++;
-                if(count[v[j]] == 1) ans++;
-            }
-            resp[r[2]] = ans;
+    sort(all(qu), [&](auto &a, auto &b) {
+        int ba = a[0] / k;
+        int bb = b[0] / k;
+        if(ba != bb) return ba < bb;
+        return (ba & 1) ? a[1] < b[1] : a[1] > b[1]; 
+    });
+ 
+    vector<int> count(cont), resp(q);
+    int l = 0, r = -1, ans = 0;
+    auto add = [&](int &x) {
+        count[x]++;
+        if(count[x] == 1) ans++;
+    };
 
-            forr(j, r[1], min(r[0]+1, (i+1)*k)) {
-                count[v[j]]--;
-                if(count[v[j]] == 0) ans--;
-            }
-        }
+    auto del = [&](int &x) {
+        count[x]--;
+        if(count[x] == 0) ans--;
+    };
+
+    forn(i, q) {
+        // cout << qu[i][0] << ' ' << qu[i][1] << ' ' << qu[i][2] << '\n';
+        while(l > qu[i][0]) add(v[--l]);
+        while(r < qu[i][1]) add(v[++r]); //asumo que r ya esta puesto. Arranco en -1? 
+        while(l < qu[i][0]) del(v[l++]);
+        while(r > qu[i][1]) del(v[r--]);
+        resp[qu[i][2]] = ans;
     }
 
-    forn(i, q) cout << resp[i] << '\n';
+    for(int i : resp) cout << i << '\n';
+    
 
     return 0;
 }
