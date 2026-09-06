@@ -51,7 +51,7 @@ int main(){
         int a, b; cin >> a >> b; a--; b--;
         int tam = b-a+1;
         int pot = (1<<__lg(tam));
-        st[pot].join(a, n + b-pot+1); //junto la primera mitad leida en un sentido con la segunda leida en el otro
+        st[pot].join(a, 2*n + b-pot+1); //junto la primera mitad leida en un sentido con la segunda leida en el otro
         st[pot].join(a+tam-pot, n + b-tam+1);
     }
 
