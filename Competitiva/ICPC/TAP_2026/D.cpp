@@ -25,34 +25,38 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m, q; cin >> n >> m >> q;
-    const int INF = 1e9;
-    vector<array<int, 4>> ev; //persona, abre/cierra, tipo, tam (0 cita, 1 pregunta)
-    int k, a, b;
-    forn(i, m) {
-        cin >> k >> a >> b;
-        ev.push_back({a, 0, 0, b-a});
-        ev.push_back({a+k-1, INF, 0, b-a}); //para que los cierres se hagan ultimos
+    string s; cin >> s;
+    
+    ll acarreo = 0;
+    s = "0"+s;
+    dfor(i, sz(s)) {
+        int res = (s[i] - '0') * 9 + acarreo;
+        s[i] = res % 10 + '0';
+        acarreo = res / 10; 
     }
+    int ini = 0; 
 
-    forn(i, q) {
-        cin >> a >> b; 
-        if(a > b) swap(a, b);
-        ev.push_back({a, i, 1, b-a});
-    }
-    sort(all(ev));
-    vector<int> open(n), ans(q);
-
-    forn(i, sz(ev)) {
-        auto [pos, abre, tipo, tam] = ev[i];
-        if(tipo == 0) {
-            if(abre == 0) open[tam]++;
-            else open[tam]--;
+    auto sum = [&](string &s) {
+        dfor(i, sz(s)) {
+            int dig = s[i] - '0';
+            dig++;
+            s[i] = dig % 10 + '0';
+            if(dig != 10) break;
         }
-        else ans[abre] = open[tam] % 2;
-    }
+    };
 
-    forn(i, q) cout << (ans[i] ? "SI" : "NO") << '\n';
+    ll ans = 0;
+    while(ini < sz(s) - 1) {
+        while(s[ini] > '0') {
+            sum(s);
+            s[ini]--;
+            ans++;
+        }
+        ini++;
+    }
+    if(s[ini] != '0') ans++;
+
+    cout << ans << '\n';
 
     return 0;
 }

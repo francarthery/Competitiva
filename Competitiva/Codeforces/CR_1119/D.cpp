@@ -25,34 +25,30 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m, q; cin >> n >> m >> q;
-    const int INF = 1e9;
-    vector<array<int, 4>> ev; //persona, abre/cierra, tipo, tam (0 cita, 1 pregunta)
-    int k, a, b;
-    forn(i, m) {
-        cin >> k >> a >> b;
-        ev.push_back({a, 0, 0, b-a});
-        ev.push_back({a+k-1, INF, 0, b-a}); //para que los cierres se hagan ultimos
-    }
+    int t; cin >> t;
+    while(t--){
+        int n; cin >> n;
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
 
-    forn(i, q) {
-        cin >> a >> b; 
-        if(a > b) swap(a, b);
-        ev.push_back({a, i, 1, b-a});
-    }
-    sort(all(ev));
-    vector<int> open(n), ans(q);
+        vector<int> ceros;
+        forn(i, n) if(v[i] == 0) ceros.push_back(i);
 
-    forn(i, sz(ev)) {
-        auto [pos, abre, tipo, tam] = ev[i];
-        if(tipo == 0) {
-            if(abre == 0) open[tam]++;
-            else open[tam]--;
+        if(sz(ceros) == 1) {
+            cout << "NO\n";
+            continue;
         }
-        else ans[abre] = open[tam] % 2;
+
+        string ans(n, 'C');
+        if(sz(ceros) >= 2) {
+            ans[ceros[0]] = 'A';
+            forr(i, 1, sz(ceros)) ans[ceros[i]] = 'B';
+        }
+
+        cout << "YES\n" << ans << '\n';
     }
 
-    forn(i, q) cout << (ans[i] ? "SI" : "NO") << '\n';
+
 
     return 0;
 }

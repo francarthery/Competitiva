@@ -16,7 +16,6 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> ii;
-typedef long double ld;
 
 int main(){
     ios::sync_with_stdio(0);
@@ -26,24 +25,39 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    ll n, p; cin >> n >> p;
-    vector<ll> dp(p+1, 0);
+    int t; cin >> t;
+    while(t--) {
+        int n, k; cin >> n >> k;
+        vector<int> v(n);
+        forn(i, n) cin >> v[i];
 
-    vector<array<int, 3>> v(n);
-    forn(i, n) cin >> v[i][0] >> v[i][1] >> v[i][2];
+        vector<ll> save(n+1), ps(n), ps2(n); 
+        forn(i, n-1) save[i+1] = k - (v[i+1] - v[i]);
+        forr(i, 1, n) ps[i] = ps[i-1] + save[i];
+        forr(i, 1, n) ps2[i] = ps2[i-1] + ps[i];
 
-    sort(all(v), [&](auto &a, auto &b) {
-        return (a[1] + b[1]*a[0]) < (b[1] + a[1]*b[0]); 
-    });
+        vector<ll> ans(n);
+        forr(i, 1, n-1) {
+            ll pay = v[i+1] - v[i-1] - k;
+            if(pay <= 0) continue;
+            ans[i] = pay;
 
-    forn(i, n) {
-        forr(j, 1, p+1) {
-            int nj = (j - v[i][1]) / v[i][0];
-            if(nj >= 0 and j - v[i][1] >= 0) dp[nj] = max(dp[nj], dp[j] + v[i][2]);
+            ll l = i+1, r = n;
+            while(r-l>1) {
+                int m = (r+l)/2;
+                if(ps[m] - ps[i+1] < pay) l = m;
+                else r = m;
+            }
+
+            ans[i] += (pay + ps[i+1]) * (l - (i+1)) - (ps2[l] - ps2[i+1]);
         }
+
+        for(auto i : ans) cout << i << ' ';
+        cout << '\n';
+
     }
 
-    cout << *max_element(all(dp)) << '\n';
+
 
     return 0;
 }

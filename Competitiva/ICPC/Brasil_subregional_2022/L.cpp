@@ -44,16 +44,18 @@ int main(){
     const int MOD = 1e9+7;
     int n, m; cin >> n >> m;
     string s; cin >> s;
+    dfor(i, n) s += s[i]; 
     int k = __lg(n);
-    vector<UnionFind> st(k, UnionFind(2*n)); //n bloques en un sentido, n en el otro
+    vector<UnionFind> st(k+1, UnionFind(2*n)); //n bloques en un sentido, n en el otro
 
     forn(i, m) {
         int a, b; cin >> a >> b; a--; b--;
         int tam = b-a+1;
-        int pot = (1<<__lg(tam));
-        st[pot].join(a, n + b-pot+1); //junto la primera mitad leida en un sentido con la segunda leida en el otro
-        st[pot].join(a+tam-pot, n + b-tam+1);
-    }
+        int exp = __lg(tam);
+        int pot = (1<<exp);
+        st[exp].join(a, 2*n-b-1); //junto la primera mitad leida en un sentido con la segunda leida en el otro
+        st[exp].join(b-pot+1, 2*n-a-pot);
+    }   
 
     for(int lvl = k; lvl > 0; lvl--) {
         forn(i, 2*n - (1<<lvl)+1) {
@@ -65,21 +67,30 @@ int main(){
         }
     }
 
-    forn(i, n) st[0].join(i, i+n);
-    vector<int> hay(2*n, 1e9);
+    forn(i, n) st[0].join(i, 2*n-1-i);
     bool ok = true;
-    forn(i, n) {
+    forn(i, 2*n) {
         int fat = st[0].comp(i);
-        if(s[i] != '?') {
-            if(hay[fat] != 1e9 and s[i] - '0' != hay[fat]) ok = false;
-            hay[fat] = s[i] - '0';
-        }
-        else hay[fat] = -1;
+        if(s[i] != '?' and s[fat] != '?' and s[fat] != s[i]) ok = false;
+        else if(s[i] != '?' and s[fat] == '?') s[fat] = s[i]; // le paso al padre quien es
+    }
+    forn(i, 2*n) {
+        int fat = st[0].comp(i);
+        if(s[i] == '?' and s[fat] != '?') s[i] = s[fat]; // el padre le dice a los hijos
+    }
+
+    if(!ok) {
+        cout << 0 << '\n';
+        return 0;
     }
 
     ll libres = 0, rta = 1;
-    for(int i : hay) libres += i == -1;
-    forn(i, libres) rta = (rta * 2) % MOD;
+    vector<bool> vis(2*n);
+    forn(i, 2*n) if(!vis[st[0].comp(i)] and s[i] == '?') {
+        vis[st[0].comp(i)] = true;
+        libres++;
+    }
+    forn(i, libres) rta = (rta * 2ll) % MOD;
     cout << rta << '\n';
 
     return 0;
