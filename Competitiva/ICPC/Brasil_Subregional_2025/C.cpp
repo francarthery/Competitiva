@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+
+#define forr(i,a,b) for(int i=(a); i<b; i++)
+#define forn(i,n) forr(i,0,n)
+#define dfor(i,n) for(int i=n-1; i>=0; i--)
+#define sz(x) ((int)(x.size()))
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define dbg(x) cout<<#x<<" = "<<x<<endl;
+#define vdbg(x) {cout<<#x<<" = ";for(auto e : x) cout<<e<<" "; cout<<endl;}
+#define ws <<" "<<
+#define nl cout<< "\n";
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int,int> ii;
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    #ifdef fran
+        freopen("input.in", "r", stdin);
+        freopen("output.out","w", stdout);
+    #endif
+
+    int n; cin >> n;
+    bitset<64> poli, obj;
+    obj[0] = 1;
+    dfor(i, n+1) {
+        int x; cin >> x;
+        // dbg(i);
+        poli[i] = (bool)(x);
+    }
+    // dbg(poli);
+    int cont = 0;
+    while(poli != obj) {
+        if(poli[0]) {
+            poli ^= (poli << 1);
+            poli[0] = !poli[0];
+        }
+        else (poli >>= 1);
+        cont++;
+    }
+
+    cout << cont << '\n';
+
+}

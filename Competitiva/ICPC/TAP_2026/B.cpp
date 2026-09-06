@@ -17,6 +17,29 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
+void solve() {
+    string s; cin >> s;
+    vector<string> pos, pals{"AGASA","EGASE","IGASI","OGASO","UGASU"};
+    forn(i, sz(s)-4) {
+        forn(j, 5) if(s.substr(i, 5) == pals[j]) {
+            pos.push_back(s.substr(0, i+1) + s.substr(i+5));
+            i+=4;
+            break;
+        }
+    }
+    
+    bool ok = true;
+    forn(i, sz(pos)) {
+        forr(j, i+1, sz(pos)) {
+            if(pos[i] != pos[j]) ok = false; 
+        }
+    }
+
+    if(!sz(pos)) cout << "-\n";
+    else if(!ok) cout << "+\n";
+    else cout << pos[0] << '\n';
+}
+
 int main(){
     ios::sync_with_stdio(0);
     cin.tie(0);
@@ -25,34 +48,8 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m, q; cin >> n >> m >> q;
-    const int INF = 1e9;
-    vector<array<int, 4>> ev; //persona, abre/cierra, tipo, tam (0 cita, 1 pregunta)
-    int k, a, b;
-    forn(i, m) {
-        cin >> k >> a >> b;
-        ev.push_back({a, 0, 0, b-a});
-        ev.push_back({a+k-1, INF, 0, b-a}); //para que los cierres se hagan ultimos
-    }
-
-    forn(i, q) {
-        cin >> a >> b; 
-        if(a > b) swap(a, b);
-        ev.push_back({a, i, 1, b-a});
-    }
-    sort(all(ev));
-    vector<int> open(n), ans(q);
-
-    forn(i, sz(ev)) {
-        auto [pos, abre, tipo, tam] = ev[i];
-        if(tipo == 0) {
-            if(abre == 0) open[tam]++;
-            else open[tam]--;
-        }
-        else ans[abre] = open[tam] % 2;
-    }
-
-    forn(i, q) cout << (ans[i] ? "SI" : "NO") << '\n';
+    int t = 1;
+    while(t--) solve();
 
     return 0;
 }

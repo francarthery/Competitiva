@@ -22,10 +22,10 @@ struct EulerPath {
   EulerPath(int n) : g(n) {}
   void addEdge(int a, int b) {
     g[a].push_front(edge(b));
-    auto ia = g[a].begin();
-    g[b].push_front(edge(a));
-    auto ib = g[b].begin();
-    ia->rev=ib, ib->rev=ia;
+    // auto ia = g[a].begin();
+    // g[b].push_front(edge(a));
+    // auto ib = g[b].begin();
+    // ia->rev=ib, ib->rev=ia;
   }
   vector<int> p;
   void go(int x) {

@@ -25,34 +25,12 @@ int main(){
         freopen("output.out", "w", stdout);
     #endif
 
-    int n, m, q; cin >> n >> m >> q;
-    const int INF = 1e9;
-    vector<array<int, 4>> ev; //persona, abre/cierra, tipo, tam (0 cita, 1 pregunta)
-    int k, a, b;
-    forn(i, m) {
-        cin >> k >> a >> b;
-        ev.push_back({a, 0, 0, b-a});
-        ev.push_back({a+k-1, INF, 0, b-a}); //para que los cierres se hagan ultimos
-    }
+    int h, m, s; cin >> h >> m >> s;
+    if(h == 2 and m == 30 and s == 0) cout << "=\n";
+    else if(h < 2 or h == 2 and m < 30) cout << "-\n";
+    else cout << "+\n";
 
-    forn(i, q) {
-        cin >> a >> b; 
-        if(a > b) swap(a, b);
-        ev.push_back({a, i, 1, b-a});
-    }
-    sort(all(ev));
-    vector<int> open(n), ans(q);
 
-    forn(i, sz(ev)) {
-        auto [pos, abre, tipo, tam] = ev[i];
-        if(tipo == 0) {
-            if(abre == 0) open[tam]++;
-            else open[tam]--;
-        }
-        else ans[abre] = open[tam] % 2;
-    }
-
-    forn(i, q) cout << (ans[i] ? "SI" : "NO") << '\n';
 
     return 0;
 }

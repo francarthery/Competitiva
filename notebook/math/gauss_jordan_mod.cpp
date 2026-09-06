@@ -1,65 +1,38 @@
-#include<bits/stdc++.h>
-using namespace std;
-
-const int N = 105, MOD = 1e9 + 7;
-
-ll expMod(ll b, ll e, ll m = MOD) {  // O(log e)
-    if (e < 0) return 0;
-    ll ret = 1;
-    while (e) {
-        if (e & 1) ret = ret * b % m;  // ret = mulMod(ret,b,m); //if needed
-        b = b * b % m;                 // b = mulMod(b,b,m);
-        e >>= 1;
-    }
-    return ret;
-}
+//a es de n*(m+1). En la columna m van los valores de los terminos independientes
 int Gauss(vector<vector<int>> a, vector<int> &ans){
-  int n = a.size(), m = (int)a[0].size() - 1;
-  vector <int> pos(m, -1);
+  int n = sz(a), m = sz(a[0]) - 1;
+  vector<int> pos(m, -1);
   int free_var = 0;
-  const long long MODSQ = (long long)MOD * MOD;
+  const ll MODSQ = (ll)MOD * MOD;
   int det = 1, rank = 0;
   for (int col = 0, row = 0; col < m && row < n; col++) {
     int mx = row;
-    for (int k = row; k < n; k++) if (a[k][col] > a[mx][col]) mx = k;
+    forr(k, row, n) if (a[k][col] > a[mx][col]) mx = k;
     if (a[mx][col] == 0) {det = 0; continue;}
-    for (int j = col; j <= m; j++) swap(a[mx][j], a[row][j]);
+    forr(j, col, m+1) swap(a[mx][j], a[row][j]);
     if (row != mx) det = det == 0 ? 0 : MOD - det;
     det = 1LL * det * a[row][col] % MOD;
     pos[col] = row;
-    int inv = expMod(a[row][col], MOD - 2);
+    int inv = expMod(a[row][col], MOD - 2, MOD);
     for (int i = 0; i < n && inv; i++){
       if (i != row && a[i][col]) {
-        int x = ((long long)a[i][col] * inv) % MOD;
+        int x = ((ll)a[i][col] * inv) % MOD;
         for (int j = col; j <= m && x; j++){
-          if (a[row][j]) a[i][j] = (MODSQ + a[i][j] - ((long long)a[row][j] * x)) % MOD;
+          if (a[row][j]) a[i][j] = (MODSQ + a[i][j] - ((ll)a[row][j] * x)) % MOD;
         }
       }
     }
     row++; ++rank;
   }
   ans.assign(m, 0);
-  for (int i = 0; i < m; i++){
+  forn(i, m) {
     if (pos[i] == -1) free_var++;
-    else ans[i] = ((long long)a[pos[i]][m] * expMod(a[pos[i]][i], MOD - 2)) % MOD;
+    else ans[i] = ((ll)a[pos[i]][m] * expMod(a[pos[i]][i], MOD - 2, MOD)) % MOD;
   }
-  for (int i = 0; i < n; i++) {
-    long long val = 0;
-    for (int j = 0; j < m; j++) val = (val + ((long long)ans[j] * a[i][j])) % MOD;
+  forn(i, n) {
+    ll val = 0;
+    forn(j, m) val = (val + ((ll)ans[j] * a[i][j])) % MOD;
     if (val != a[i][m]) return -1; //no solution
   }
   return free_var; //has solution
-}
-
-int32_t main() {
-  int n, m; cin >> n >> m;
-  vector<vector<int>> a(n, vector<int>(m + 1));
-  for(int i = 0; i < n; i++) for(int j = 0; j <= m; j++) cin >> a[i][j];
-  vector<int> ans;
-  int k = Gauss(a, ans);
-  if(k == -1) cout << "no solution\n";
-  else {
-    for (auto x: ans) cout << x << '\n';
-  }
-  return 0;
 }
