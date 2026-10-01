@@ -76,7 +76,7 @@ int main(){
         if(exp[i][j] < 1) ans += exp[i][j];
     }
 
-    // forn(i, 8) vdbg(exp[i]);
+    forn(i, 8) vdbg(exp[i]);
 
     cout << fixed << setprecision(6) << ans << '\n';
 

@@ -2,8 +2,6 @@ from fractions import Fraction
 n = int(input())
 v = list(map(int, input().split()))
  
-# print(v)
- 
 prod = 1
 for i in range(n): prod *= v[i]
  
