@@ -17,24 +17,28 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 
-unordered_map<ll, int> dp;
 int n;
-vector<int> v(2e5);
-bool solve(ll x) {
-    if(!x) return 0;
-    if(dp.count(x)) return dp[x];
-    dp[x] = 2; //Para no quedar en un bucle infinito
-    bool val = false;
+// map<vector<int>, bool> dp;
+// bool solve(vector<int> &x) {
+//     if(x == vector<int>(n, 0)) return 0;
+//     if(dp.count(x)) return dp[x];
 
-    forn(i, n) {
-        forn(j, 3) if(v[i] >= (j+1)) {
-            int ans = solve(x ^ v[i] ^ (v[i] - (j+1)));
-            if(ans != 2) val = val or !ans; 
-        }
-    }
+//     bool ans = 0;
+//     forn(i, n) {
+//         forn(j, 3) {
+//             if(x[i] - (j+1) < 0) continue;
+//             x[i] -= j+1;
+//             ans = ans | !solve(x);
+//             x[i] += j+1;
+//         }
+//     }
 
-    return dp[x] = val;
-}
+//     int xr = 0;
+//     forn(i, n) xr ^= x[i];
+//     if(!ans) cout << xr << '\n';
+
+//     return dp[x] = ans;
+// }
 
 int main(){
     ios::sync_with_stdio(0);
@@ -48,8 +52,10 @@ int main(){
     while(t--) {
         cin >> n;
         ll xo = 0;
-        forn(i, n) cin >> v[i], xo ^= v[i];
-        cout << (solve(xo) ? "first" : "second") << '\n';
+        vector<int> v(n);
+        int xr = 0;
+        forn(i, n) cin >> v[i], xr ^= v[i];
+        cout << (xr % 4 != 0 ? "first" : "second") << '\n';
     }
 
     // for(auto i : dp) cout << i.fr << ' ' << i.sc << '\n';

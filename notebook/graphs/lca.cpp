@@ -23,14 +23,14 @@ struct LCA {
   }
   int climb(int a, int d) {  // O(lgn)
     if (!d) return a;
-    dforn(i, lg(L[a]) + 1) if (1 << i <= d) a = vp[i][a], d -= 1 << i;
+    dfor(i, lg(L[a]) + 1) if (1 << i <= d) a = vp[i][a], d -= 1 << i;
     return a;
   }
   int lca(int a, int b) {  // O(lgn)
     if (L[a] < L[b]) swap(a, b);
     a = climb(a, L[a] - L[b]);
     if (a == b) return a;
-    dforn(i, lg(L[a]) + 1) if (vp[i][a] != vp[i][b]) a = vp[i][a], b = vp[i][b];
+    dfor(i, lg(L[a]) + 1) if (vp[i][a] != vp[i][b]) a = vp[i][a], b = vp[i][b];
     return vp[0][a];
   }
   int dist(int a, int b) {  // returns distance between nodes
